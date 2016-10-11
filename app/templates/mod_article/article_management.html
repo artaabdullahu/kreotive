@@ -92,7 +92,10 @@
                                    href="{{ url_for('article.delete_article', slug = article.slug, delete = False) }}">
                                     <i class="fa fa-trash-o"></i>
                                 </a>
-                                <a href=""><i class=" fa fa-pencil-square-o"></i></a>
+                                <a class="edit"
+
+                                   href="{{ url_for('article.edit_article', article_id = article._id, edit = False) }}">
+                                     <i class=" fa fa-pencil-square-o"></i></a>
                             </div>
                         </div>
                     {% endfor %}

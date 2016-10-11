@@ -1,22 +1,25 @@
 {% extends "layout.html" %}
 {% block body %}
 
-    <script type="text/javascript" src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"
+            xmlns="http://www.w3.org/1999/html"></script>
 
     <script>
-        $( function() {
-        var categories = [
-          "Politics",
-          "How-to's",
-          "Sports",
-          "Humour",
-          "Organisation News",
-          "Local News",
-        ];
-        $( "#categories" ).autocomplete({
-          source: categories
+        $(function () {
+            var categories = [
+                "Politics",
+                "How-to's",
+                "Sports",
+                "Humour",
+                "Organisation News",
+                "Local News",
+            ];
+            $("#categories").autocomplete({
+                source: categories
+            });
         });
-      } );
+
     </script>
 
 
@@ -29,7 +32,13 @@
 
                     <div class="row">
                         <div class="col-md-12 col-md-offset-1">
-                            <input class="form-control title" name="title" placeholder="Title">
+
+                            <input class="form-control title" name="title" placeholder="Title"
+                                   value="{% if article -%}
+
+                                     {{ article['title']|safe }}
+
+                                 {% endif %}">
                         </div>
                     </div>
 
@@ -41,31 +50,34 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="{{ url_for('main.feed') }}">Feed</a></li>
                                     <li>
-                                        <a href="{{ url_for('article.my_articles', article_action='show') }}">Article management</a>
+                                        <a href="{{ url_for('article.my_articles', article_action='show') }}">Article
+                                            management</a>
                                     </li>
                                     <li><a href="#">Comments</a></li>
                                     <li><a href="#">Bookmarks</a></li>
-                                    <li><a href="{{ url_for('profile.following', username=current_user.username) }}">Following</a></li>
-                                    <li>
-                                        <a href="{{ url_for('profile.profile_settings', username=current_user.username) }}">Account Details</a>
+                                    <li><a href="{{ url_for('profile.following', username=current_user.username) }}">Following</a>
                                     </li>
-                                     {% if current_user.has_role('org_admin')%}
+                                    <li>
+                                        <a href="{{ url_for('profile.profile_settings', username=current_user.username) }}">Account
+                                            Details</a>
+                                    </li>
+                                    {% if current_user.has_role('org_admin') %}
                                         {% include ('mod_organization/org_administration.html') %}
                                     {% endif %}
                                 </ul>
                             </div>
                         </div>
                         <div class="col-md-10">
-                       <textarea name="content" id="text-editor">
-
-                      </textarea>
+                       <textarea name="content" id="text_editor">
+                        {{ article['content']|safe }}
+                        </textarea>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-12 col-md-offset-1">
                             <select name="type" class="form-control type">
-                                <option value="text">Text</option>
+                                <option value="text" onchange='javascript:fillValues()'>Text</option>
                                 <option value="audio">Audio</option>
                                 <option value="video">Video</option>
                                 <option value="attachment">Attachment</option>
@@ -76,12 +88,22 @@
                     <div class="row">
                         <div class="col-md-9 col-md-offset-2">
                             <label class="category-label">Category</label>
-                            <input name="category" id="categories" required ><br/>
+                            <input name="category" id="categories" class="text-right" required
+                                   value="{% if article -%}
+                                     {{ article['category']|safe }}
+                                     {% endif %}">
+                            <br/>
                         </div>
 
                         <div class="col-md-1" style="padding-top: 30px;">
-                            <label>
-                                <input type="checkbox" id="post-privacy" name="post-privacy" />
+                            <label>{{ article['post-privacy'] }}
+                                {% if article['post_privacy'] == "on" %}
+                                    <input checked type="checkbox" id="post-privacy" name="post-privacy"
+                                           onchange='javascript:fillValues()'"/>
+                                {% else %}
+                                    <input type="checkbox" id="post-privacy" name="post-privacy"
+                                           onchange='javascript:fillValues()'"/>
+                                {% endif %}
                             </label>
                         </div>
                     </div>
@@ -91,12 +113,16 @@
 
                         </div>
                         <div class="col-md-10">
+                            <h5><span style="color:green;">{% if message != '' %}{{ message }}{% endif %}</span>
+                            </h5>
                             <div class="col-md-4 col-sm-4 col-xs-4">
                                 <button name="action" type="submit" value="cancel" class="btn btn-cancel">Cancel
                                 </button>
                             </div>
                             <div class="col-md-4 col-sm-4 col-xs-4">
-                                <button name="action" type="submit" value="save" class="btn btn-save">Save</button>
+                                <button name="action" type="submit" value="save" class="btn btn-save">
+                                    Save
+                                </button>
                             </div>
                             <div class="col-md-4 col-sm-4 col-xs-4">
                                 <button name="action" type="submit" value="publish" class="btn btn-publish">Publish
@@ -118,7 +144,7 @@
     </div>
     {% if current_user.has_role('org_admin') %}
         <script>
-            CKEDITOR.replace('text-editor',
+            CKEDITOR.replace('text_editor',
                     {
                         toolbar: [
                             ['FontSize', 'Bold', 'Italic', 'Underline', 'Strike', 'BulletedList', 'NumberedList', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'Image', 'Link', 'Video', 'Audio', 'Attachment'],
@@ -129,7 +155,7 @@
         </script>
     {% else %}
         <script>
-            CKEDITOR.replace('text-editor',
+            CKEDITOR.replace('text_editor',
                     {
                         toolbar: [
                             ['FontSize', 'Bold', 'Italic', 'Underline', 'Strike', 'BulletedList', 'NumberedList', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'Image', 'Link', 'Video', 'Audio', 'Attachment'],
@@ -139,5 +165,37 @@
                     });
         </script>
     {% endif %}
+<script type="text/javascript">
+         $(document).ready(function () {
+             var action = "{{ action }}";
+             if (action == 'edit') {
+                 fillValues();
+             }
+         });
+         function fillValues() {
+             var article_type = "{{article['type'] | safe}}";
+             if (article_type) {
+                 $('.type option[value=' + article_type + ']').attr('selected', 'selected');
+            }
+             var content = "";
+             {#            var article_privacy = "{{article['post-privacy']}}";#}
 
+             {#            $("#article_privacy").change(function () {#}
+             {#                $(this).click(function() {#}
+             {#                    $('#post-privacy' + $(this).attr('id')).toggle();#}
+             {#                if (post-privacy.chcked) {#}
+             {#                    $('#post-privacy').toggle();#}
+             {#                } else {#}
+             {#                    $('#post-privacy').hide();#}
+             {#                }#}
+             {#                })#}
+         }
+         {#        });#}
+
+         //CKEDITOR.instances.text_editor.setData(content);
+
+         $("#article_type").autocomplete({
+             source: ['type']
+         });
+     </script>
 {% endblock %}

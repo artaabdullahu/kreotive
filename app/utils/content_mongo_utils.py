@@ -32,7 +32,8 @@ class ContentMongoUtils(object):
         :rtype: MongoDB Cursor with all the articles
         """
         articles = self.mongo.db[self.content_collection] \
-            .find({'author.org_slug': org_slug, 'author.type': 'organization','visible': True, 'published': True, 'delete': False}).sort([("_id", -1)])
+            .find({'author.org_slug': org_slug, 'author.type': 'organization', 'visible': True, 'published': True,
+                   'delete': False}).sort([("_id", -1)])
 
         return articles
 
@@ -41,7 +42,9 @@ class ContentMongoUtils(object):
         :rtype: MongoDB Cursor with all the articles
         """
         articles = self.mongo.db[self.content_collection] \
-            .find({'author.org_slug': org_slug, 'author.type': 'organization','published': True, 'delete': False}).sort([("_id", -1)])
+            .find(
+            {'author.org_slug': org_slug, 'author.type': 'organization', 'published': True, 'delete': False}).sort(
+            [("_id", -1)])
 
         return articles
 
@@ -76,7 +79,8 @@ class ContentMongoUtils(object):
         :rtype: JSON with the queried articles
         """
         articles = self.mongo.db[self.content_collection] \
-            .find({'visible': True, 'published': True, 'delete': False, 'post_privacy': 'off'}).sort([("_id", -1)]).limit(limits).skip(skips)
+            .find({'visible': True, 'published': True, 'delete': False, 'post_privacy': 'off'}).sort(
+            [("_id", -1)]).limit(limits).skip(skips)
 
         articles_dump = list(articles)
 
@@ -102,7 +106,6 @@ class ContentMongoUtils(object):
             if avatar_url:
                 article['avatar_url'] = avatar_url['avatar_url']
         return articles_dump
-
 
     def get_authors_paginated_articles(self, username, skips, limits):
         """ Get paginated articles from the database for a specific author.
@@ -133,7 +136,8 @@ class ContentMongoUtils(object):
 
     def get_org_public_articles(self, org_slug, skips, limits):
         articles = self.mongo.db[self.content_collection] \
-            .find({"author.org_slug": org_slug, 'visible': True, 'published': True, 'delete': False, "post_privacy" : "off"}).sort(
+            .find({"author.org_slug": org_slug, 'visible': True, 'published': True, 'delete': False,
+                   "post_privacy": "off"}).sort(
             [("_id", -1)])
         articles_dump = list(articles)
         for article in articles_dump:
@@ -141,6 +145,23 @@ class ContentMongoUtils(object):
                 article['avatar_url'] = self.mongo.db[self.users_collection] \
                     .find_one({"username": article['username']})['avatar_url']
         return articles_dump
+
+    def update_article(self, id, data):
+
+        self.mongo.db[self.content_collection].update({'_id': ObjectId(id)}, {"$set": data})
+        
+        return True
+
+    def get_single_article_by_id(self, id):
+        """ Get an article based on the article id
+        :param id: the slug version of the title
+        :rtype: MongoDB cursor of the found article.
+        """
+
+        article = self.mongo.db[self.content_collection] \
+            .find_one({"_id": ObjectId(id)})
+
+        return article
 
     def get_single_article(self, slug):
         """ Get an article based on the title slug.

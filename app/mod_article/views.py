@@ -23,8 +23,8 @@ def article(slug):
             organization = org_mongo_utils.get_org_by_slug(article['author']['org_slug'])
     else:
         article = None
-    return render_template('mod_article/article_single.html', is_bookmarked=is_bookmarked, user_avatar=user_avatar, article=article, profile=profile, organization=organization)
-
+    return render_template('mod_article/article_single.html', is_bookmarked=is_bookmarked, user_avatar=user_avatar,
+                           article=article, profile=profile, organization=organization)
 
 
 @mod_article.route('/<user_id>/<organization_slug>')
@@ -81,12 +81,14 @@ def my_articles(article_action):
 @mod_article.route('/<string:author_type>/<string:username>/new', methods=["POST", "GET"])
 def new_article(author_type, username):
     organization = None
+    article = None
     if author_type == 'organization':
         organization = org_mongo_utils.get_org_by_slug(username)
 
     if request.method == "GET":
 
-        return render_template('mod_article/write_article.html', organization=organization)
+        return render_template('mod_article/write_article.html', organization=organization, action="write",
+                               article=article)
     elif request.method == "POST":
         form = request.form
         if author_type == "individual":
@@ -120,7 +122,7 @@ def new_article_from_author(form, username):
         "visible": publish_article,
         "category": category,
         "title": title,
-        "slug": slugify(title)+'-' + str(ObjectId()),
+        "slug": slugify(title) + '-' + str(ObjectId()),
         "type": type,
         "username": current_user.username,
         "published": publish_article,
@@ -160,7 +162,7 @@ def new_article_from_org(form, username, organization):
         "visible": publish_article,
         "category": category,
         "title": title,
-        "slug": slugify(title)+'-' + str(ObjectId()),
+        "slug": slugify(title) + '-' + str(ObjectId()),
         "type": type,
         "username": current_user.username,
         "published": publish_article,
@@ -177,6 +179,58 @@ def new_article_from_org(form, username, organization):
     })
     return redirect(
         url_for('article.organization_articles', organization_slug=organization['org_slug'], article_action='save'))
+
+
+@mod_article.route('/edit/<article_id>/<edit>', methods=["POST", "GET"])
+
+
+def edit_article(article_id, edit):
+    article = content_mongo_utils.get_single_article_by_id(article_id)
+    if request.method == 'GET':
+
+        return render_template('mod_article/write_article.html', action="edit", article=article, message='')
+
+    elif request.method == 'POST':
+        data = request.form
+        action = data['action']
+        content = data['content']
+        category = data['category']
+        title = data['title']
+        type = data['type']
+        post_privacy = ''
+        if 'post-privacy' in data:
+            post_privacy = data['post-privacy']
+        else:
+            post_privacy = 'off'
+        publish_article = True
+        delete = False
+        if action == "save":
+            publish_article = False
+        elif action == "cancel":
+            return redirect(url_for('article.my_articles', article_action='show'))
+    data_ = {
+        "content": content,
+        "visible": publish_article,
+        "category": category,
+        "title": title,
+        "slug": slugify(title),
+        "type": type,
+        "username": current_user.username,
+        "published": publish_article,
+        "delete": delete,
+        "post_privacy": post_privacy,
+    }
+    if data['action'] == "cancel":
+        return redirect(url_for('article.my_articles', article_action='show'))
+    elif data['action'] == "publish":
+        message = "Succesfully pubished article."
+        content_mongo_utils.update_article(article_id, data_)
+        return redirect(
+            url_for('article.my_articles', article_action='show', action="edit", article=article, message=message))
+    elif data['action'] == "save":
+        message = "Succesfully saved article."
+    content_mongo_utils.update_article(article_id, data_)
+    return render_template('mod_article/write_article.html', action="edit", article=article, message=message)
 
 
 @mod_article.route('/visibility/<slug>/<visible>', methods=["POST", "GET"])
@@ -233,6 +287,7 @@ def bookmark_article():
 
     return redirect(url_for('article.article', username=request.form['username'], slug=request.form['slug']))
 
+
 def user_avatar(username):
     avatar_url = user_mongo_utils.get_user_by_username(username).avatar_url
     return avatar_url
@@ -242,5 +297,5 @@ def user_avatar(username):
 def remove_bookmark():
     remove_bookmark = bookmarks_mongo_utils.remove_bookmark(request.form['username'], request.form['slug'])
 
-    return redirect(url_for('article.article', username=request.form['username'], slug=request.form['slug'], remove_bookmark=remove_bookmark))
-
+    return redirect(url_for('article.article', username=request.form['username'], slug=request.form['slug'],
+                            remove_bookmark=remove_bookmark))

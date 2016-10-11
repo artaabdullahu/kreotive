@@ -51,7 +51,9 @@
                                    href="{{ url_for('article.delete_article', slug = article.slug, delete = False) }}">
                                     <i class="fa fa-trash-o"></i>
                                 </a>
-                                <a href=""><i class=" fa fa-pencil-square-o"></i></a>
+                                <a class="edit"
+                                   href="{{ url_for('article.edit_article', article_id = article._id, edit = False) }}">>
+                                    <i class=" fa fa-pencil-square-o"></i></a>
                             </div>
                         </div>
                     {% endfor %}
@@ -67,32 +69,32 @@
                 event.preventDefault();
                 var url = this.href;
                 swal({
-                        title: "Are you sure?",
-                        text: "Your will not be able to recover this article!",
-                        type: "warning",
-                        showCancelButton: true,
-                        confirmButtonText: "Yes",
-                        confirmButtonColor: "#DD6B55",
-                        cancelButtonText: "Cancel",
-                        closeOnConfirm: false,
-                        closeOnCancel: false
-                    },
+                            title: "Are you sure?",
+                            text: "Your will not be able to recover this article!",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: "Yes",
+                            confirmButtonColor: "#DD6B55",
+                            cancelButtonText: "Cancel",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        },
 
-                    function (isConfirm) {
-                        if (isConfirm) {
-                            swal({
-                                title: '',
-                                text: 'Article is successfully deleted!',
-                                type: 'success'
-                            }, function () {
-                                window.location = url;
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                swal({
+                                    title: '',
+                                    text: 'Article is successfully deleted!',
+                                    type: 'success'
+                                }, function () {
+                                    window.location = url;
 
-                            });
+                                });
 
-                        } else {
-                            swal("Cancelled", "Your article is safe :)", "error");
-                        }
-                    });
+                            } else {
+                                swal("Cancelled", "Your article is safe :)", "error");
+                            }
+                        });
             });
         });
 
