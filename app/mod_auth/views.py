@@ -37,7 +37,7 @@ def sign_up():
                     "active": True,
                     "user_slug": slugify(name + ' ' + lastname),
                     "roles": [user_mongo_utils.get_role_id('individual')],
-                    "organizations": ['kreotive']
+                    "organizations": []
                 }
                 # Regiser user
                 user_mongo_utils.add_user(user_json)

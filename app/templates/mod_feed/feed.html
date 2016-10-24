@@ -9,7 +9,7 @@
             <nav id="nav-bar1">
                 <br><br><br>
                 <div class="row menu-icons">
-                    {% if current_user.is_authenticated() %}
+                    {% if current_user.is_authenticated %}
                         <div class="col-md-1 col-md-offset-1 col-sm-1 col-sm-offset-0 col-xs-1 col-xs-offset-0 text-center">
                             <i class="fa fa-bars dropdown-toggle" data-toggle="dropdown"></i>
                             <ul class="dropdown-menu">
@@ -40,23 +40,27 @@
                     </div>
                     <div id="filter">
                         <div class="col-md-1 col-md-offset-3 col-sm-1 col-sm-offset-4 col-xs-1 col-xs-offset-4 text-center video-type">
-                            <a href="{{ url_for('main.feed_filter', article_type="video") }}" class="fa fa-file-video-o"
+                            <a href="{{ url_for('main.feed_filter', article_type='video', skip_posts_number=0, posts_per_page=8) }}"
+                               class="fa fa-file-video-o"
                                aria-hidden="true" id="video-type1"
                                data-toggle="tooltip" title="Filter by video" data-category="video"></a>
                         </div>
                         <div class="col-md-1 col-sm-1 col-xs-1 text-center">
-                            <a href="{{ url_for('main.feed_filter', article_type="audio") }}" class="fa fa-file-audio-o"
+                            <a href="{{ url_for('main.feed_filter', article_type='audio', skip_posts_number=0, posts_per_page=8) }}"
+                               class="fa fa-file-audio-o"
                                aria-hidden="true" id="audio-type1"
                                data-toggle="tooltip" title="Filter by audio" data-category="audio"></a>
                         </div>
                         <div class="col-md-1 col-sm-1 col-xs-1 text-center">
-                            <a href="{{ url_for('main.feed_filter', article_type="text") }}" class="fa fa-file-text-o"
+                            <a href="{{ url_for('main.feed_filter',article_type='text', skip_posts_number=0, posts_per_page=8) }}"
+                               class="fa fa-file-text-o"
                                aria-hidden="true" id="text-type1"
                                data-toggle="tooltip" title="Filter by text" data-category="text"></a>
                         </div>
 
                         <div class="col-md-1 col-sm-1 col-xs-1 text-center">
-                            <a href="{{ url_for('main.feed_filter', article_type="attachment") }}" class="fa fa-paperclip"
+                            <a href="{{ url_for('main.feed_filter',article_type='attachment', skip_posts_number=0, posts_per_page=8) }}"
+                               class="fa fa-paperclip"
                                aria-hidden="true" id="attach-type1"
                                data-toggle="tooltip" title="Filter by attachment" data-category="attachment"></a>
                         </div>
@@ -74,22 +78,29 @@
                            id="search"></a>
                     </div>
                     <div id="filter">
-                        <div class="col-md-1 col-md-offset-5 col-sm-1 col-sm-offset-6 col-xs-1 col-xs-offset-6 text-center">
-                            <a href="" class="fa fa-file-video-o " aria-hidden="true" id="video-type"
+                        <div class="col-md-1 col-md-offset-3 col-sm-1 col-sm-offset-4 col-xs-1 col-xs-offset-4 text-center video-type">
+                            <a href="{{ url_for('main.feed_filter',article_type='video', skip_posts_number=0, posts_per_page=8) }}"
+                               class="fa fa-file-video-o"
+                               aria-hidden="true" id="video-type1"
                                data-toggle="tooltip" title="Filter by video" data-category="video"></a>
                         </div>
-
                         <div class="col-md-1 col-sm-1 col-xs-1 text-center">
-                            <a href="" class="fa fa-file-audio-o " aria-hidden="true" id="audio-type"
+                            <a href="{{ url_for('main.feed_filter',article_type='audio', skip_posts_number=0, posts_per_page=8) }}"
+                               class="fa fa-file-audio-o"
+                               aria-hidden="true" id="audio-type1"
                                data-toggle="tooltip" title="Filter by audio" data-category="audio"></a>
                         </div>
-
                         <div class="col-md-1 col-sm-1 col-xs-1 text-center">
-                            <a href="" class="fa fa-file-text-o " aria-hidden="true" id="text-type"
+                            <a href="{{ url_for('main.feed_filter',article_type='text', skip_posts_number=0, posts_per_page=8) }}"
+                               class="fa fa-file-text-o"
+                               aria-hidden="true" id="text-type1"
                                data-toggle="tooltip" title="Filter by text" data-category="text"></a>
                         </div>
+
                         <div class="col-md-1 col-sm-1 col-xs-1 text-center">
-                            <a href="" class="fa fa-paperclip " aria-hidden="true" id="attach-type"
+                            <a href="{{ url_for('main.feed_filter',article_type='attachment', skip_posts_number=0, posts_per_page=8) }}"
+                               class="fa fa-paperclip"
+                               aria-hidden="true" id="attach-type1"
                                data-toggle="tooltip" title="Filter by attachment" data-category="attachment"></a>
                         </div>
                     </div>
@@ -102,20 +113,24 @@
 
                 // Initialize displaying articles in feed
                 initFeed();
-
                 $(window).endlessScroll({
                     inflowPixels: 0,
                     fireOnce: false,
                     fireDelay: false,
                     loader: '<div class="loading"><div>',
                     callback: function () {
-                        getArticles();
+                        setTimeout(function () {
+                            getArticles();
+                        }, 2000);
                     }
                 });
 
             });
             function getArticles() {
                 var url = "{{ url_for('article.paginated_articles', skip_posts_number='1111111111', posts_per_page='999999999') }}";
+                {% if article_type %}
+                    url = "{{ url_for('main.feed_filter', article_type=article_type, skip_posts_number='1111111111', posts_per_page='999999999') }}";
+                {% endif %}
                 var skip_posts_number = parseInt($('.loading').data().skipPostsNumber);
                 var number_of_posts = parseInt($('.loading').data().postsPerPage);
                 var post_url = url.replace("1111111111", skip_posts_number).replace("999999999", number_of_posts);
@@ -133,31 +148,23 @@
                 $('.loading').data('skip-posts-number', (parseInt(skip_posts_number) + 6));
             }
 
-            {% if current_user.has_role('org_admin') or current_user.has_role('org_editor') or current_user.has_role('member') %}
-                function initFeed() {
+            function initFeed() {
 
-                    // Get the first 6 feeds
-                    var articles = {{ all_articles|safe }};
-                    for (var idx in articles) {
-                        feedTheFeed(articles[idx], idx);
-                    }
-                    addTileColors();
+                // Get the first 6 feeds
+                var articles = {{ all_articles|safe }};
+                console.log(articles.length);
+                for (var idx in articles) {
+                    feedTheFeed(articles[idx], idx);
+                }
+                addTileColors();
 
+                if (articles.length < 8) {
+                    $('.loading').css('display', 'none');
                 }
 
-            {% else %}
 
-                function initFeed() {
+            }
 
-                    // Get the first 6 feeds
-                    var articles = {{ articles|safe }};
-                    for (var idx in articles) {
-                        feedTheFeed(articles[idx], idx);
-                    }
-                    addTileColors();
-
-                }
-            {% endif %}
 
             function loadMoreArticles(posts) {
                 for (var idx in posts) {

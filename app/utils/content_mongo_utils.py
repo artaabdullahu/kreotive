@@ -1,6 +1,7 @@
 import datetime
 from bson.objectid import ObjectId
 from bson.json_util import json
+from flask.ext.security import current_user
 
 
 class ContentMongoUtils(object):
@@ -24,13 +25,28 @@ class ContentMongoUtils(object):
         """
         articles = self.mongo.db[self.content_collection] \
             .find({'visible': True, 'published': True, 'delete': False}).sort([("_id", -1)])
-
         return articles
 
     def get_articles_by_type(self, article_type, skips, limits):
 
         articles = self.mongo.db[self.content_collection] \
-            .find({'visible': True, 'published': True, 'delete': False, "type": article_type}).sort([("_id", -1)]).limit(limits).skip(skips)
+            .find({'visible': True, 'published': True, 'delete': False, "type": article_type}).sort(
+            [("_id", -1)]).limit(limits).skip(skips)
+
+        articles_dump = list(articles)
+
+        for article in articles_dump:
+            avatar_url = self.mongo.db[self.users_collection] \
+                .find_one({"username": article['username']})
+            if avatar_url:
+                article['avatar_url'] = avatar_url['avatar_url']
+        return articles_dump
+
+    def get_org_articles_by_type(self, organization_slug, article_type, skips, limits):
+
+        articles = self.mongo.db[self.content_collection] \
+            .find({'author.org_slug':organization_slug, 'visible': True, 'published': True, 'delete': False, "type": article_type}).sort(
+            [("_id", -1)]).limit(limits).skip(skips)
 
         articles_dump = list(articles)
 
@@ -46,7 +62,8 @@ class ContentMongoUtils(object):
         :rtype: MongoDB Cursor with all the articles
         """
         articles = self.mongo.db[self.content_collection] \
-            .find({'author.org_slug': org_slug, 'author.type': 'organization','visible': True, 'published': True, 'delete': False}).sort([("_id", -1)])
+            .find({'author.org_slug': org_slug, 'author.type': 'organization', 'visible': True, 'published': True,
+                   'delete': False}).sort([("_id", -1)])
 
         return articles
 
@@ -55,7 +72,9 @@ class ContentMongoUtils(object):
         :rtype: MongoDB Cursor with all the articles
         """
         articles = self.mongo.db[self.content_collection] \
-            .find({'author.org_slug': org_slug, 'author.type': 'organization','published': True, 'delete': False}).sort([("_id", -1)])
+            .find(
+            {'author.org_slug': org_slug, 'author.type': 'organization', 'published': True, 'delete': False}).sort(
+            [("_id", -1)])
 
         return articles
 
@@ -63,7 +82,8 @@ class ContentMongoUtils(object):
 
         articles = self.mongo.db[self.content_collection] \
             .find(
-            {'author.org_slug': org_slug, 'author.type': 'organization', 'published': True, 'delete': False, 'type': article_type}).sort(
+            {'author.org_slug': org_slug, 'author.type': 'organization', 'published': True, 'delete': False,
+             'type': article_type}).sort(
             [("_id", -1)])
 
         return articles
@@ -98,8 +118,19 @@ class ContentMongoUtils(object):
         """ Get paginated articles from the database.
         :rtype: JSON with the queried articles
         """
-        articles = self.mongo.db[self.content_collection] \
-            .find({'visible': True, 'published': True, 'delete': False, 'post_privacy': 'off'}).sort([("_id", -1)]).limit(limits).skip(skips)
+        if current_user.is_authenticated:
+            following_organizations = self.mongo.db[self.users_collection] \
+                .find_one({'_id': ObjectId(current_user.id)})['organization']
+
+            articles = self.mongo.db[self.content_collection] \
+                .find({'visible': True, 'published': True, 'delete': False,
+                       'author.org_slug': {"$in": following_organizations}}).sort([("_id", -1)]).limit(limits).skip(
+                skips)
+        else:
+            articles = self.mongo.db[self.content_collection] \
+                .find({'visible': True, 'published': True, 'delete': False, 'post_privacy': 'off'}).sort(
+                [("_id", -1)]).limit(limits).skip(
+                skips)
 
         articles_dump = list(articles)
 
@@ -114,8 +145,18 @@ class ContentMongoUtils(object):
         """ Get paginated articles from the database.
         :rtype: JSON with the queried articles
         """
-        articles = self.mongo.db[self.content_collection] \
-            .find({'visible': True, 'published': True, 'delete': False}).sort([("_id", -1)]).limit(limits).skip(skips)
+        if current_user.is_authenticated:
+            following_organizations = self.mongo.db[self.users_collection] \
+                .find_one({'_id': ObjectId(current_user.id)})['organization']
+            articles = self.mongo.db[self.content_collection] \
+                .find({'visible': True, 'published': True, 'delete': False,
+                       'author.org_slug': {"$in": following_organizations}}).sort([("_id", -1)]).limit(limits).skip(
+                skips)
+        else:
+            articles = self.mongo.db[self.content_collection] \
+                .find({'visible': True, 'published': True, 'delete': False, 'post_privacy': 'off'}).sort(
+                [("_id", -1)]).limit(limits).skip(
+                skips)
 
         articles_dump = list(articles)
 
@@ -125,7 +166,6 @@ class ContentMongoUtils(object):
             if avatar_url:
                 article['avatar_url'] = avatar_url['avatar_url']
         return articles_dump
-
 
     def get_authors_paginated_articles(self, username, skips, limits):
         """ Get paginated articles from the database for a specific author.
@@ -156,7 +196,8 @@ class ContentMongoUtils(object):
 
     def get_org_public_articles(self, org_slug, skips, limits):
         articles = self.mongo.db[self.content_collection] \
-            .find({"author.org_slug": org_slug, 'visible': True, 'published': True, 'delete': False, "post_privacy" : "off"}).sort(
+            .find({"author.org_slug": org_slug, 'visible': True, 'published': True, 'delete': False,
+                   "post_privacy": "off"}).sort(
             [("_id", -1)])
         articles_dump = list(articles)
         for article in articles_dump:
@@ -245,7 +286,8 @@ class ContentMongoUtils(object):
 
         articles = self.mongo.db[self.content_collection] \
             .find(
-            {"author.org_slug": org_slug, "category": category, 'visible': True, 'published': True, 'delete': False}).sort(
+            {"author.org_slug": org_slug, "category": category, 'visible': True, 'published': True,
+             'delete': False}).sort(
             [("_id", -1)]).limit(limits).skip(skips)
 
         articles_dump = list(articles)
@@ -253,5 +295,4 @@ class ContentMongoUtils(object):
             if article is not None:
                 article['avatar_url'] = self.mongo.db[self.users_collection] \
                     .find_one({"username": article['username']})['avatar_url']
-        return articles_dump
         return articles_dump

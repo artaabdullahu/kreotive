@@ -13,14 +13,35 @@ mod_organization = Blueprint('organization', __name__, url_prefix='/organization
 def feed(organization_slug):
     organization = org_mongo_utils.get_org_by_slug(organization_slug)
 
-    feed = dumps(content_mongo_utils.get_org_paginated_articles(organization_slug, 0, 8))
+    # feed = dumps(content_mongo_utils.get_org_paginated_articles(organization_slug, 0, 8))
 
-    public_feed = dumps(content_mongo_utils.get_org_public_articles(organization_slug, 0, 8))
-
-    is_member = org_mongo_utils.check_if_user_is_member_of(organization_slug, current_user.username)
+    feed = dumps(content_mongo_utils.get_org_public_articles(organization_slug, 0, 8))
+    is_member = None
+    if current_user.is_authenticated:
+        is_member = org_mongo_utils.check_if_user_is_member_of(organization_slug, current_user.username)
 
     return render_template('mod_organization/feed.html', feed=feed, organization=organization,
-                           organization_slug=organization_slug, is_member=is_member, public_feed=public_feed)
+                           organization_slug=organization_slug, is_member=is_member, public_feed=feed)
+
+@mod_organization.route('/<string:organization_slug>/<string:article_type>/<int:skip_posts_number>/<int:posts_per_page>', methods=['GET', 'POST'])
+def feed_filter(organization_slug, article_type, skip_posts_number, posts_per_page):
+    if request.method == 'GET':
+        organization = org_mongo_utils.get_org_by_slug(organization_slug)
+
+        articles_cursor = content_mongo_utils.get_org_articles_by_type(organization_slug=organization_slug, article_type=article_type, skips=skip_posts_number,
+                                                                   limits=posts_per_page)
+        all_articles = dumps(articles_cursor)
+        is_member = None
+        if current_user.is_authenticated:
+            is_member = org_mongo_utils.check_if_user_is_member_of(organization_slug, current_user.username)
+
+        return render_template('mod_organization/feed.html', organization=organization,
+                           organization_slug=organization_slug, is_member=is_member, feed=all_articles, article_type=article_type)
+    elif request.method == 'POST':
+        articles_cursor = content_mongo_utils.get_org_articles_by_type(organization_slug=organization_slug, article_type=article_type, skips=skip_posts_number,
+                                                                   limits=posts_per_page)
+        all_articles = dumps(articles_cursor)
+        return all_articles
 
 
 @mod_organization.route('/<organization_slug>/<category>', methods=['GET'])
@@ -34,7 +55,9 @@ def category_feed_org(organization_slug, category):
 
     feed = dumps(content_mongo_utils.get_articles_one_category_only_org(organization_slug, category, 0, 8))
 
-    is_member = org_mongo_utils.check_if_user_is_member_of(organization_slug, current_user.username)
+    is_member = None
+    if current_user.is_authenticated:
+        is_member = org_mongo_utils.check_if_user_is_member_of(organization_slug, current_user.username)
 
     return render_template('mod_organization/feed.html', organization=organization, feed=feed,
                            organization_slug=organization_slug, is_member=is_member)
@@ -48,7 +71,9 @@ def about(organization_slug):
 
     articles_no = content_mongo_utils.count_org_articles(organization_slug)
 
-    is_member = org_mongo_utils.check_if_user_is_member_of(organization_slug, current_user.username)
+    is_member = None
+    if current_user.is_authenticated:
+        is_member = org_mongo_utils.check_if_user_is_member_of(organization_slug, current_user.username)
 
     followers_no = 0
 
@@ -73,7 +98,9 @@ def archive(organization_slug):
 
     articles_by_category_org = content_mongo_utils.count_org_articles_by_category(organization_slug, category)
 
-    is_member = org_mongo_utils.check_if_user_is_member_of(organization_slug, current_user.username)
+    is_member = None
+    if current_user.is_authenticated:
+        is_member = org_mongo_utils.check_if_user_is_member_of(organization_slug, current_user.username)
 
     return render_template('mod_organization/archive.html', is_member=is_member, organization=organization,
                            articles_by_category_org=articles_by_category_org)
@@ -87,7 +114,9 @@ def search(organization_slug):
 
     users = user_mongo_utils.get_users()
 
-    is_member = org_mongo_utils.check_if_user_is_member_of(organization_slug, current_user.username)
+    is_member = None
+    if current_user.is_authenticated:
+        is_member = org_mongo_utils.check_if_user_is_member_of(organization_slug, current_user.username)
 
     return render_template('mod_organization/search.html', is_member=is_member, organization=organization, feed=feed,
                            articles=articles,

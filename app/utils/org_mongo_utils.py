@@ -84,7 +84,7 @@ class OrgMongoUtils(object):
 
     def find_org_by_admin(self, username):
         find_org_result = self.mongo.db[self.org_collection] \
-            .find_one({'org_admin':{"$in":[username]}})
+            .find_one({'administrator':{"$in":[username]}})
         return find_org_result
 
     # Membership administration
@@ -98,6 +98,10 @@ class OrgMongoUtils(object):
         self.mongo.db[self.org_collection].update(
             {"org_slug": organization_slug},
             {"$addToSet": {"members": {"username": username, "status": 'pending'}}}
+        )
+        self.mongo.db[self.users_collection].update(
+            {"username": username},
+            {"$addToSet": {"organization": organization_slug}}
         )
         return True
 
@@ -120,6 +124,10 @@ class OrgMongoUtils(object):
         self.mongo.db[self.org_collection].update(
             {"org_slug": organization_slug},
             {"$pull": {"members": {'username': username}}}
+        )
+        self.mongo.db[self.users_collection].update(
+            {"username": username},
+            {"$pull": {"organizations": org_slug}}
         )
         return True
 

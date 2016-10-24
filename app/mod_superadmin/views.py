@@ -31,7 +31,7 @@ def add_users():
         email = request.form["email"]
         password = request.form["password"]
         confirm_password = request.form['confirm_password']
-        role = request.form['role']
+        role = 'individual'
         user_check = user_mongo_utils.get_user(email=email)
         if user_check:
             error = "A user with that e-mail already exists in the database"
@@ -47,7 +47,7 @@ def add_users():
                     "active": True,
                     "user_slug": slugify(name + ' ' + lastname),
                     "roles": [user_mongo_utils.get_role_id(role)],
-                    "organizations": ['kreotive']
+                    "organization": []
                 }
                 # TODO: Regiser user
                 user_mongo_utils.add_user(user_json)
@@ -70,8 +70,9 @@ def add_org():
         users = user_mongo_utils.get_users()
         users_list = []
         for user in users:
-            users_list.append(user['username'])
-        return render_template('mod_superadmin/add_org.html', users_list=users_list, get_user_name_last_name_by_username=get_user_name_last_name_by_username)
+            users_list.append({'username': user['username'], 'first_name': user['name'], 'last_name': user['lastname']})
+        return render_template('mod_superadmin/add_org.html', users_list=users_list,
+                               get_user_name_last_name_by_username=get_user_name_last_name_by_username)
     elif request.method == 'POST':
         name = request.form['name']
         email = request.form['email']
@@ -79,9 +80,9 @@ def add_org():
         telephone = request.form['telephone']
         mobile = request.form['mobile']
         about_org = request.form['about_org']
-        admin = request.form['org_admin']
+        admin = request.form['administrator']
 
-        user_mongo_utils.update_user_role(admin, 'org_admin')
+        user_mongo_utils.update_user_role(admin, 'administrator')
 
         org_slug = slugify(name) + '-' + str(ObjectId())
 
@@ -95,12 +96,12 @@ def add_org():
                 "email": email,
                 "active": True,
                 "org_slug": org_slug,
-                "org_admin": [slugify(admin)],
+                "administrator": [admin],
                 "followers": [],
                 "location": location,
                 "telephone": telephone,
                 "mobile": mobile,
-                "about_org":about_org,
+                "about_org": about_org,
 
             }
 
@@ -111,8 +112,9 @@ def add_org():
         users_list = []
         for user in users:
             users_list.append(user['username'])
-        return render_template('mod_superadmin/add_org.html', error=error, users_list=users_list, get_user_name_last_name_by_username=get_user_name_last_name_by_username)
+        return render_template('mod_superadmin/add_org.html', error=error, users_list=users_list,
+                               get_user_name_last_name_by_username=get_user_name_last_name_by_username)
+
 
 def get_user_name_last_name_by_username(username):
     return user_mongo_utils.get_user_by_username(username)
-

@@ -2,7 +2,7 @@
 {% block body %}
     <div class="org-feed">
         <br/><br/><br/>
-        {% if current_user.has_role('org_admin') or current_user.has_role('org_editor') %}
+        {% if current_user.has_role('administrator') or current_user.has_role('org_editor') %}
             <div class="row menu-icons">
                 <div class="col-md-1 col-md-offset-1 col-sm-1 col-sm-offset-0 col-xs-1 col-xs-offset-0 text-center">
                     <i class="fa fa-bars dropdown-toggle "

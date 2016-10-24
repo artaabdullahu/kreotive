@@ -43,7 +43,7 @@
             <img src="{{ url_for('static', filename = 'img/prof3.png') }}" class="img-circle user-pic">
             <span class="user-name">{{ organization.name }}</span>
             {% if current_user.is_authenticated %}
-                {% if not current_user.username in organization.org_admin %}
+                {% if not current_user.username in organization.administrator %}
                     {% if current_user.username not in organization.followers %}
                         <button type="button" class="follow pull-right" onclick="follow()">Follow</button>
                     {% else %}
@@ -56,11 +56,6 @@
                                 Awaiting
                                 approval
                             </button>
-                        {% elif is_member.members.0.status == 'denied' %}
-
-                            <button type="button" style="background-color:#990706;"
-                                    class="ask-to-join pull-right">{{ is_member.members.0.status | capitalize }}
-                            </button>
                         {% elif is_member.members.0.status == 'member' %}
 
                             <button type="button" style="background-color:#349946;"
@@ -69,9 +64,11 @@
 
                         {% endif %}
                     {% else %}
-                        <button type="button" class="ask-to-join pull-right" onclick="ask_to_join()">Ask
-                            to join
-                        </button>
+                        {% if not current_user.organization|length > 0 %}
+                            <button type="button" class="ask-to-join pull-right" onclick="ask_to_join()">Ask
+                                to join
+                            </button>
+                        {% endif %}
                     {% endif %}
 
                 {% endif %}

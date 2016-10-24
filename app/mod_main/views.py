@@ -16,28 +16,19 @@ def feed():
     all_articles_cursor = content_mongo_utils.get_paginated_all_articles(0,6)
     all_articles = dumps(all_articles_cursor)
 
-    # TODO: Create a macro for jinja where you can get avatar link by username
     return render_template('mod_feed/feed.html', articles=articles, all_articles=all_articles)
 
 
-@mod_main.route('/<string:article_type>', methods=['GET'])
-def feed_filter(article_type):
-    all_articles = None
-    if article_type == "text":
-        articles_cursor = content_mongo_utils.get_articles_by_type(article_type="text", skips=0, limits=8)
+@mod_main.route('/<string:article_type>/<int:skip_posts_number>/<int:posts_per_page>', methods=['GET', 'POST'])
+def feed_filter(article_type, skip_posts_number, posts_per_page):
+    if request.method == 'GET':
+        articles_cursor = content_mongo_utils.get_articles_by_type(article_type=article_type, skips=skip_posts_number, limits=posts_per_page)
         all_articles = dumps(articles_cursor)
-    elif article_type == "video":
-        articles_cursor = content_mongo_utils.get_articles_by_type(article_type="video", skips=0, limits=8)
+        return render_template('mod_feed/feed.html', all_articles=all_articles, article_type=article_type)
+    elif request.method == 'POST':
+        articles_cursor = content_mongo_utils.get_articles_by_type(article_type=article_type, skips=skip_posts_number, limits=posts_per_page)
         all_articles = dumps(articles_cursor)
-    elif article_type == "audio":
-        articles_cursor = content_mongo_utils.get_articles_by_type(article_type="audio", skips=0, limits=8)
-        all_articles = dumps(articles_cursor)
-    elif article_type == "attachment":
-        articles_cursor = content_mongo_utils.get_articles_by_type(article_type="attachment", skips=0, limits=8)
-        all_articles = dumps(articles_cursor)
-
-    return render_template('mod_feed/feed.html', all_articles=all_articles, article_type=article_type)
-
+        return all_articles
 
 @mod_main.route('/organizations/search', methods=['GET'])
 def search_organizations():
