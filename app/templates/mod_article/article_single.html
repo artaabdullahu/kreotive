@@ -7,7 +7,6 @@
             $("#mail-to").attr("href", hrefMAilTo);
         }
         mailToHref();
-
     </script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/comments.js') }}"></script>
 
@@ -137,14 +136,14 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
-            var articleId = "{{ article._id }}";
+            var articleId = "{{ article.slug }}";
 
             var userName = "{{ current_user.username }}";
             var firstName = "{{ current_user.name }}";
             var lastName = "{{ current_user.lastname }}";
 
             var getCommentsPostUrl = "{{ url_for('comments.get_comments') }}";
-            getComments(getCommentsPostUrl, "{{ article._id }}");
+            getComments(getCommentsPostUrl, "{{ article.slug }}");
 
             var addCommentPostUrl = "{{ url_for('comments.add_comment') }}";
             comment(addCommentPostUrl, articleId, userName, firstName, lastName);

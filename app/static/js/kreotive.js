@@ -16,6 +16,13 @@
          }
      });
 
+     $("#share-profile").popover({
+         html: true,
+         placement: "top",
+         content: function () {
+             return $("#share-individual-profile").html();
+         }
+     });
 
  });
 
@@ -23,3 +30,6 @@
          window.history.back();
      }
 
+$(document).ready(function() {
+    $(".dropdown-toggle").dropdown();
+});

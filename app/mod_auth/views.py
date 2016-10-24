@@ -6,6 +6,7 @@ from flask.ext.principal import Principal, Identity, AnonymousIdentity, \
     identity_changed
 from app import user_mongo_utils, bcrypt
 from slugify import slugify
+from bson.objectid import ObjectId
 
 mod_auth = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -31,7 +32,7 @@ def sign_up():
                     "name": name,
                     "lastname": lastname,
                     "email": email,
-                    "username": name + lastname,
+                    "username": name + lastname + '-' + str(ObjectId()),
                     "password": bcrypt.generate_password_hash(password, rounds=12),
                     "active": True,
                     "user_slug": slugify(name + ' ' + lastname),
@@ -80,7 +81,6 @@ def login():
                 # Tell Flask-Principal the identity changed
                 identity_changed.send(current_app._get_current_object(),
                                       identity=Identity(current_user.id))
-                # print current_user.is_authenticated()
                 return redirect(url_for('main.feed'))
 
 

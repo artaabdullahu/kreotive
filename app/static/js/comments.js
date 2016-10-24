@@ -1,9 +1,9 @@
-function comment(postUrl, articleId, userName, firstName, lastName) {
+function comment(postUrl, slug, userName, firstName, lastName) {
     var text = "";
     $('.comment-submit').click(function () {
         text = $('.comment-field').val();
         var data = {
-            article_id: articleId,
+            slug: slug,
             text: text,
             username: userName,
             firstname: firstName,
@@ -18,7 +18,7 @@ function comment(postUrl, articleId, userName, firstName, lastName) {
     });
 
 }
-function commentReply(postUrl, articleId, userName, firstName, lastName) {
+function commentReply(postUrl, slug, userName, firstName, lastName) {
     $('.comments').on('click', '.comment-reply', function () {
         var comment_id = $(this)[0].id.split('-')[3];
         $('#comment-' + comment_id).append(commentDIV(comment_id));
@@ -30,7 +30,7 @@ function commentReply(postUrl, articleId, userName, firstName, lastName) {
         var commentId = $(this)[0].className.split(' ')[0].split('-')[2];
         var text = $('.comment-of-' + commentId).val();
         var data = {
-            article_id: articleId,
+            slug: slug,
             reply_of: commentId,
             text: text,
             username: userName,
@@ -66,8 +66,8 @@ function commentDIV(id) {
         '</div>';
     return div;
 }
-function getComments(post_url, article_id) {
-    var comments = $.post(post_url, {article_id: article_id}).done(function (data) {
+function getComments(post_url, slug) {
+    var comments = $.post(post_url, {slug: slug}).done(function (data) {
         var comments_data = JSON.parse(data);
         for (var i in comments_data) {
             if (comments_data[i]['reply_of'] != undefined) {

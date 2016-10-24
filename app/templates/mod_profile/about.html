@@ -1,68 +1,65 @@
 {% extends "layout.html" %}
 {% block body %}
     <div class="profile-about">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1">
-                    <ul>
-                        <li><a href="{{ url_for ('profile.feed', username =profile.username ) }}">Feed</a></li>
-                        <li><a href="{{ url_for ('profile.about', username =profile.username ) }}" class="active">About
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <ul>
+                    <li><a href="{{ url_for ('profile.feed', username =profile.username ) }}">Feed</a></li>
+                    <li><a href="{{ url_for ('profile.about', username =profile.username ) }}" class="active">About
                             me</a></li>
-                        <li><a href="{{ url_for ('profile.archive', username =profile.username ) }}">All articles</a>
-                        </li>
-                    </ul>
-                </div>
+                    <li><a href="{{ url_for ('profile.archive', username =profile.username ) }}">All articles</a>
+                    </li>
+                </ul>
             </div>
+        </div>
 
-            <!-- Banner part at Feed/About/Article Pages-->
+        <!-- Banner part at Feed/About/Article Pages-->
 
-            {% include('mod_profile/profile_header.html') %}
-            {% include('mod_profile/user_menu.html') %}
+        {% include('mod_profile/profile_header.html') %}
 
-            <div class="row activity-info">
-                <div class="col-md-2 col-md-offset-4">
-                    <span>Location:</span> <strong><span>{% if profile.location %}
-                    {{ profile.location }}{% endif %}</span></strong>
-                </div>
-                <div class="col-md-2">
-                    <span>Articles:</span><strong><span> {{ articles_no }}</span></strong>
-                </div>
-                <div class="col-md-2">
-                    <span>Followers:</span><strong><span>0</span></strong>
-                </div>
+        <div class="row activity-info">
+            <div class="col-md-2 col-md-offset-4 col-sm-3 col-sm-offset-2 col-xs-4">
+                <span>Location:</span> <strong><span>{% if profile.location %}
+                {{ profile.location }}{% endif %}</span></strong>
             </div>
-
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1"><br>
-                    <span style="font-weight: bold; font-size: 30px">About me</span>
-                </div>
+            <div class="col-md-2 col-sm-3 col-xs-4">
+                <span>Articles:</span><strong><span> {{ articles_no }}</span></strong>
             </div>
+            <div class="col-md-2 col-sm-3 col-xs-4">
+                <span>Followers:</span><strong><span>{{ followers_no }}</span></strong>
+            </div>
+        </div>
 
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1">
-                <span><br>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1"><br>
+                <span class="administration-title">About me</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <span class="about-me-text"><br>
                {% if profile.about_me %}{{ profile.about_me }}{% endif %}
                 </span>
-                </div>
             </div>
-            <br/>
-            <div class="row">
-                <div class="col-md-3 col-md-offset-1">
-                    <span class="contact">Contact me</span>
-                </div>
-            </div>
-            <br/>
-
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1 contact-info">
-                    <span class="email col-md-3">E-mail: {{ profile.email }}</span>
-                    <span class="telephone col-md-3">Telephone:
-                        {% if profile.telephone %}{{ profile.telephone }}{% endif %}</span>
-                    <span class="mobile col-md-3">Mobile: {% if profile.mobile %}
-                        {{ profile.mobile }} {% endif %}</span>
-                </div>
-            </div>
-            <br/>
         </div>
+        <br/>
+        <div class="row">
+            <div class="col-md-3 col-md-offset-1">
+                <span class="contact">Contact me</span>
+            </div>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1 contact-info">
+                <span class="email col-md-3">E-mail: {{ profile.email }}</span>
+                <span class="telephone col-md-3">Telephone:
+                    {% if profile.telephone %}{{ profile.telephone }}{% endif %}</span>
+                <span class="mobile col-md-3">Mobile: {% if profile.mobile %}
+                    {{ profile.mobile }} {% endif %}</span>
+            </div>
+        </div>
+        <br/>
     </div>
 {% endblock body %}

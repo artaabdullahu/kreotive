@@ -10,7 +10,7 @@
                     <li><a href="{{ url_for('main.feed') }}">Feed</a></li>
                     <li><a href="{{ url_for('article.my_articles', article_action='show') }}">Article
                                 management</a></li>
-                    <li><a href="{{ url_for('profile.comments', username=current_user.username) }}">Comments</a></li>
+                    <li><a href="#">Comments</a></li>
                     <li><a href="{{ url_for('profile.bookmarks', username=current_user.username) }}">Bookmarks</a></li>
                     <li><a href="{{ url_for('profile.following', username=profile.username) }}">Following</a></li>
                     <li><a href="{{ url_for('profile.profile_settings', username=profile.username) }}">Account
@@ -26,31 +26,32 @@
 
         <div class="row">
             <div class="col-md-2 col-md-offset-1">
-                <h3 class="administration-title">Bookmarks</h3>
+                <h3 class="administration-title">Comments</h3>
             </div>
         </div>
         <div class="row">
-            <div class="bookmarks-list">
+            <div class="comments-list">
                 <div class="col-md-10 col-md-offset-1">
-                    {% for bookmark in bookmarks %}
+                    {% for comment in comments %}
                         <div id="" class="manage-line">
                             <div class="col-md-6 col-sm-6 col-xs-6">
-                                <a href="{{ url_for('article.article', slug=bookmark['slug']) }}">
-                                    <h3 class="articles-title">{{ article_title(bookmark['slug'])['title'] }}</h3>
+                                <a href="{{ url_for('article.article', slug=comment['slug']) }}">
+                                    <h3 class="articles-title">{{ article_title(comment['slug'])['title'] }}</h3>
                                 </a>
+                                <h5 class="comment-text">{{ comment['text'] }}</h5>
                             </div>
-                            <div class="col-md-4 col-sm-4 col-xs-4">
+                            <div class="col-md-4 col-sm-4 col-xs-4 text-center">
                                 <h3 class="article-date" style="font-size: 12px; padding: 20px 0px;"
                                     datetime="2016-07-20T12:39">
-                                    {% if article_title(bookmark['slug'])['published_date'] %}
-                                        {{ article_title(bookmark['slug'])['published_date'].strftime('%Y-%m-%d %H:%M') }}
+                                    {% if comment['date'] %}
+                                        {{ comment['date'].strftime('%Y-%m-%d %H:%M') }}
                                     {% endif %}
                                 </h3>
                             </div>
                             <div class="col-md-2 col-sm-2 col-xs-2 text-center">
                                 <a class="remove"
-                                   href="{{ url_for('profile.remove_bookmarks', username= current_user.username, slug = bookmark['slug']) }}"><i
-                                        class=" fa fa-bookmark"></i></a>
+                                   href="{{ url_for('profile.remove_comment', username = current_user.username, comment_id = comment._id) }}"><i
+                                        class=" fa fa-trash-o"></i></a>
                             </div>
                         </div>
                     {% endfor %}
@@ -66,7 +67,7 @@
                 var url = this.href;
                 swal({
                             title: "Are you sure?",
-                            text: "You will not be able to see on your bookmark's list this article!",
+                            text: "You will not be able to see your comment anymore!",
                             type: "warning",
                             showCancelButton: true,
                             confirmButtonText: "Yes",
@@ -80,7 +81,7 @@
                             if (isConfirm) {
                                 swal({
                                     title: '',
-                                    text: 'Article is successfully removed from your bookmarks!',
+                                    text: 'Comment is successfully removed from the article!',
                                     type: 'success'
                                 }, function () {
                                     window.location = url;
@@ -89,7 +90,7 @@
 
 
                             } else {
-                                swal("Cancelled", "Your article is safe :)", "error");
+                                swal("Cancelled", "Your comment is still there:)", "error");
                             }
                         });
             });

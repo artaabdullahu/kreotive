@@ -5,6 +5,7 @@ from bson.json_util import loads
 from datetime import datetime
 from bson.json_util import dumps
 
+
 class CommentsMongoUtils(object):
     def __init__(self, mongo):
         self.mongo = mongo
@@ -12,7 +13,7 @@ class CommentsMongoUtils(object):
         self.content_collection = 'content'
         self.users_collection = 'users'
 
-    def add_comment(self, article_id, text, username, first_name, last_name):
+    def add_comment(self, slug, text, username, first_name, last_name):
         """ Insert comment to the database.
          :param comment: Text field containing comment string.
          :rtype: Boolean
@@ -21,7 +22,7 @@ class CommentsMongoUtils(object):
             "username": username,
             "firstname": first_name,
             "lastname": last_name,
-            "article_id": ObjectId(article_id),
+            "slug": slug,
             "text": text,
             "date": datetime.utcnow()
         }
@@ -29,7 +30,7 @@ class CommentsMongoUtils(object):
             .insert(comment)
         return comment_id
 
-    def add_comment_reply(self, reply_of, article_id, text, username, first_name, last_name):
+    def add_comment_reply(self, reply_of, slug, text, username, first_name, last_name):
         """ Insert comment to the database.
          :param comment: Text field containing comment string.
          :rtype: Boolean
@@ -38,7 +39,7 @@ class CommentsMongoUtils(object):
             "username": username,
             "firstname": first_name,
             "lastname": last_name,
-            "article_id": ObjectId(article_id),
+            "slug": slug,
             "text": text,
             "reply_of": ObjectId(reply_of),
             "date": datetime.utcnow()
@@ -47,13 +48,13 @@ class CommentsMongoUtils(object):
             .insert(comment)
         return comment_id
 
-    def get_comments(self, article_id):
+    def get_comments(self, slug):
         """ Insert comment to the database.
          :param article_id: Id of the article
          :rtype: Boolean
         """
         query = {
-            "article_id": ObjectId(article_id)
+            "slug": slug
         }
         cursor = self.mongo.db[self.comments_collection] \
             .find(query)
@@ -63,6 +64,26 @@ class CommentsMongoUtils(object):
         for elem in result:
             elem['avatar_url'] = \
                 self.mongo.db[self.users_collection] \
-            .find_one({"username":elem['username']})['avatar_url']
+                    .find_one({"username": elem['username']})['avatar_url']
             results_.append(elem)
         return dumps(results_)
+
+
+    def get_comments_list(self, username):
+        comments = self.mongo.db[self.comments_collection] \
+            .find({"username": username}).sort(
+            [("_id", -1)])
+        return comments
+
+    def get_article_title(self,slug):
+
+        article = self.mongo.db[self.content_collection] \
+            .find_one({"slug":slug})
+
+        return article
+
+    def remove_comment(self, username, comment_id):
+
+        comment = self.mongo.db[self.comments_collection] \
+            .remove({"username":username, "_id": ObjectId(comment_id)})
+        return comment

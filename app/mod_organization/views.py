@@ -32,7 +32,7 @@ def category_feed_org(organization_slug, category):
 
     organization = org_mongo_utils.get_org_by_slug(organization_slug)
 
-    feed = dumps(content_mongo_utils.get_articles_one_category_only_org(organization_slug, category))
+    feed = dumps(content_mongo_utils.get_articles_one_category_only_org(organization_slug, category, 0, 8))
 
     is_member = org_mongo_utils.check_if_user_is_member_of(organization_slug, current_user.username)
 
@@ -50,8 +50,19 @@ def about(organization_slug):
 
     is_member = org_mongo_utils.check_if_user_is_member_of(organization_slug, current_user.username)
 
+    followers_no = 0
+
+    members_no = 0
+
+    if 'followers' in organization:
+        followers_no = len(organization['followers'])
+
+    if 'members' in organization:
+        members_no = len(organization['members'])
+
     return render_template('mod_organization/about.html', is_member=is_member, organization=organization, feed=feed,
-                           organization_slug=organization_slug, articles_no=articles_no)
+                           organization_slug=organization_slug, articles_no=articles_no, followers_no=followers_no,
+                           members_no=members_no)
 
 
 @mod_organization.route('/<organization_slug>/archive', methods=['GET'])
@@ -151,10 +162,10 @@ def memberships(organization_slug):
     pending_approval_members_list = org_mongo_utils.get_users_by_status(organization_slug, 'pending')
     approved_members_list = org_mongo_utils.get_users_by_status(organization_slug, 'member')
     editors_list = org_mongo_utils.get_users_by_status(organization_slug, 'editor')
-    admin_list = org_mongo_utils.get_users_by_status(organization_slug,'admin')
+    admin_list = org_mongo_utils.get_users_by_status(organization_slug, 'admin')
 
     if 'members' in pending_approval_members_list:
-         pending_approval_members_count = len(pending_approval_members_list['members'])
+        pending_approval_members_count = len(pending_approval_members_list['members'])
 
     if 'members' in approved_members_list:
         approved_members_count = len(approved_members_list['members'])
@@ -168,8 +179,10 @@ def memberships(organization_slug):
     is_member = 'org_admin'
 
     return render_template('mod_organization/memberships.html', profile=profile, organization=organization,
-                           user_avatar=user_avatar, pending_approval_count=pending_approval_members_count, approved_members_count=total_members_count,
-                           admin_count=admin_count)
+                           user_avatar=user_avatar, pending_approval_count=pending_approval_members_count,
+                           approved_members_count=total_members_count,
+                           admin_count=admin_count,
+                           get_user_name_last_name_by_username=get_user_name_last_name_by_username)
 
 
 def user_avatar(username):
@@ -239,7 +252,12 @@ def remove_member(organization_slug, username):
     org_mongo_utils.remove_member(organization_slug, username)
     return Response(200)
 
+
 @mod_organization.route('/<organization_slug>/deny/<username>', methods=['POST'])
 def deny_member(organization_slug, username):
     org_mongo_utils.deny_member(organization_slug, username)
     return Response(200)
+
+
+def get_user_name_last_name_by_username(username):
+    return user_mongo_utils.get_user_by_username(username)

@@ -4,6 +4,7 @@ from flask import request
 from flask import Response
 import json
 from slugify import slugify
+from bson.objectid import ObjectId
 
 mod_superadmin = Blueprint('superadmin', __name__, url_prefix='/sadmin')
 
@@ -41,7 +42,7 @@ def add_users():
                     "name": name,
                     "lastname": lastname,
                     "email": email,
-                    "username": name + lastname,
+                    "username": name + lastname + '-' + str(ObjectId()),
                     "password": bcrypt.generate_password_hash(password, rounds=12),
                     "active": True,
                     "user_slug": slugify(name + ' ' + lastname),
@@ -70,7 +71,7 @@ def add_org():
         users_list = []
         for user in users:
             users_list.append(user['username'])
-        return render_template('mod_superadmin/add_org.html', users_list=users_list)
+        return render_template('mod_superadmin/add_org.html', users_list=users_list, get_user_name_last_name_by_username=get_user_name_last_name_by_username)
     elif request.method == 'POST':
         name = request.form['name']
         email = request.form['email']
@@ -82,7 +83,7 @@ def add_org():
 
         user_mongo_utils.update_user_role(admin, 'org_admin')
 
-        org_slug = slugify(name)
+        org_slug = slugify(name) + '-' + str(ObjectId())
 
         if org_mongo_utils.get_org_by_slug({"slug": org_slug}):
             error = "Organization exists"
@@ -110,4 +111,8 @@ def add_org():
         users_list = []
         for user in users:
             users_list.append(user['username'])
-        return render_template('mod_superadmin/add_org.html', error=error, users_list=users_list)
+        return render_template('mod_superadmin/add_org.html', error=error, users_list=users_list, get_user_name_last_name_by_username=get_user_name_last_name_by_username)
+
+def get_user_name_last_name_by_username(username):
+    return user_mongo_utils.get_user_by_username(username)
+

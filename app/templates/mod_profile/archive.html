@@ -2,26 +2,25 @@
 {% block body %}
 
     <div class="profile-archive">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1">
-                    <ul>
-                        <li><a href="{{ url_for ('profile.feed', username =profile.username )}}" >Feed</a></li>
-                        <li><a href="{{ url_for ('profile.about', username =profile.username )}}" >About me</a></li>
-                        <li><a href="{{ url_for ('profile.archive', username =profile.username)}}" class="active">All articles</a></li>
-                    </ul>
-                </div>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <ul>
+                    <li><a href="{{ url_for ('profile.feed', username =profile.username ) }}">Feed</a></li>
+                    <li><a href="{{ url_for ('profile.about', username =profile.username ) }}">About me</a></li>
+                    <li><a href="{{ url_for ('profile.archive', username =profile.username) }}"
+                           class="active">All articles</a></li>
+                </ul>
             </div>
+        </div>
 
-            <!-- Banner part at Feed/About/Article Pages-->
+        <!-- Banner part at Feed/About/Article Pages-->
 
-            {% include('mod_profile/profile_header.html') %}
+        {% include('mod_profile/profile_header.html') %}
 
-            <br>
+        <br>
 
-            <div class="categories row">
-                <div class="col-md-10 col-md-offset-1 latest row-bottom-margin row-margin">
-                </div>
+        <div class="categories row">
+            <div class="col-md-10 col-md-offset-1 latest row-bottom-margin row-margin">
             </div>
         </div>
     </div>
@@ -58,12 +57,12 @@
                 var articleCategory = idx;
                 var articleNumber = article;
                 var divHTML = '' +
-                    '<div class="article " style="padding: 3px;">' +
-                    '<a href="' + display_category + '">' +
-                    '<h3 class="article-title">' +  articleCategory  + ' (' + articleNumber +')' + '</h3>' +
-                    '</a>' +
-                    '<i class="fa fa-tag category-tag" aria-hidden="true"></i>' +
-                    '</div>';
+                        '<div class="article " style="padding: 3px;">' +
+                        '<a href="' + display_category + '">' +
+                        '<h3 class="article-title">' + articleCategory + ' (' + articleNumber + ')' + '</h3>' +
+                        '</a>' +
+                        '<i class="fa fa-tag category-tag" aria-hidden="true"></i>' +
+                        '</div>';
                 $('.latest').append(divHTML);
             }
         });

@@ -28,6 +28,10 @@ class UserMongoUtils(object):
             .update(condition, {"$set": update_json})
         return result
 
+    def get_name_last_name_by_username(self, username):
+        return self.mongo.db[self.users_collection] \
+            .find_one({"username": username})
+
     def add_user(self, user):
         """ Add user to the database.
          :param user: JSON object containing the user information
@@ -110,7 +114,7 @@ class UserMongoUtils(object):
 
     def get_users(self):
         users = self.mongo.db[self.users_collection] \
-            .find()
+            .find().sort([("_id", -1)])
         return users
 
     def get_user_by_username(self, username):

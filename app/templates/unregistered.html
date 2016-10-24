@@ -1,27 +1,29 @@
- <!--   This part is displayed when user is not logged in -->
+<!--   This part is displayed when user is not logged in -->
 
- {% if not current_user.is_authenticated %}
-<div id="un-registered">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 intro">
-            <h1>Sign up to get the most out<br> of Kreotive. </h1>
-            <h5 class="text-center">For youth organisations all over Sweden.</h5>
+{% if not current_user.is_authenticated %}
+    <div id="un-registered">
+
+        <div class="row">
+            <div class="col-md-2 col-md-offset-10 col-sm-2 col-sm-offset-10 col-xs-2 col-xs-offset-10 text-left">
+                <a href="#" class="fa fa-close" id="close"></a>
+            </div>
         </div>
-        <div class="col-md-2 col-sm-1 col-xs-1 text-left">
-            <a href="#" class="fa fa-close" id="close"></a>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 intro">
+                <h1>Sign up to get the most out<br> of Kreotive. </h1>
+                <div class="moto">For youth organisations all over Sweden.</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class=" col-md-5 col-md-offset-1 col-sm-5 col-sm-offset-1 col-xs-10 col-xs-offset-2 text-left">
+                <a href="{{ url_for('auth.sign_up') }}" class="btn btn-signup">Sign up</a>
+            </div>
+            <div class=" col-md-5 col-sm-5  col-xs-12  text-right">
+                <a href="#nav-bar" class="btn btn-continue">Continue unregistered</a>
+            </div>
         </div>
     </div>
-
-    <div class="row">
-        <div class=" col-xs-10 col-xs-offset-2 col-sm-5 col-sm-offset-1 col-md-5 col-md-offset-1 text-left">
-            <a href="{{ url_for('auth.sign_up') }}" class="btn btn-signup">Sign up</a>
-        </div>
-
-        <div class=" col-xs-12 col-sm-5 col-md-5 text-right">
-            <a href="#nav-bar" class="btn btn-continue">Continue unregistered</a>
-        </div>
-    </div>
-</div>
 {% endif %}
 
 

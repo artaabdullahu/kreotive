@@ -1,63 +1,72 @@
 {% extends "layout.html" %}
 {% block body %}
-<div class="following profile-feed">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <ul>
-                <li><a href="{{ url_for ('profile.feed', username =profile.username ) }}" class="active">Feed</a>
-                </li>
-                <li><a href="{{ url_for ('profile.about', username =profile.username ) }}">About me</a></li>
-                <li><a href="{{ url_for ('profile.archive', username =profile.username ) }}">All articles</a></li>
-            </ul>
+    <div class="following profile-feed">
+
+        <div class="row menu-icons">
+            <br/><br/><br/>
+            <div class="col-md-1 col-md-offset-1 col-sm-1 col-xs-1 text-center">
+                <i class="fa fa-bars dropdown-toggle" data-toggle="dropdown"></i>
+                <ul class="dropdown-menu" style="margin-left: 10px;">
+                    <li><a href="{{ url_for('main.feed') }}">Feed</a></li>
+                    <li><a href="{{ url_for('article.my_articles', article_action='show') }}">Article
+                                management</a></li>
+                    <li><a href="#">Comments</a></li>
+                    <li><a href="{{ url_for('profile.bookmarks', username=current_user.username) }}">Bookmarks</a></li>
+                    <li><a href="{{ url_for('profile.following', username=profile.username) }}">Following</a></li>
+                    <li><a href="{{ url_for('profile.profile_settings', username=profile.username) }}">Account
+                                details</a></li>
+                </ul>
+
+            </div>
+            <div class="col-md-1 col-sm-1 col-xs-1 text-center">
+                <a href="{{ url_for('article.new_article', author_type='individual', name=profile.name, username=profile.username) }}"
+                   class="fa fa-pencil"></a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="search-item row">
+                <div class="row">
+                    <div class="col-md-1 col-md-offset-1">
+                        <h3 class="administration-title">Following</h3>
+                    </div>
+
+                </div>
+                <div class="row" >
+                    <div class="col-md-10 col-md-offset-1 col-sm-11 col-sm-offset-1 col-xs-11 col-xs-offset-1">
+                        <span class="org-following">Organizations({{ profile.org_following|length }})</span>
+                    </div>
+                </div>
+                {% for org in profile.org_following %}
+                    <div class="row follow-list">
+                        <div class="col-md-1 col-md-offset-1 col-sm-1 col-xs-1">
+                            <img src="{{ url_for('static', filename='img/prof3.png') }}"
+                                 class="img-circle search-img-item">
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            <a href="{{ url_for ('organization.feed', organization_slug=org) }}"><span
+                                    class="search-result-title">{{ get_org_name_by_username(org)['name'] }}</span></a>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1 col-sm-11 col-sm-offset-1 col-xs-11 col-xs-offset-1">
+                        <span class="people-following">People({{ profile.people_following|length }})</span>
+                    </div>
+                </div>
+                {% for user in profile.people_following %}
+                    <div class="row follow-list">
+                        <div class="col-md-1 col-md-offset-1 col-sm-1 col-xs-1">
+                            <img src="{{ url_for('static', filename='img/prof3.png') }}"
+                                 class="img-circle search-img-item">
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            <a href="{{ url_for('profile.feed', username=user) }}"><span
+                                    class="search-result-title">{{ get_user_name_last_name_by_username(user)['name'] }}, {{ get_user_name_last_name_by_username(user)['lastname'] }}</span></a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
-
-
-    <!-- Banner part at Feed/About/Article Pages-->
-
-    {% include('mod_profile/profile_header.html') %}
-    {% include('mod_profile/user_menu.html') %}
-    <div class="row">
-        <div class="search-item row">
-            <div class="row">
-                <div class="col-md-1 col-md-offset-2">
-                    <h3>Following</h3>
-                </div>
-
-            </div>
-            <div class="row">
-                <div class="col-md-1 col-md-offset-3">
-                    <span class="org-following">Organizations({{ profile.org_following|length }})</span>
-                </div>
-            </div>
-            {% for org in profile.org_following %}
-
-                <div class="col-md-1 col-md-offset-3">
-                    <img src="{{ url_for('static', filename='img/prof3.png') }}" class="img-circle search-img-item">
-                </div>
-                <div class="col-md-6">
-                    <a href="{{ url_for ('organization.feed', organization_slug=org) }}"><span
-                            class="search-result-title">{{ org }}</span></a>
-                </div>
-
-            {% endfor %}
-            <div class="row">
-                <div class="col-md-1 col-md-offset-3">
-                    <span class="people-following">People({{ profile.people_following|length }})</span>
-                </div>
-            </div>
-            {% for user in profile.people_following %}
-
-                <div class="col-md-1 col-md-offset-3">
-                    <img src="{{ url_for('static', filename='img/prof3.png') }}" class="img-circle search-img-item">
-                </div>
-                <div class="col-md-6">
-                    <a href="{{ url_for('profile.feed', username=user) }}"><h4
-                            class="search-result-title">{{ user }}</h4></a>
-                </div>
-
-            {% endfor %}
-        </div>
-    </div>
-</div>
 {% endblock body %}

@@ -2,14 +2,16 @@
 {% block body %}
 
     <div class="org-about">
-
-    <div class="container">
         <div class="row org-menu">
             <div class="col-md-10 col-md-offset-1">
                 <ul>
-                    <li><a href="{{ url_for ('organization.feed', organization_slug=organization['org_slug']) }}">Feed</a></li>
-                    <li><a href="{{ url_for ('organization.about', organization_slug=organization['org_slug']) }}"  class="active">About us</a></li>
-                    <li><a href="{{ url_for ('organization.archive', organization_slug=organization['org_slug']) }}">All articles</a>
+                    <li>
+                        <a href="{{ url_for ('organization.feed', organization_slug=organization['org_slug']) }}">Feed</a>
+                    </li>
+                    <li><a href="{{ url_for ('organization.about', organization_slug=organization['org_slug']) }}"
+                           class="active">About us</a></li>
+                    <li>
+                        <a href="{{ url_for ('organization.archive', organization_slug=organization['org_slug']) }}">All articles</a>
                     </li>
                 </ul>
             </div>
@@ -18,34 +20,34 @@
         {% include('mod_organization/org_header.html') %}
 
         <div class="row activity-info">
-            <div class="col-md-2 col-md-offset-2">
+            <div class="col-md-2 col-md-offset-2 col-sm-3 col-xs-3 text-center">
                 <span>Location:</span> <strong><span>{{ organization.location }}</span></strong>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-2 col-sm-3 col-xs-3 text-center">
                 <span>Articles:</span><strong><span> {{ articles_no }}</span></strong>
             </div>
-            <div class="col-md-2">
-                <span>Members:</span><strong><span>0</span></strong>
+            <div class="col-md-2 col-sm-3 col-xs-3 text-center">
+                <span>Members:</span><strong><span>{{ members_no }}</span></strong>
             </div>
-            <div class="col-md-2">
-                <span>Followers:</span><strong><span>0</span></strong>
+            <div class="col-md-2 col-sm-3 col-xs-3 text-center">
+                <span>Followers:</span><strong><span>{{ followers_no }}</span></strong>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-10 col-md-offset-1"><br>
-                <span style="font-weight: bold; font-size: 30px">About us</span>
+                <span class="administration-title">About us</span>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                <span><br>
+                <span class="about-me-text"><br>
                {% if organization.about_org %}{{ organization.about_org }}{% endif %}
                 </span>
             </div>
         </div>
-            <br/>
+        <br/>
         <div class="row">
             <div class="col-md-3 col-md-offset-1">
                 <span class="contact">Contact us</span>
@@ -59,8 +61,7 @@
                 <span class="mobile col-md-3">Mobile: {{ organization.mobile }}</span>
             </div>
         </div>
-    </div>
-    <br/>
+        <br/>
     </div>
 
 

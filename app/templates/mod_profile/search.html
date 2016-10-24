@@ -1,5 +1,19 @@
 {% extends "layout.html" %}
 {% block body %}
+    <script>
+        $(document).ready(function () {
+            $('#search-articles').on('keypress', function (e) {
+                if (e.which == 13) {//Enter key pressed
+                    var query = $('#search-articles').val();
+                    var url = "{{ url_for('profile.search', username=profile.username) }}" + '?q=' + query;
+                    window.location = url;
+                }
+            });
+
+        });
+
+    </script>
+
     <div class="prof-search">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
@@ -14,19 +28,68 @@
 
         <!-- Banner part at Feed/About/Article Pages-->
 
+        {% include('mod_profile/profile_header.html') %}
 
-        {% include('mod_profile/user_menu.html') %}
+        {% if current_user.is_authenticated %}
+    {% if current_user.username == profile.username %}
+        <nav>
+            <div class="row menu-icons">
+                <div class="col-md-1 col-md-offset-1 col-sm-1 col-sm-offset-0 col-xs-1 col-xs-offset-0 text-center">
+                    <i class="fa fa-bars dropdown-toggle" data-toggle="dropdown"></i>
+                    <ul class="dropdown-menu" style="margin-left: 0px">
+                        <li><a href="{{ url_for('main.feed') }}" class="active">Feed</a></li>
+                        <li><a href="{{ url_for('article.my_articles', article_action='show') }}">Article
+                                    management</a></li>
+                        <li>
+                            <a href="{{ url_for('profile.comments', username=current_user.username) }}">Comments</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('profile.bookmarks', username=current_user.username) }}">Bookmarks</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('profile.following', username=current_user.username) }}">Following</a>
+                        </li>
+                        <li><a href="{{ url_for('profile.profile_settings', username=current_user.username) }}">Account
+                                    details</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-1 col-sm-1 col-sm-offset-0 col-xs-1 col-xs-offset-0 text-center">
+                    <a href="{{ url_for('article.new_article', author_type='individual', name=current_user.name , username=current_user.username) }}"
+                       class="fa fa-pencil"></a>
+                </div>
+                <div class="col-md-1 col-sm-1 col-sm-offset-0 col-xs-1 col-xs-offset-0 text-center">
+                    <a href="{{ url_for('profile.search', username=profile.username) }}" class="fa fa-search " aria-hidden="true"
+                       id="search1"></a>
+                </div>
+                <div class="col-md-5 col-sm-5 col-xs-5">
+                    <input type="text" id="search-articles" class="search-field"
+                           placeholder="Search for {{ profile.name }}'s articles"/>
+                </div>
+            </div>
+        </nav>
+        {% else %}
+        <nav>
+            <div class="row menu-icons">
+                <div class="col-md-1 col-md-offset-1 col-sm-1 col-sm-offset-0 col-xs-1 col-xs-offset-0 text-center">
+                    <a href="{{ url_for('profile.search', username=profile.username) }}" class="fa fa-search"
+                       aria-hidden="true"
+                       id="search"></a>
+                </div>
+                <div class="col-md-7 col-sm-7 col-xs-7">
+                    <input type="text" id="search-articles" class="search-field" placeholder="Search for {{ profile.name }}'s articles"/>
+                </div>
+            </div>
+        </nav>
+           {% endif %}
+{% endif %}
+
+        <br/><br/>
+        {% for article in feed %}
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h4 class="search-article-title">{{ article['title'] }}</h4>
+                </div>
+            </div>
+        {% endfor %}
     </div>
-
-    <script>
-        $(document).ready(function () {
-            $(".tab-2").click(function () {
-                $(".nav-article-type").hide();
-            });
-
-            $(".tab-1").click(function () {
-                $(".nav-article-type").show();
-            });
-        })
-    </script>
 {% endblock %}

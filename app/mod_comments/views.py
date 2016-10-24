@@ -14,7 +14,7 @@ def add_comment():
     :return JSON:
     '''
     username = request.form['username']
-    comment_id = comment_mongo_util.add_comment(request.form['article_id'], request.form['text'], username,
+    comment_id = comment_mongo_util.add_comment(request.form['slug'], request.form['text'], username,
                                                 request.form['firstname'], request.form['lastname'])
 
     user = user_mongo_utils.get_user_by_username(username)
@@ -31,7 +31,7 @@ def add_comment_reply():
     '''
     data = request.form
 
-    comment_id = comment_mongo_util.add_comment_reply(data['reply_of'], data['article_id'], data['text'],
+    comment_id = comment_mongo_util.add_comment_reply(data['reply_of'], data['slug'], data['text'],
                                                       data['username'],
                                                       data['firstname'], data['lastname'])
 
@@ -47,5 +47,5 @@ def get_comments():
     ''' Returns comments
     :return:
     '''
-    comments = comment_mongo_util.get_comments(request.form['article_id'])
+    comments = comment_mongo_util.get_comments(request.form['slug'])
     return comments

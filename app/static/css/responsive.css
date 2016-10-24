@@ -1,394 +1,570 @@
 /*Responsive*/
 /* Large Devices, Wide Screens */
-    @media (max-width : 1200px) {
-        .logo {
-            margin-left: 10px;
-        }
+@media (max-width: 1200px) {
+    .logo {
+        margin-left: 10px;
     }
-    @media (max-width: 991px) {
-        .fa-share-alt, .fa-bookmark-o{
-            font-size: 20px;
-        }
-        #single-article .article-t{
-             font-size: 25px;
-         }
-        #single-article .fa-bookmark-o,
-        #single-article .fa-bookmark,
-        #single-article .fa-share-alt{
-            font-size: 25px;
-        }
+
+    .fa-bars::before {
+        margin-left: 5px;
     }
+}
+
+@media (max-width: 991px) {
+    .fa-share-alt, .fa-bookmark-o {
+        font-size: 20px;
+    }
+
+    #single-article .article-t {
+        font-size: 25px;
+    }
+
+    #single-article .fa-bookmark-o,
+    #single-article .fa-bookmark,
+    #single-article .fa-share-alt {
+        font-size: 25px;
+    }
+
+    .menu-icons .fa-file-video-o,
+    .menu-icons .fa-file-text-o,
+    .menu-icons .fa-file-audio-o,
+    .menu-icons .fa-paperclip {
+        text-align: right;
+    }
+
+}
+
 /*Medium Devices, Desktops */
-    @media (max-width: 800px) {
-        .logo {
-            margin-left: 10px;
-        }
-        #nav-bar1 {
-            margin-left: 0px;
-        }
-        #articles {
-            padding: 0px;
-        }
-        .row.latest [class*='col-']:not(:first-child),
-        .row.latest [class*='col-']:not(:last-child) {
-            padding-right: 1.5px;
-            padding-left: 1.5px;
-        }
-        .video-icon {
-            margin-left: 40%;
-        }
-        footer {
-            margin-top: 200px;
-        }
-        .popover {
-            width: 400px;
-            margin-left: -180px;
-        }
-        .popover.bottom > .arrow {
-            margin-left: 170px;
-        }
-        .fa-close:before {
-            font-size: 15px
-        }
-        .fa-close {
-            margin-top: 49px;
-            margin-right: 5px;
-        }
-        #single-article .popover{
-            left: 125px!important;
-        }
-        .box{
-            height: 50px;
-        }
-        .user-pic{
-            width: 40px;
-            height: 40px;
-        }
-        .user-name{
-            font-size: 20px;
-        }
+@media (max-width: 800px) {
+    .logo {
+        margin-left: 10px;
     }
-    /* Small Devices, Tablets (iPad)*/
-    @media (max-width: 768px) {
-        #feed h1 {
-            font-size: 1.9em;
-            margin-bottom: 20px;
-        }
-        a .fa-close {
-            margin-top: 80px;
-            margin-right: 90px;
-        }
-        .row-margin {
-            margin-left: 0px;
-        }
-        #un-registered .btn-signup {
-            float: none;
-            width: 180px;
-            margin-left: 70px;
-        }
-        #un-registered .btn-continue {
-            width: 180px;
-            margin-top: 35px;
-            margin-right: 145px;
-        }
-        #feed #search{
-            margin-left: -5px;
-        }
-        #single-article .org{
-            font-size: 25px;
-        }
-        #single-article .author{
-            font-size: 20px;
-        }
-        #single-article .fa-bookmark-o,
-        #single-article .fa-bookmark,
-        #single-article .fa-share-alt,
-        #single-article .article-t{
-            font-size: 20px;
-        }
-    }
-    @media (max-width: 767px) {
-        #un-registered .btn-continue {
-            width: 40%;
-            margin-top: 35px;
-            margin-left: 30%;
-        }
-        #un-registered .btn-signup {
-            float: none;
-            width: 40%;
-            margin-left: 20%;
-        }
-        #feed .fa {
-            font-size: 25px;
-        }
-        .news, .time{
-            margin-top: 20px;
-        }
-        .news{
-            float: right;
-        }
-        #single-article .popover{
-            left: 220px!important;
-        }
-        #acc-details h4{
-            font-size: 24px;
-        }
-        #acc-details h5{
-            font-size: 17px;
-        }
-        #acc-details h6{
-            font-size: 15px;
-        }
-    }
-    @media (max-width: 568px) {
-        .fa-close:before {
-            font-size: 15px
-        }
-        .fa-close {
-            margin-top: 49px;
-            margin-right: 5px;
-        }
-         #single-article .popover {
-             left: 195px !important;
-         }
-         .avatar{
-             height: 80px;
-             width: 80px;
-         }
-    }
-    @media (max-width: 492px) {
-        #un-registered .btn-signup {
-            width: 60%;
-            margin-left: 20%;
-        }
-    }
-    /* Extra Small Devices, Phones */
-    @media (max-width: 480px) {
-        .row-margin {
-            margin-left: -10px;
-        }
-        footer {
-            text-align: center;
-            margin: 50px 0 0 0;
-        }
-        #un-registered .btn-signup {
-            width: 60%;
-            margin: 20% 5%;
-        }
-        #un-registered .btn-continue {
-            width: 60%;
-            margin: 20% 5%;
-        }
-        nav img {
-            width: 40px;
-            height: 40px;
-            margin: 30px -5px;
-            padding-right: 0px;
-        }
-        #articles .article-type {
-            width: 30px;
-            height: 35px;
-        }
-        .visible-article{
-            padding: 0;
-        }
-        .article-visibility .fa-trash-o,
-        .article-visibility .fa-pencil-square-o{
-            padding-left: 5px;
-        }
-        .article-visibility h3{
-            font-size: 15px;
-        }
-        #article-management.dropdown-menu{
-            margin: -10px 0 0 0px !important;
-        }
-        #article-management.dropdown-menu>li>a{
-            font-size: 20px;
-        }
-        .visible-article a i{
-            font-size: 25px !important;
-        }
-        .menu-icons .fa{
-            font-size:25px !important;
-        }
-         #single-article .org{
-            font-size: 20px;
-        }
-         #single-article .img-circle{
-           width: 40px;
-         }
-         #single-article .author{
-            font-size: 15px;
-        }
-         #single-article .popover {
-             left: 135px !important;
-         }
 
-         .dropdown-menu li a{
-            font-size: 15px !important;
-            padding-left: 12px !important;
-            margin-left: 0px !important;
-         }
+    #articles {
+        padding: 0px;
+    }
+
+    .video-icon {
+        margin-left: 40%;
+    }
+
+    footer {
+        margin-top: 200px;
+    }
+
+    .popover {
+        width: 400px;
+        margin-left: -180px;
+    }
+
+    .popover.bottom > .arrow {
+        margin-left: 170px;
+    }
+
+    .fa-close:before {
+        font-size: 15px
+    }
+
+    #single-article .popover {
+        left: 125px !important;
+    }
+
+    .box {
+        height: 50px;
+    }
+
+    .user-pic {
+        width: 40px;
+        height: 40px;
+    }
+
+    .user-name {
+        font-size: 20px;
+    }
+
+    .menu-icons .fa {
+        font-size: 30px !important;
+    }
+
+    .follow, .ask-to-join {
+        width: 150px;
+        height: 30px;
+    }
+
+    div.edit-acc-label {
+        padding-top: 15%;
+    }
+
+    .article-visibility i,
+    .bookmarks-list i.fa.fa-bookmark{
+
+        font-size: 22px;
 
     }
-    @media (max-width: 435px) {
-        #un-registered .btn-signup {
-            width: 80%;
-            margin: 42px;
-        }
+
+}
+
+/* Small Devices, Tablets (iPad)*/
+@media (max-width: 768px) {
+    #feed h1 {
+        font-size: 1.9em;
+        margin-bottom: 20px;
     }
-    @media (max-width: 415px) {
-        .intro {
-            padding-top: 0px;
-        }
-        #un-registered .btn-signup {
-            width: 80%;
-            margin: 20px 0px;
-        }
-        #un-registered .btn-continue {
-            width: 80%;
-            margin: 20px 30px;
-        }
-        footer {
-            margin-top: 150px;
-        }
-        .article-title {
-            font-size: 1.1em;
-        }
-        .icon {
-            margin: 0 20px 0 -20px;
-        }
-        .video-icon {
-            margin-left: 39%;
-        }
-        .fa-close {
-            width: 10px;
-            margin-top: -30px;
-            margin-right: -7px;
-        }
+
+    .row-margin {
+        margin-left: 0px;
     }
-    @media only screen and (max-width: 360px) {
-        #un-registered .btn-signup {
-            width: 80%;
-            margin: 20px 30px;
-        }
-        #un-registered .btn-continue {
-            width: 80%;
-            margin: 5px 30px 20px 30px;
-        }
-        ul {
-            margin-left: -40px;
-        }
-        nav img {
-            margin: 4px -5px;
-        }
-        #attach-type {
-            margin-right: 0px;
-        }
-        .news {
-            font-size: 15px !important;
-        }
-        #single-article .fa-bookmark-o,
-        #single-article .fa-bookmark,
-        #single-article .fa-comment-o,
-        #single-article .fa-tag,
-        #single-article .fa-share-alt {
-            font-size: 15px !important;
-        }
-        .comment {
-            font-size: 20px;
-        }
-        .profile-avatar {
-            width: 30px;
-            height: 30px;
-        }
-        .log-out {
-            font-size: 13px !important;
-        }
-        #single-article .fa-clock-o {
-            font-size: 14px;
-        }
-        .btn-previous, .btn-reply {
-            font-size: 15px;
-        }
-        #single-article .popover {
-            width: 200px;
-            left: 100px !important;
-        }
-        #single-article ul {
-            padding-left: 40px;
-        }
+
+    #un-registered .btn-signup {
+        float: none;
+        width: 180px;
+        margin-left: 70px;
     }
-    /* Custom, iPhone Retina */
-    @media (max-width: 320px) {
-        #sign-in {
-            display: none;
-        }
-        .fa-close:before {
-            font-size: 15px
-        }
-        .fa-close {
-            margin-top: 49px;
-            margin-right: 5px;
-        }
-        .fa-play {
-            font-size: 16px !important;
-        }
-        .fa{
-            font-size: 25px;
-        }
-        #feed h1 {
-            font-size: 2em;
-            margin-top: 100px;
-        }
-        #un-registered .btn-signup {
-            width: 200px;
-            text-align: center;
-            margin-left: -5%;
-        }
-        #un-registered .btn-continue {
-            width: 200px;
-            text-align: center;
-            margin-right: 12%;
-        }
-        nav img {
-            width: 40px;
-            height: 40px;
-            margin: 30px -5px;
-            padding-right: 0px;
-        }
-        #articles img {
-            width: 100%;
-            margin-left: 0;
-            margin-right: 0;
-        }
-        .learn-more, .about, .support {
-            padding: 0;
-        }
-        footer {
-            margin: 100px 0 0 0;
-            text-align: center;
-        }
-        ul {
-            margin-left: -55px;
-        }
-        .article-title {
-            font-size: 12px;
-        }
-        #articles .play-pause {
-            float: left;
-            width: 27px;
-            height: 27px;
-            margin-right: 3px;
-            margin-top: -55px;
-        }
-        .btn-previous, .btn-reply{
-            width: 100%;
-        }
-        .article-t{
-            font-size: 20px;
-        }
-        #single-article ul {
-            padding-left: 50px;
-        }
+
+    #un-registered .btn-continue {
+        width: 180px;
+        margin-top: 35px;
+        margin-right: 145px;
     }
+
+    #single-article .org {
+        font-size: 25px;
+    }
+
+    #single-article .author {
+        font-size: 20px;
+    }
+
+    #single-article .fa-bookmark-o,
+    #single-article .fa-bookmark,
+    #single-article .fa-share-alt,
+    #single-article .article-t {
+        font-size: 20px;
+    }
+
+    .menu-icons .fa-file-video-o,
+    .menu-icons .fa-file-text-o,
+    .menu-icons .fa-file-audio-o,
+    .menu-icons .fa-paperclip {
+        text-align: right;
+    }
+}
+
+@media (max-width: 767px) {
+    #un-registered .btn-continue {
+        width: 40%;
+        margin-top: 35px;
+        margin-left: 30%;
+    }
+
+    #un-registered .btn-signup {
+        float: none;
+        width: 40%;
+        margin-left: 20%;
+    }
+
+    .news, .time {
+        margin-top: 20px;
+    }
+
+    .news {
+        float: right;
+    }
+
+    #single-article .popover {
+        left: 220px !important;
+    }
+
+    .article-visibility i{
+        padding: 0px;
+    }
+
+    i.fa.fa-share-alt.share-org {
+        font-size: 14px !important;
+        top: -10px;
+    }
+}
+
+@media (max-width: 568px) {
+    .fa-close:before {
+        font-size: 15px
+    }
+
+    #single-article .popover {
+        left: 195px !important;
+    }
+
+    .avatar {
+        height: 80px;
+        width: 80px;
+    }
+
+    .administration-title {
+        font-size: 20px;
+    }
+
+    .people-following, .org-following {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 492px) {
+    #un-registered .btn-signup {
+        width: 60%;
+        margin-left: 20%;
+    }
+
+}
+
+/* Extra Small Devices, Phones */
+@media (max-width: 480px) {
+    .row-margin {
+        margin-left: -10px;
+    }
+
+    footer {
+        text-align: center;
+        margin: 50px 0 0 0;
+    }
+
+    #un-registered .btn-signup {
+        width: 60%;
+        margin: 20% 5%;
+    }
+
+    #un-registered .btn-continue {
+        width: 60%;
+        margin: 20% 5%;
+    }
+
+    nav img {
+        width: 40px;
+        height: 40px;
+        margin: 30px -5px;
+        padding-right: 0px;
+    }
+
+    #articles .article-type {
+        width: 30px;
+        height: 35px;
+    }
+
+    .article-date {
+        font-size: 12px;
+    }
+
+    .menu-icons .fa {
+        font-size: 25px !important;
+    }
+
+    #single-article .org {
+        font-size: 20px;
+    }
+
+    #single-article .img-circle {
+        width: 40px;
+    }
+
+    #single-article .author {
+        font-size: 15px;
+    }
+
+    #single-article .popover {
+        left: 135px !important;
+    }
+
+    .dropdown-menu li a {
+        font-size: 15px !important;
+        padding-left: 12px !important;
+        margin-left: 0px !important;
+    }
+
+    span.search-title, span.search-result-title {
+        font-size: 16px;
+    }
+
+    .search-img-item {
+        height: 30px;
+    }
+
+    .row.follow-list {
+        padding-left: 25px;
+    }
+
+}
+
+@media (max-width: 435px) {
+    #un-registered .btn-signup {
+        width: 80%;
+        margin: 42px;
+    }
+
+    .video-type {
+        margin-left: 25%;
+    }
+
+    .about-me-text {
+        font-size: 12px;
+    }
+
+    .contact-info {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 415px) {
+    .intro {
+        margin-top: -80px;
+    }
+
+    #un-registered .btn-signup {
+        width: 80%;
+        margin: 20px 0px;
+    }
+
+    #un-registered .btn-continue {
+        width: 80%;
+        margin: 20px 30px;
+    }
+
+    footer {
+        margin-top: 150px;
+    }
+
+    .article-title {
+        font-size: 1.1em;
+    }
+
+    .icon {
+        margin: 0 20px 0 -20px;
+    }
+
+    .video-icon {
+        margin-left: 39%;
+    }
+
+    .fa {
+        font-size: 25px;
+    }
+
+    .article-visibility i,
+    .bookmarks-list i.fa.fa-bookmark{
+        font-size: 20px;
+        padding-top: 17px;
+    }
+
+    span.search-title, span.search-result-title {
+        font-size: 14px;
+    }
+
+    .search-img-item {
+        height: 27px;
+    }
+
+    .profile-feed ul li a,
+    .profile-about ul li a,
+    .profile-archive ul li a,
+    .prof-search ul li a,
+    .org-feed ul li a,
+    .org-about ul li a,
+    .org-archive ul li a,
+    .org-search ul li a,
+    .org-article-management ul li a,
+    #article-management ul li a {
+        font-size: 14px !important;
+
+    }
+
+}
+
+@media only screen and (max-width: 360px) {
+    #un-registered .btn-signup {
+        width: 80%;
+        margin: 20px 30px;
+    }
+
+    #un-registered .btn-continue {
+        width: 80%;
+        margin: 5px 30px 20px 30px;
+    }
+
+    ul {
+        margin-left: -40px;
+    }
+
+    nav img {
+        margin: 4px -5px;
+    }
+
+    #attach-type {
+        margin-right: 0px;
+    }
+
+    .news {
+        font-size: 15px !important;
+    }
+
+    #single-article .fa-bookmark-o,
+    #single-article .fa-bookmark,
+    #single-article .fa-comment-o,
+    #single-article .fa-tag,
+    #single-article .fa-share-alt {
+        font-size: 15px !important;
+    }
+
+    .comment {
+        font-size: 20px;
+    }
+
+    .profile-avatar {
+        width: 30px;
+        height: 30px;
+    }
+
+    .log-out {
+        font-size: 13px !important;
+    }
+
+    #single-article .fa-clock-o {
+        font-size: 14px;
+    }
+
+    .btn-previous, .btn-reply {
+        font-size: 15px;
+    }
+
+    #single-article .popover {
+        width: 200px;
+        left: 100px !important;
+    }
+
+    #single-article ul {
+        padding-left: 40px;
+    }
+
+    div.acc-details-label {
+        font-size: 22px;
+    }
+
+    div.edit-acc-label {
+        font-size: 18px;
+    }
+}
+
+/* Custom, iPhone Retina */
+@media (max-width: 320px) {
+
+    .fa-close:before {
+        font-size: 15px
+    }
+
+    .fa-play {
+        font-size: 16px !important;
+    }
+
+    .fa {
+        font-size: 25px;
+    }
+
+    #feed h1 {
+        font-size: 2em;
+        margin-top: 100px;
+    }
+
+    #un-registered .btn-signup {
+        width: 200px;
+        text-align: center;
+        margin-left: -5%;
+    }
+
+    #un-registered .btn-continue {
+        width: 200px;
+        text-align: center;
+        margin-right: 12%;
+    }
+
+    nav img {
+        width: 40px;
+        height: 40px;
+        margin: 30px -5px;
+        padding-right: 0px;
+    }
+
+    #articles img {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .learn-more, .about, .support {
+        padding: 0;
+    }
+
+    footer {
+        margin: 100px 0 0 0;
+        text-align: center;
+    }
+
+    /*ul {*/
+    /*margin-left: -55px;*/
+    /*}*/
+    .article-title {
+        font-size: 12px;
+    }
+
+    #articles .play-pause {
+        float: left;
+        width: 27px;
+        height: 27px;
+        margin-right: 3px;
+        margin-top: -55px;
+    }
+
+    .btn-previous, .btn-reply {
+        width: 100%;
+    }
+
+    .article-t {
+        font-size: 20px;
+    }
+
+    #single-article ul {
+        padding-left: 50px;
+    }
+
+    button.btn.btn-google,
+    button.btn.btn-facebook {
+        font-size: 14px;
+    }
+
+    button.btn.btn-log-in-google,
+    button.btn.btn-log-in-facebook {
+        font-size: 12px;
+        padding: 0px;
+    }
+
+    .btn-log-in-facebook:before,
+    .btn-log-in-google:before {
+        padding-right: 10px;
+    }
+
+    a#sign-in {
+        display: none;
+    }
+
+    .popover {
+        max-width: 250px;
+    }
+
+    .article-date {
+        font-size: 10px;
+    }
+
+    .articles-title {
+        font-size: 15px;
+    }
+
+    .fa-pencil:before {
+        margin-left: 5px;
+    }
+}
