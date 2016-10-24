@@ -602,7 +602,7 @@ img.banner {
     width: 200px;
 }
 
-i#share-profile{
+i#share-profile {
     font-size: 20px !important;
     color: #fff !important;
     position: absolute;
@@ -754,8 +754,8 @@ i#share-profile{
     display: none;
 }
 
-.popover .arrow{
-    display:none;
+.popover .arrow {
+    display: none;
 }
 
 button.cancel.btn.btn-lg.btn-default {
@@ -923,7 +923,7 @@ span.search-result-title {
     color: #000;
 }
 
-.comment-text{
+.comment-text {
     margin: 5px 0px 10px 10px !important;
     font-weight: normal !important;
     font-size: 16px;
@@ -936,7 +936,7 @@ span.search-result-title {
     position: absolute;
 }
 
-.comments-list i.fa.fa-trash-o{
+.comments-list i.fa.fa-trash-o {
 
     padding-top: 10px;
 }
@@ -988,7 +988,7 @@ div.del-acc-label {
     padding-right: 0px;
 }
 
-.search-article-title{
+.search-article-title {
     font-weight: normal !important;
     font-size: 20px;
     margin-bottom: 20px;
