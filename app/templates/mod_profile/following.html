@@ -10,7 +10,7 @@
                     <li><a href="{{ url_for('main.feed') }}">Feed</a></li>
                     <li><a href="{{ url_for('article.my_articles', article_action='show') }}">Article
                                 management</a></li>
-                    <li><a href="#">Comments</a></li>
+                    <li><a href="{{ url_for('profile.comments', username=current_user.username) }}">Comments</a></li>
                     <li><a href="{{ url_for('profile.bookmarks', username=current_user.username) }}">Bookmarks</a></li>
                     <li><a href="{{ url_for('profile.following', username=profile.username) }}">Following</a></li>
                     <li><a href="{{ url_for('profile.profile_settings', username=profile.username) }}">Account
@@ -32,10 +32,29 @@
                     </div>
 
                 </div>
-                <div class="row" >
+                <div class="row">
                     <div class="col-md-10 col-md-offset-1 col-sm-11 col-sm-offset-1 col-xs-11 col-xs-offset-1">
                         <span class="org-following">Organizations({{ profile.org_following|length }})</span>
                     </div>
+                </div>
+
+                <div class="row follow-list">
+                    <div class="col-md-1 col-md-offset-1 col-sm-1 col-xs-1">
+                        <img src="{{ url_for('static', filename='img/prof3.png') }}"
+                             class="img-circle search-img-item">
+                    </div>
+                    <div class="col-md-5 col-sm-5 col-xs-5">
+                        {#                        <a href="{{ url_for ('organization.feed', organization_slug=org) }}"><span#}
+                        {#                                class="search-result-title">{{ get_org_name_by_username(org)['name'] }}</span></a>#}
+                    </div>
+                    <div class="col-md-2">
+                        <a class="administrator-button">Administrator</a>
+                    </div>
+                    {% if current_user.has_role('editor') or current_user.has_role('member') %}
+                        <div class="col-md-2">
+                            <a class="leave-org-button">Leave Org.</a>
+                        </div>
+                    {% endif %}
                 </div>
                 {% for org in profile.org_following %}
                     <div class="row follow-list">
@@ -46,6 +65,10 @@
                         <div class="col-md-6 col-sm-6 col-xs-6">
                             <a href="{{ url_for ('organization.feed', organization_slug=org) }}"><span
                                     class="search-result-title">{{ get_org_name_by_username(org)['name'] }}</span></a>
+                        </div>
+                        <div class="col-md-2 col-md-offset-1">
+                            <a class="unfollow"
+                               href="{{ url_for('profile.unfollow_organization', organization_slug=org) }}">Unfollow</a>
                         </div>
                     </div>
                 {% endfor %}
@@ -64,9 +87,53 @@
                             <a href="{{ url_for('profile.feed', username=user) }}"><span
                                     class="search-result-title">{{ get_user_name_last_name_by_username(user)['name'] }}, {{ get_user_name_last_name_by_username(user)['lastname'] }}</span></a>
                         </div>
+                        <div class="col-md-2 col-md-offset-1">
+                            <a class="unfollow"
+                               href="{{ url_for('profile.unfollow_people', username=user) }}">Unfollow</a>
+                        </div>
                     </div>
                 {% endfor %}
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            $('.unfollow').click(function (event) {
+                event.preventDefault();
+                var url = this.href;
+                swal({
+                            title: "Are you sure?",
+                            text: "You will not have this contact on your following list!",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: "Yes",
+                            confirmButtonColor: "#DD6B55",
+                            cancelButtonText: "Cancel",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        },
+
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                swal({
+                                    title: '',
+                                    text: 'Article is successfully deleted!',
+                                    type: 'success'
+                                }, function () {
+                                    window.location = url;
+
+                                });
+
+
+                            } else {
+                                swal("Cancelled", "You did not unfollow this user :)", "error");
+                            }
+                        });
+            });
+        });
+
+
+    </script>
 {% endblock body %}

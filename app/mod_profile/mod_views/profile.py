@@ -88,6 +88,7 @@ class Profile():
         resp = Response(status=200)
         return resp
 
+
     def paginated_author_articles(self, username, skip_posts_number, posts_per_page):
         # TODO: Restrict access to only authenticated users
         # get the profile object for the given username
@@ -117,8 +118,6 @@ class Profile():
             return render_template('mod_profile/account.html', profile=profile,
                                    error="Successfully updated your profile.")
 
-
-
     @login_required
     def following(self, username):
         # get the profile object for the given username
@@ -128,6 +127,22 @@ class Profile():
         return render_template('mod_profile/following.html', user_avatar=user_avatar, profile=profile,
                                get_user_name_last_name_by_username=get_user_name_last_name_by_username,
                                organization=organization, get_org_name_by_username=get_org_name_by_username)
+
+    def unfollow_people(self, username):
+
+        followee_username = current_user.username
+
+        user_mongo_utils.add_follower(followee_username, username, action="unfollow")
+
+        return redirect(url_for('profile.following', username=current_user.username))
+
+    def unfollow_organization(self, organization_slug):
+
+        follower_username = current_user.username
+
+        org_mongo_utils.add_follower(follower_username, organization_slug, action="unfollow")
+
+        return redirect(url_for('profile.following', username=current_user.username))
 
     @login_required
     def allowed_file(self, filename):
@@ -201,8 +216,6 @@ class Profile():
                 return render_template('mod_profile/account.html', profile=profile,
                                        errorP="This isn't your actual password")
 
-
-
     def bookmarks(self, username):
         profile = user_mongo_utils.get_user_by_username(username)
         bookmarks = bookmarks_mongo_utils.get_bookmark_list(username)
@@ -226,9 +239,11 @@ class Profile():
         remove_comment = comment_mongo_util.remove_comment(username, comment_id)
         return redirect(url_for('profile.comments', username=current_user.username))
 
+
 def user_avatar(username):
     avatar_url = user_mongo_utils.get_user_by_username(username)['avatar_url']
     return avatar_url
+
 
 def bookmarked_article_title(slug):
     article = bookmarks_mongo_utils.get_article_title(slug)
@@ -246,6 +261,3 @@ def get_user_name_last_name_by_username(username):
 
 def get_org_name_by_username(organization_slug):
     return org_mongo_utils.get_org_by_slug(organization_slug)
-
-
-
