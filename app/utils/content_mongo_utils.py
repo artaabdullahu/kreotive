@@ -27,6 +27,20 @@ class ContentMongoUtils(object):
 
         return articles
 
+    def get_articles_by_type(self, article_type, skips, limits):
+
+        articles = self.mongo.db[self.content_collection] \
+            .find({'visible': True, 'published': True, 'delete': False, "type": article_type}).sort([("_id", -1)]).limit(limits).skip(skips)
+
+        articles_dump = list(articles)
+
+        for article in articles_dump:
+            avatar_url = self.mongo.db[self.users_collection] \
+                .find_one({"username": article['username']})
+            if avatar_url:
+                article['avatar_url'] = avatar_url['avatar_url']
+        return articles_dump
+
     def get_org_articles(self, org_slug):
         """ Get articles from the database.
         :rtype: MongoDB Cursor with all the articles
@@ -42,6 +56,15 @@ class ContentMongoUtils(object):
         """
         articles = self.mongo.db[self.content_collection] \
             .find({'author.org_slug': org_slug, 'author.type': 'organization','published': True, 'delete': False}).sort([("_id", -1)])
+
+        return articles
+
+    def get_type_org_articles(self, org_slug, article_type):
+
+        articles = self.mongo.db[self.content_collection] \
+            .find(
+            {'author.org_slug': org_slug, 'author.type': 'organization', 'published': True, 'delete': False, 'type': article_type}).sort(
+            [("_id", -1)])
 
         return articles
 

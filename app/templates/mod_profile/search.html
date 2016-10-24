@@ -31,11 +31,12 @@
         {% include('mod_profile/profile_header.html') %}
 
         {% if current_user.is_authenticated %}
+    {% if current_user.username == profile.username %}
         <nav>
             <div class="row menu-icons">
                 <div class="col-md-1 col-md-offset-1 col-sm-1 col-sm-offset-0 col-xs-1 col-xs-offset-0 text-center">
                     <i class="fa fa-bars dropdown-toggle" data-toggle="dropdown"></i>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu" style="margin-left: 0px">
                         <li><a href="{{ url_for('main.feed') }}" class="active">Feed</a></li>
                         <li><a href="{{ url_for('article.my_articles', article_action='show') }}">Article
                                     management</a></li>
@@ -68,7 +69,6 @@
         </nav>
         {% else %}
         <nav>
-            <br><br>
             <div class="row menu-icons">
                 <div class="col-md-1 col-md-offset-1 col-sm-1 col-sm-offset-0 col-xs-1 col-xs-offset-0 text-center">
                     <a href="{{ url_for('profile.search', username=profile.username) }}" class="fa fa-search"
@@ -80,7 +80,8 @@
                 </div>
             </div>
         </nav>
-        {% endif %}
+           {% endif %}
+{% endif %}
 
         <br/><br/>
         {% for article in feed %}

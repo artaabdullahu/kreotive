@@ -20,6 +20,25 @@ def feed():
     return render_template('mod_feed/feed.html', articles=articles, all_articles=all_articles)
 
 
+@mod_main.route('/<string:article_type>', methods=['GET'])
+def feed_filter(article_type):
+
+    if article_type == "text":
+        articles_cursor = content_mongo_utils.get_articles_by_type(article_type="text", skips=0, limits=8)
+        all_articles = dumps(articles_cursor)
+    elif article_type == "video":
+        articles_cursor = content_mongo_utils.get_articles_by_type(article_type="video", skips=0, limits=8)
+        all_articles = dumps(articles_cursor)
+    elif article_type == "audio":
+        articles_cursor = content_mongo_utils.get_articles_by_type(article_type="audio", skips=0, limits=8)
+        all_articles = dumps(articles_cursor)
+    elif article_type == "attachment":
+        articles_cursor = content_mongo_utils.get_articles_by_type(article_type="attachment", skips=0, limits=8)
+        all_articles = dumps(articles_cursor)
+
+    return render_template('mod_feed/feed.html', all_articles=all_articles, article_type=article_type)
+
+
 @mod_main.route('/organizations/search', methods=['GET'])
 def search_organizations():
     ''' Renders the Search organizations page.

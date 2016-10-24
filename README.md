@@ -98,7 +98,11 @@ bash install.sh
 bash run-debug.sh
 ```
 
+### 3. Create Indexes for search fields
 
+db.organizations.createIndex({name:"text"})
+db.users.createIndex({name:"text", lastname:"text"})
+db.content.createIndex({title:"text", content:"text"})
 
 
 

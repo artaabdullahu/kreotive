@@ -23,15 +23,8 @@ def article(slug):
             organization = org_mongo_utils.get_org_by_slug(article['author']['org_slug'])
     else:
         article = None
-    return render_template('mod_article/article_single.html', is_bookmarked=is_bookmarked, user_avatar=user_avatar, article=article, profile=profile, organization=organization)
-
-
-
-@mod_article.route('/<user_id>/<organization_slug>')
-def organization_author_articles(user_id, organization_slug):
-    # TODO: Restrict access to only authenticated users
-    articles = org_mongo_utils.get_org_by_slug(organization_slug)
-    return render_template('mod_article/organization_article_management.html', articles=articles)
+    return render_template('mod_article/article_single.html', is_bookmarked=is_bookmarked, user_avatar=user_avatar,
+                           article=article, profile=profile, organization=organization)
 
 
 @mod_article.route('/articles/organization/<organization_slug>/<string:article_action>')
@@ -43,8 +36,6 @@ def organization_articles(organization_slug, article_action):
         message = "Your article has been published."
     elif article_action == "show":
         message = "Showing your latest articles"
-    elif article_action == 'delete':
-        message = "Article/s deleted."
 
     # TODO: Restrict access to only authenticated users
     organization = org_mongo_utils.get_org_by_slug(organization_slug)
@@ -52,6 +43,31 @@ def organization_articles(organization_slug, article_action):
     return render_template('mod_article/organization_article_management.html', organization=organization,
                            articles=articles, article_action=article_action,
                            message=message)
+
+
+@mod_article.route('/articles/organization/<organization_slug>/<string:article_action>/<string:article_type>')
+def organization_articles_type(organization_slug, article_action, article_type):
+    message = None
+    organization = org_mongo_utils.get_org_by_slug(organization_slug)
+
+    if article_type == "text":
+        articles = content_mongo_utils.get_type_org_articles(organization_slug, article_type="text")
+        message = "Showing organization text articles"
+    elif article_type == "video":
+        message = "Showing organization video articles"
+        articles = content_mongo_utils.get_type_org_articles(organization_slug, article_type="video")
+    elif article_type == "audio":
+        message = "Showing organization audio articles"
+        articles = content_mongo_utils.get_type_org_articles(organization_slug, article_type="audio")
+    elif article_type == "attachment":
+        message = "Showing organization attachment articles"
+        articles = content_mongo_utils.get_type_org_articles(organization_slug, article_type="attachment")
+
+    # TODO: Restrict access to only authenticated users
+
+    return render_template('mod_article/organization_article_management.html', organization=organization,
+                           articles=articles, article_action=article_action,
+                           message=message, article_type=article_type)
 
 
 @mod_article.route('/user/<username>')
@@ -75,7 +91,8 @@ def my_articles(article_action):
     # TODO: Restrict access to only authenticated users
     articles = content_mongo_utils.get_authors_articles(current_user.username)
     profile = user_mongo_utils.get_user_by_username(current_user.username)
-    return render_template('mod_article/article_management.html', profile=profile, articles=articles, article_action=article_action,
+    return render_template('mod_article/article_management.html', profile=profile, articles=articles,
+                           article_action=article_action,
                            message=message)
 
 
@@ -121,7 +138,7 @@ def new_article_from_author(form, username):
         "visible": publish_article,
         "category": category,
         "title": title,
-        "slug": slugify(title)+'-' + str(ObjectId()),
+        "slug": slugify(title) + '-' + str(ObjectId()),
         "type": type,
         "username": current_user.username,
         "published": publish_article,
@@ -161,7 +178,7 @@ def new_article_from_org(form, username, organization):
         "visible": publish_article,
         "category": category,
         "title": title,
-        "slug": slugify(title)+'-' + str(ObjectId()),
+        "slug": slugify(title) + '-' + str(ObjectId()),
         "type": type,
         "username": current_user.username,
         "published": publish_article,
@@ -234,6 +251,7 @@ def bookmark_article():
 
     return redirect(url_for('article.article', username=request.form['username'], slug=request.form['slug']))
 
+
 def user_avatar(username):
     avatar_url = user_mongo_utils.get_user_by_username(username).avatar_url
     return avatar_url
@@ -243,5 +261,5 @@ def user_avatar(username):
 def remove_bookmark():
     remove_bookmark = bookmarks_mongo_utils.remove_bookmark(request.form['username'], request.form['slug'])
 
-    return redirect(url_for('article.article', username=request.form['username'], slug=request.form['slug'], remove_bookmark=remove_bookmark))
-
+    return redirect(url_for('article.article', username=request.form['username'], slug=request.form['slug'],
+                            remove_bookmark=remove_bookmark))

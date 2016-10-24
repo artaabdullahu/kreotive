@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
-<script type="text/javascript" src="{{ url_for('static', filename='js/on_scroll.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/on_scroll.js') }}"></script>
     <div class="profile-feed">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
@@ -24,7 +24,7 @@
             <img class="col-md-offset-5 col-sm-offset-5 col-xs-offset-5"
                  src="{{ url_for('static', filename='img/loading.gif') }}"/>
         </div>
-    </div>
+
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -80,35 +80,13 @@
         function feedTheFeed(article, idx) {
             var article_slug = "{{ url_for('article.article',slug='article_slug')}}";
             var article_slug_url = article_slug.replace('article_slug', article['slug']);
-            var type = getArticleTypeClass(article.type);
             var divHTML = '' +
                     '<div class="article" style="padding: 3px;">' +
                     '<a href="' + article_slug_url + '">' +
                     '<h3 class="article-title">' + article['title'] + '</h3>' +
                     '</a>' +
-                    '<i class="' + type + '" aria-hidden="true"></i>' +
                     '</div>';
             $('.latest').append(divHTML);
-        }
-        function getArticleTypeClass(idx) {
-            var style = '';
-            switch (idx) {
-                case 'text':
-                    style = 'fa fa-file-text-o text article-type';
-                    break;
-                case 'video':
-                    style = 'fa fa-file-video-o video article-type';
-                    break;
-                case 'audio':
-                    style = 'fa fa-file-audio-o audio article-type';
-                    break;
-                case 'attachment':
-                    style = 'fa fa-paperclip attachment article-type';
-                    break;
-                default:
-                    style = 'fa file-text-o article-type';
-            }
-            return style;
         }
 
         function addTileColors() {
@@ -123,4 +101,5 @@
 
         }
     </script>
+</div>
 {% endblock body %}

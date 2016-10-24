@@ -25,13 +25,97 @@
 
         <!-- Banner part at Feed/About/Article Pages-->
         {% include('mod_organization/org_header.html') %}
-
         {% if current_user.is_authenticated %}
-            {% include('mod_organization/org_menu.html') %}
+            <nav id="nav-bar1">
+                <div class="row menu-icons">
+                    <div class="col-md-1 col-md-offset-1 col-sm-1 col-sm-offset-0 col-xs-1 col-xs-offset-0 text-center">
+                        <i class="fa fa-bars dropdown-toggle" data-toggle="dropdown"></i>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ url_for('main.feed') }}" class="active">Feed</a></li>
+                            <li><a href="{{ url_for('article.my_articles', article_action='show') }}">Article
+                                    management</a></li>
+                            <li><a href="{{ url_for('profile.comments', username=current_user.username) }}">Comments</a>
+                            </li>
+                            <li>
+                                <a href="{{ url_for('profile.bookmarks', username=current_user.username) }}">Bookmarks</a>
+                            </li>
+                            <li>
+                                <a href="{{ url_for('profile.following', username=current_user.username) }}">Following</a>
+                            </li>
+                            <li><a href="{{ url_for('profile.profile_settings', username=current_user.username) }}">Account
+                                    details</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-1 col-sm-1 col-sm-offset-0 col-xs-1 col-xs-offset-0 text-center">
+                        <a href="{{ url_for('article.new_article', author_type='individual', name=current_user.name , username=current_user.username) }}"
+                           class="fa fa-pencil"></a>
+                    </div>
+                    <div class="col-md-1 col-sm-1 col-sm-offset-0 col-xs-1 col-xs-offset-0 text-center">
+                        <a href="{{ url_for('main.search_organizations') }}" class="fa fa-search " aria-hidden="true"
+                           id="search1"></a>
+                    </div>
+                    <div class="col-md-3 col-sm-4 col-xs-4">
+                        <input type="text" id="search-article" class="search-field" placeholder="Search for articles"/>
+                    </div>
+                    <div id="filter" class="nav-article-type">
+                        <div class="col-md-1 col-sm-1 col-xs-1 text-center video-type">
+                            <a href="" class="fa fa-file-video-o" aria-hidden="true" id="video-type1"
+                               data-toggle="tooltip" title="Filter by video" data-category="video"></a>
+                        </div>
+                        <div class="col-md-1 col-sm-1 col-xs-1 text-center">
+                            <a href="" class="fa fa-file-audio-o" aria-hidden="true" id="audio-type1"
+                               data-toggle="tooltip" title="Filter by audio" data-category="audio"></a>
+                        </div>
+                        <div class="col-md-1 col-sm-1 col-xs-1 text-center">
+                            <a href="" class="fa fa-file-text-o" aria-hidden="true" id="text-type1"
+                               data-toggle="tooltip" title="Filter by text" data-category="text"></a>
+                        </div>
+
+                        <div class="col-md-1 col-sm-1 col-xs-1 text-center">
+                            <a href="" class="fa fa-paperclip" aria-hidden="true" id="attach-type1"
+                               data-toggle="tooltip" title="Filter by attachment" data-category="attachment"></a>
+                        </div>
+                    </div>
+
+                </div>
+            </nav>
+        {% else %}
+            <nav id="nav-bar">
+                <br><br>
+                <div class="row menu-icons">
+                    <div class="col-md-1 col-md-offset-1 col-sm-1 col-sm-offset-0 col-xs-1 col-xs-offset-0 text-center">
+                        <a href="{{ url_for('main.search_organizations') }}" class="fa fa-search" aria-hidden="true"
+                           id="search"></a>
+                    </div>
+                    <div class="col-md-5 col-sm-6 col-xs-6">
+                        <input type="text" id="search-article" class="search-field" placeholder="Search for articles"/>
+                    </div>
+                    <div id="filter" class="nav-article-type">
+                        <div class="col-md-1 col-sm-1 col-xs-1 text-center">
+                            <a href="" class="fa fa-file-video-o " aria-hidden="true" id="video-type"
+                               data-toggle="tooltip" title="Filter by video" data-category="video"></a>
+                        </div>
+
+                        <div class="col-md-1 col-sm-1 col-xs-1 text-center">
+                            <a href="" class="fa fa-file-audio-o " aria-hidden="true" id="audio-type"
+                               data-toggle="tooltip" title="Filter by audio" data-category="audio"></a>
+                        </div>
+
+                        <div class="col-md-1 col-sm-1 col-xs-1 text-center">
+                            <a href="" class="fa fa-file-text-o " aria-hidden="true" id="text-type"
+                               data-toggle="tooltip" title="Filter by text" data-category="text"></a>
+                        </div>
+                        <div class="col-md-1 col-sm-1 col-xs-1 text-center">
+                            <a href="" class="fa fa-paperclip  " aria-hidden="true" id="attach-type"
+                               data-toggle="tooltip" title="Filter by attachment" data-category="attachment"></a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
         {% endif %}
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
-                <ul>
+                <ul style="list-style: none;">
                     <li class="col-md-6 text-center"><a href="#tabs-1" class="tab-1">Articles</a></li>
 
                     <li class="col-md-6 text-center"><a href="#tabs-2" class="tab-2">Authors</a></li>
@@ -46,7 +130,8 @@
                         <img src="{{ url_for('static', filename='img/prof3.png') }}" class="img-circle search-img-item">
                     </div>
                     <div class="col-md-6">
-                        <a href="{{ url_for('article.article', slug = article.slug) }}"><h4 class="search-result-title">{{ article.title }}</h4></a>
+                        <a href="{{ url_for('article.article', slug = article.slug) }}"><h4
+                                class="search-result-title">{{ article.title }}</h4></a>
                     </div>
                 </div>
             {% endfor %}
@@ -59,7 +144,8 @@
                         <img src="{{ url_for('static', filename='img/prof3.png') }}" class="img-circle search-img-item">
                     </div>
                     <div class="col-md-6">
-                        <a href="{{ url_for('profile.feed', username=user.username) }}"><h4 class="search-result-title">{{ user.name }}, {{ user.lastname }}</h4></a>
+                        <a href="{{ url_for('profile.feed', username=user.username) }}"><h4
+                                class="search-result-title">{{ user.name }}, {{ user.lastname }}</h4></a>
                     </div>
                 </div>
             {% endfor %}
@@ -69,7 +155,7 @@
     <script>
         $(document).ready(function () {
 
-            $(".nav-article-type, #people-found").css("display","none");
+            $(".nav-article-type, #people-found").css("display", "none");
 
             $(".tab-2").click(function () {
                 $(".nav-article-type, #Articles-found").hide();

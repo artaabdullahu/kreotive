@@ -2,25 +2,9 @@
 {% block body %}
     <div class="org-feed">
 
-
-        <div class="row org-menu">
-            <div class="col-md-10 col-md-offset-1">
-                <ul>
-                    <li><a href="{{ url_for ('organization.feed', organization_slug=organization.org_slug) }}"
-                           class="active">Feed</a></li>
-                    <li><a href="{{ url_for ('organization.about', organization_slug=organization.org_slug) }}">About
-                        us</a></li>
-                    <li>
-                        <a href="{{ url_for ('organization.archive', organization_slug=organization.org_slug) }}">All
-                            articles</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        {% include('mod_organization/org_header.html') %}
-
         {% if current_user.has_role('org_admin') or current_user.has_role('org_editor') %}
             <div class="row menu-icons">
+                <br/><br/><br/>
                 <div class="col-md-1 col-md-offset-1 col-sm-1 col-sm-offset-0 col-xs-1 col-xs-offset-0 text-center">
                     <i class="fa fa-bars dropdown-toggle "
                        data-toggle="dropdown" role="menu" style="color: #000"></i>

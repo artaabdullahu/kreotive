@@ -4,19 +4,34 @@
     <script type="text/javascript" src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"></script>
 
     <script>
-        $( function() {
-        var categories = [
-          "Politics",
-          "How-to's",
-          "Sports",
-          "Humour",
-          "Organisation News",
-          "Local News",
-        ];
-        $( "#categories" ).autocomplete({
-          source: categories
+        $(function () {
+            var categories = [
+                "Politics",
+                "How-to's",
+                "Sports",
+                "Humour",
+                "Organisation News",
+                "Local News",
+            ];
+            $("#categories").autocomplete({
+                source: categories
+            });
         });
-      } );
+
+
+        jQuery.validator.setDefaults({
+            debug: true,
+            success: "valid"
+        });
+        $("#write-article").validate({
+            rules: {
+                title: {
+                    required: true,
+                    maxlength: 4
+                }
+            }
+        });
+
     </script>
 
 
@@ -24,7 +39,7 @@
 
         <div class="row">
             <div class="col-md-10">
-                <form method="post" action="">
+                <form method="post" action="" id="write-article">
 
 
                     <div class="row">
@@ -45,11 +60,13 @@
                                     </li>
                                     <li><a href="#">Comments</a></li>
                                     <li><a href="#">Bookmarks</a></li>
-                                    <li><a href="{{ url_for('profile.following', username=current_user.username) }}">Following</a></li>
+                                    <li>
+                                        <a href="{{ url_for('profile.following', username=current_user.username) }}">Following</a>
+                                    </li>
                                     <li>
                                         <a href="{{ url_for('profile.profile_settings', username=current_user.username) }}">Account Details</a>
                                     </li>
-                                     {% if current_user.has_role('org_admin')%}
+                                    {% if current_user.has_role('org_admin') %}
                                         {% include ('mod_organization/org_administration.html') %}
                                     {% endif %}
                                 </ul>
@@ -76,12 +93,12 @@
                     <div class="row">
                         <div class="col-md-9 col-md-offset-2">
                             <label class="category-label">Category</label>
-                            <input name="category" id="categories" required ><br/>
+                            <input name="category" id="categories" required><br/>
                         </div>
 
                         <div class="col-md-1" style="padding-top: 30px;">
                             <label>
-                                <input type="checkbox" id="post-privacy" name="post-privacy" />
+                                <input type="checkbox" id="post-privacy" name="post-privacy"/>
                             </label>
                         </div>
                     </div>

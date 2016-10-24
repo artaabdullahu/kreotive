@@ -1,22 +1,9 @@
 {% extends "layout.html" %}
 {% block body %}
     <div class="following profile-feed">
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <ul>
-                    <li><a href="{{ url_for ('profile.feed', username =profile.username ) }}" class="active">Feed</a>
-                    </li>
-                    <li><a href="{{ url_for ('profile.about', username =profile.username ) }}">About me</a></li>
-                    <li><a href="{{ url_for ('profile.archive', username =profile.username ) }}">All articles</a></li>
-                </ul>
-            </div>
-        </div>
 
-
-        <!-- Banner part at Feed/About/Article Pages-->
-
-        {% include('mod_profile/profile_header.html') %}
         <div class="row menu-icons">
+            <br/><br/><br/>
             <div class="col-md-1 col-md-offset-1 col-sm-1 col-xs-1 text-center">
                 <i class="fa fa-bars dropdown-toggle" data-toggle="dropdown"></i>
                 <ul class="dropdown-menu" style="margin-left: 10px;">

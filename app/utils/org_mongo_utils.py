@@ -69,7 +69,7 @@ class OrgMongoUtils(object):
 
             added_follower_to_current_user = self.mongo.db[self.org_collection].update(
                 {"org_slug": organization_slug},
-                {"$pull": {"organizations.followers": follower_username}}
+                {"$pull": {"followers": follower_username}}
             )
 
             added_followee_to_the_user_ = self.mongo.db[self.users_collection].update(

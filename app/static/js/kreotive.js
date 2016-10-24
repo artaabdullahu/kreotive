@@ -16,6 +16,13 @@
          }
      });
 
+     $("#share-profile").popover({
+         html: true,
+         placement: "top",
+         content: function () {
+             return $("#share-individual-profile").html();
+         }
+     });
 
  });
 

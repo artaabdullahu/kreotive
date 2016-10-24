@@ -164,24 +164,26 @@ input[type=checkbox] {
 /*Footer style*/
 
 footer {
-    background-color: #ebebeb;
-    bottom: 0;
-    padding: 50px 50px 200px 50px;
-    margin: 50px 10px 0px;
+    background-color: #ebebeb !important;
+    bottom: 0 !important;
+    padding: 50px 50px 200px 50px !important;
+    margin: 50px 10px 0px !important;
 }
 
 footer ul li a h6 {
-    color: #a39999;
-    font-size: 1.1em;
-    font-family: 'Source Sans Pro', sans-serif;
+    color: #a39999 !important;
+    font-size: 1.1em !important;
+    font-family: 'Source Sans Pro', sans-serif !important;
+    margin-top: 0 !important;
+    margin-bottom: 10px !important;
 }
 
 footer ul li {
-    list-style-type: none;
+    list-style-type: none !important;
 }
 
 footer a:hover {
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 /*Feed page*/
@@ -600,6 +602,13 @@ img.banner {
     width: 200px;
 }
 
+i#share-profile{
+    font-size: 20px !important;
+    color: #fff !important;
+    position: absolute;
+    right: 20px;
+}
+
 .comment-field {
     width: 100%;
     border: 1px solid #dedede;
@@ -743,6 +752,10 @@ img.banner {
 
 #single-article .popover .arrow {
     display: none;
+}
+
+.popover .arrow{
+    display:none;
 }
 
 button.cancel.btn.btn-lg.btn-default {
@@ -938,7 +951,6 @@ span.search-result-title {
     font-size: 30px;
     font-weight: bold;
     padding-bottom: 20px;
-    padding-left: 18px;
 }
 
 .nopadding {
