@@ -106,7 +106,8 @@ def new_article(author_type, username):
     if author_type == 'organization':
         organization = org_mongo_utils.get_org_by_slug(username)
     if request.method == "GET":
-        return render_template('mod_article/write_article.html', organization=organization)
+        categories = dumps(content_mongo_utils.get_articles_categories())
+        return render_template('mod_article/write_article.html', categories=categories, organization=organization)
     elif request.method == "POST":
 
         if author_type == "individual":

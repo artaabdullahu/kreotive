@@ -5,25 +5,11 @@
 
     <script>
         $(function () {
-            var categories = [
-                "Politics",
-                "How-to's",
-                "Sports",
-                "Humour",
-                "Organisation News",
-                "Local News",
-            ];
+            var categories = {{ categories|safe }};
+
             $("#categories").autocomplete({
                 source: categories
             });
-        });
-        $("#write-article").validate({
-            rules: {
-                title: {
-                    required: true,
-                    maxlength: 4
-                }
-            }
         });
 
     </script>
@@ -53,8 +39,8 @@
                                         <a href="{{ url_for('article.my_articles', article_action='show') }}">Article
                                             management</a>
                                     </li>
-                                    <li><a href="#">Comments</a></li>
-                                    <li><a href="#">Bookmarks</a></li>
+                                    <li><a href="{{ url_for('profile.comments', username=current_user.username) }}">Comments</a></li>
+                                    <li><a href="{{ url_for('profile.bookmarks', username=current_user.username) }}">Bookmarks</a></li>
                                     <li>
                                         <a href="{{ url_for('profile.following', username=current_user.username) }}">Following</a>
                                     </li>
@@ -69,7 +55,7 @@
                             </div>
                         </div>
                         <div class="col-md-10">
-                       <textarea name="content" id="text_editor">
+                       <textarea name="content" id="text_editor" maxlength="20000">
 
                       </textarea>
                         </div>
@@ -91,12 +77,13 @@
                             <label class="category-label">Category</label>
                             <input name="category" id="categories" required><br/>
                         </div>
-
+                        {% if current_user.has_role ('administrator') or current_user.has_role ('editor') or current_user.has_role ('member') %}
                         <div class="col-md-1" style="padding-top: 30px;">
                             <label>
                                 <input type="checkbox" id="post-privacy" name="post-privacy"/>
                             </label>
                         </div>
+                        {% endif %}
                     </div>
                     <br/>
                     <div class="row">
