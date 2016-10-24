@@ -60,22 +60,21 @@ mod_profile.add_url_rule(
     methods=['GET', 'POST'],
     view_func=profile.profile_settings)
 
-# # Articles of a profile/author
-# mod_profile.add_url_rule(
-#     '/<string:username>/articles',
-#     methods=['GET', 'POST'],
-#     view_func=profile.articles)
-#
-# #Profile articles
-# mod_profile.add_url_rule(
-#     '/<string:username>/articles',
-#     methods=['GET'],
-#     view_func=profile.articles)
-
 mod_profile.add_url_rule(
     '/<string:username>/following',
     methods=["GET"],
     view_func=profile.following)
+
+
+mod_profile.add_url_rule(
+    '/following/<string:username>/unfollow',
+    methods=["POST", "GET"],
+    view_func=profile.unfollow_people)
+
+mod_profile.add_url_rule(
+    '/following/<string:organization_slug>/unfollow',
+    methods=["POST", "GET"],
+    view_func=profile.unfollow_organization)
 
 mod_profile.add_url_rule(
     '/upload',

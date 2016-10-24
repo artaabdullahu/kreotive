@@ -953,6 +953,26 @@ span.search-result-title {
     padding-bottom: 20px;
 }
 
+a.unfollow {
+    border: 1px solid #000;
+    padding: 7px 40px;
+    background: transparent;
+
+}
+
+a.leave-org-button {
+    border: 1px solid #000;
+    padding: 8px 33px;
+    background: transparent;
+
+}
+
+a.administrator-button{
+    background-color: rgb(194, 47, 47);
+    color: #fff !important;
+    padding: 10px 26px;
+}
+
 .nopadding {
 
     padding: 0 !important;
