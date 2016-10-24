@@ -4,19 +4,19 @@
     <script type="text/javascript" src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"></script>
 
     <script>
-        $( function() {
-        var categories = [
-          "Politics",
-          "How-to's",
-          "Sports",
-          "Humour",
-          "Organisation News",
-          "Local News",
-        ];
-        $( "#categories" ).autocomplete({
-          source: categories
+        $(function () {
+            var categories = [
+                "Politics",
+                "How-to's",
+                "Sports",
+                "Humour",
+                "Organisation News",
+                "Local News",
+            ];
+            $("#categories").autocomplete({
+                source: categories
+            });
         });
-      } );
     </script>
 
 
@@ -41,22 +41,25 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="{{ url_for('main.feed') }}">Feed</a></li>
                                     <li>
-                                        <a href="{{ url_for('article.my_articles', article_action='show') }}">Article management</a>
+                                        <a href="{{ url_for('article.my_articles', article_action='show') }}">Article
+                                            management</a>
                                     </li>
                                     <li><a href="#">Comments</a></li>
                                     <li><a href="#">Bookmarks</a></li>
-                                    <li><a href="{{ url_for('profile.following', username=current_user.username) }}">Following</a></li>
-                                    <li>
-                                        <a href="{{ url_for('profile.profile_settings', username=current_user.username) }}">Account Details</a>
+                                    <li><a href="{{ url_for('profile.following', username=current_user.username) }}">Following</a>
                                     </li>
-                                     {% if current_user.has_role('org_admin')%}
+                                    <li>
+                                        <a href="{{ url_for('profile.profile_settings', username=current_user.username) }}">Account
+                                            Details</a>
+                                    </li>
+                                    {% if current_user.has_role('org_admin') %}
                                         {% include ('mod_organization/org_administration.html') %}
                                     {% endif %}
                                 </ul>
                             </div>
                         </div>
                         <div class="col-md-10">
-                       <textarea name="content" id="text-editor">
+                       <textarea name="content" id="text_editor">
 
                       </textarea>
                         </div>
@@ -76,12 +79,12 @@
                     <div class="row">
                         <div class="col-md-9 col-md-offset-2">
                             <label class="category-label">Category</label>
-                            <input name="category" id="categories" required ><br/>
+                            <input name="category" id="categories" required><br/>
                         </div>
 
                         <div class="col-md-1" style="padding-top: 30px;">
                             <label>
-                                <input type="checkbox" id="post-privacy" name="post-privacy" />
+                                <input type="checkbox" id="post-privacy" name="post-privacy"/>
                             </label>
                         </div>
                     </div>
@@ -116,28 +119,22 @@
         </div>
 
     </div>
-    {% if current_user.has_role('org_admin') %}
-        <script>
-            CKEDITOR.replace('text-editor',
-                    {
-                        toolbar: [
-                            ['FontSize', 'Bold', 'Italic', 'Underline', 'Strike', 'BulletedList', 'NumberedList', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'Image', 'Link', 'Video', 'Audio', 'Attachment'],
-                        ],
-                        width: 800,
-                        height: 400
-                    });
-        </script>
-    {% else %}
-        <script>
-            CKEDITOR.replace('text-editor',
-                    {
-                        toolbar: [
-                            ['FontSize', 'Bold', 'Italic', 'Underline', 'Strike', 'BulletedList', 'NumberedList', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'Image', 'Link', 'Video', 'Audio', 'Attachment'],
-                        ],
-                        width: 800,
-                        height: 400
-                    });
-        </script>
-    {% endif %}
+    <script>
+        CKEDITOR.replace('text_editor', {
+            toolbar: [
+                ['ajaxsave'],
+                ['Bold', 'FontSize', 'Italic', 'Underline', 'Strike', 'BulletedList', 'NumberedList', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'Image', 'Link'],
+                [ 'Attachments', 'AudioAttachments', 'VideoAttachments']
+            ],
+            width: 800,
+            height: 400,
+            filebrowserUploadUrl: '{{ url_for("article.new_article",author_type='file', username=current_user.username) }}',
+            filebrowserBrowseUrl: '{{ url_for("article.new_article",author_type='file', username=current_user.username) }}',
+            filebrowserImageBrowseUrl: '{{ url_for("article.new_article",author_type='file', username=current_user.username) }}',
+            filebrowserImageUploadUrl: '{{ url_for("article.new_article",author_type='file', username=current_user.username) }}'
+        });
+
+
+    </script>
 
 {% endblock %}

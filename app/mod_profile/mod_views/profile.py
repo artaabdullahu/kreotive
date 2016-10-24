@@ -9,8 +9,6 @@ import os
 from datetime import datetime
 import app
 
-UPLOAD_FOLDER = 'app/static/uploads/'
-
 
 class Profile():
     def archive(self, username):

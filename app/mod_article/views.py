@@ -1,13 +1,17 @@
 from flask import Blueprint, render_template, request, Response, redirect, url_for
-from app import content_mongo_utils, profile_mongo_utils, org_mongo_utils, user_mongo_utils, bookmarks_mongo_utils
+from app import content_mongo_utils, upload_folder, profile_mongo_utils, org_mongo_utils, user_mongo_utils, bookmarks_mongo_utils
 from flask.ext.security import current_user
 from slugify import slugify
 from datetime import datetime
 from bson.json_util import dumps
 from bson.objectid import ObjectId
+from werkzeug.utils import secure_filename
+import uuid
+import os
 
 mod_article = Blueprint('article', __name__, url_prefix='/article')
 
+UPLOAD_FOLDER = 'app/static/uploads/'
 
 @mod_article.route('/<slug>', methods=['GET'])
 def article(slug):
@@ -83,20 +87,42 @@ def new_article(author_type, username):
     organization = None
     if author_type == 'organization':
         organization = org_mongo_utils.get_org_by_slug(username)
-
     if request.method == "GET":
-
         return render_template('mod_article/write_article.html', organization=organization)
     elif request.method == "POST":
-        form = request.form
+
         if author_type == "individual":
+            form = request.form
             new_article_from_author(form, username)
             return redirect(url_for('article.my_articles', article_action='show'))
+
         if author_type == "organization":
+            form = request.form
             new_article_from_org(form, username, organization)
             return redirect(url_for('article.organization_articles', organization_slug=organization['org_slug'],
                                     article_action='show'))
+        else:
+            url = upload_attachment()
+            return url
 
+def upload_attachment():
+    file = None
+    print request.files
+    if 'attachment' in request.files:
+        file = request.files['attachment']
+    elif 'upload' in request.files:
+        file = request.files['upload']
+    elif 'audio' in request.files:
+        file = request.files['audio']
+    filename = secure_filename(str(uuid.uuid4()).split('-')[0]+ '-' + file.filename)
+    directory = str(upload_folder) + str(current_user.username) + '/' + str(
+        datetime.now().strftime('%Y-%m'))
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    file.save(os.path.join(directory, filename))
+    file_url = 'uploads/' + str(current_user.username) + '/' + str(
+        datetime.now().strftime('%Y-%m')) + "/" + filename
+    return file_url
 
 def new_article_from_author(form, username):
     action = form['action']
