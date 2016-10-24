@@ -22,7 +22,7 @@ def feed():
 
 @mod_main.route('/<string:article_type>', methods=['GET'])
 def feed_filter(article_type):
-    all_articles = None
+    articles = None
     if article_type == "text":
         articles_cursor = content_mongo_utils.get_articles_by_type(article_type="text", skips=0, limits=8)
         articles = dumps(articles_cursor)
