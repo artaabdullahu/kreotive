@@ -72,7 +72,7 @@ mod_profile.add_url_rule(
     view_func=profile.unfollow_people)
 
 mod_profile.add_url_rule(
-    '/following/<string:organization_slug>/unfollow',
+    '/following/org/<string:organization_slug>/unfollow',
     methods=["POST", "GET"],
     view_func=profile.unfollow_organization)
 
