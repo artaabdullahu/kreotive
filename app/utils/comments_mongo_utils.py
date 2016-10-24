@@ -24,7 +24,7 @@ class CommentsMongoUtils(object):
             "lastname": last_name,
             "slug": slug,
             "text": text,
-            "date": datetime.now()
+            "date": datetime.utcnow()
         }
         comment_id = self.mongo.db[self.comments_collection] \
             .insert(comment)
@@ -42,7 +42,7 @@ class CommentsMongoUtils(object):
             "slug": slug,
             "text": text,
             "reply_of": ObjectId(reply_of),
-            "date": datetime.now()
+            "date": datetime.utcnow()
         }
         comment_id = self.mongo.db[self.comments_collection] \
             .insert(comment)
