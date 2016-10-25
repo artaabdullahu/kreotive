@@ -26,9 +26,10 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'about' }
 	];
 
-	config.extraPlugins = 'attach,attach_audio,autogrow,attach_video';
+	config.extraPlugins = 'attach,attach_audio,autogrow,attach_video,scayt,wsc,maxlength';
 	config.extraAllowedContent = 'video(*)[src, controls]{*};audio(*)[src, controls]{*}';
 	config.removePlugins = 'resize';
+
 	// Remove some buttons provided by the standard plugins, which are
 	// not needed in the Standard(s) toolbar.
 	config.removeButtons = 'Subscript,Superscript';

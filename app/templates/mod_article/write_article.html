@@ -5,25 +5,11 @@
 
     <script>
         $(function () {
-            var categories = [
-                "Politics",
-                "How-to's",
-                "Sports",
-                "Humour",
-                "Organisation News",
-                "Local News",
-            ];
+            var categories = {{ categories|safe }};
+
             $("#categories").autocomplete({
                 source: categories
             });
-        });
-        $("#write-article").validate({
-            rules: {
-                title: {
-                    required: true,
-                    maxlength: 4
-                }
-            }
         });
 
     </script>
@@ -38,7 +24,7 @@
 
                     <div class="row">
                         <div class="col-md-12 col-md-offset-1">
-                            <input class="form-control title" name="title" placeholder="Title">
+                            <input class="form-control title" name="title" placeholder="Title" maxlength="70" required>
                         </div>
                     </div>
 
@@ -53,8 +39,12 @@
                                         <a href="{{ url_for('article.my_articles', article_action='show') }}">Article
                                             management</a>
                                     </li>
-                                    <li><a href="#">Comments</a></li>
-                                    <li><a href="#">Bookmarks</a></li>
+                                    <li>
+                                        <a href="{{ url_for('profile.comments', username=current_user.username) }}">Comments</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url_for('profile.bookmarks', username=current_user.username) }}">Bookmarks</a>
+                                    </li>
                                     <li>
                                         <a href="{{ url_for('profile.following', username=current_user.username) }}">Following</a>
                                     </li>
@@ -91,12 +81,13 @@
                             <label class="category-label">Category</label>
                             <input name="category" id="categories" required><br/>
                         </div>
-
-                        <div class="col-md-1" style="padding-top: 30px;">
-                            <label>
-                                <input type="checkbox" id="post-privacy" name="post-privacy"/>
-                            </label>
-                        </div>
+                        {% if current_user.has_role ('administrator') or current_user.has_role ('editor') or current_user.has_role ('member') %}
+                            <div class="col-md-1" style="padding-top: 30px;">
+                                <label>
+                                    <input type="checkbox" id="post-privacy" name="post-privacy"/>
+                                </label>
+                            </div>
+                        {% endif %}
                     </div>
                     <br/>
                     <div class="row">
@@ -134,7 +125,7 @@
             toolbar: [
                 ['ajaxsave'],
                 ['Bold', 'FontSize', 'Italic', 'Underline', 'Strike', 'BulletedList', 'NumberedList', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'Image', 'Link'],
-                [ 'Attachments', 'AudioAttachments', 'VideoAttachments']
+                ['Attachments', 'AudioAttachments', 'VideoAttachments']
             ],
             width: 800,
             height: 400,
