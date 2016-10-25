@@ -1,4 +1,4 @@
-from flask import Flask, g
+from flask import Flask, g, Response
 import os
 import ConfigParser
 from logging.handlers import RotatingFileHandler
@@ -13,10 +13,11 @@ from app.utils.bookmarks_mongo_utils import BookmarksMongoUtils
 from flask.ext.bcrypt import Bcrypt
 from flask.ext.login import LoginManager
 from flask.ext.security import Security
-from flask.ext.social import Social
+from flask.ext.social import Social, login_failed
 from flask.ext.principal import Principal
 from bson.objectid import ObjectId
 from os.path import join, dirname, realpath
+from rauth.service import OAuth2Service
 
 login_manager = LoginManager()
 
@@ -28,7 +29,7 @@ mongo = PyMongo()
 bcrypt = Bcrypt()
 
 # Create flask-security object
-security = Security()
+security = None
 
 # Create flask-principal object
 principal = Principal()
@@ -49,6 +50,14 @@ org_mongo_utils = OrgMongoUtils(mongo)
 comment_mongo_util = CommentsMongoUtils(mongo)
 bookmarks_mongo_utils = BookmarksMongoUtils(mongo)
 
+facebook = OAuth2Service(
+    name='facebook',
+    base_url='https://graph.facebook.com/',
+    access_token_url='https://graph.facebook.com/oauth/access_token',
+    authorize_url='https://www.facebook.com/dialog/oauth',
+    client_id='1041284292636754',
+    client_secret='c3804d7b43d6e7496cb6d2cb18aa4aaa'
+)
 
 def create_app():
     # Here we  create flask instance
@@ -80,10 +89,12 @@ def create_app():
 
 def configure_login_manager(app):
     # Init flask-security
-    security.init_app(app, UserDataStore)
-
+    # security.init_app(app, UserDataStore)
     # Init flask-social
     social.init_app(app)
+    security = Security(app)
+    security.init_app(app, UserDataStore)
+
 
     app.config['SECURITY_LOGIN_URL'] = '/auth/login'
     app.config['SECURITY_LOGIN_USER_TEMPLATE'] = 'mod_auth/log_in.html'

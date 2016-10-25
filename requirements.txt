@@ -8,3 +8,4 @@ Flask-OAuth
 http://github.com/pythonforfacebook/facebook-sdk/tarball/master
 oauth2client 
 google-api-python-client
+rauth==0.4.17
