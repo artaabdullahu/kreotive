@@ -41,15 +41,39 @@
         });
     }
 
+    function mailToHref() {
+        var hrefMAilTo = "mailto:?subject= Find out {{ organization['name']}}'s profile &BODY=I found this organization profile interesting and thought of sharing it with you. Check it out:" + window.location.href;
+        $("#mail-to").attr("href", hrefMAilTo);
+    }
+    mailToHref();
+
 </script>
 
 <!-- Banner part at Feed/About/Article Pages-->
 
-<div class="row">
+<div id="profile" class="row">
     <div class="col-md-10 col-md-offset-1">
-        <i class="fa fa-share-alt share-org"></i>
-        <img src="{{ url_for('static', filename = 'img/banner.png') }}" class="banner">
+        <i id="share-org" class="fa fa-share-alt" data-toggle="popover" content="#share-org-profile"></i>
+        <div class="col-md-12 col-xs-6">
+            <form id="share-org-profile" class="hidden">
+                <ul class="popover-list">
+                    <li><a href="https://www.facebook.com/sharer/sharer.php?u=&t=" class="fa fa-facebook"
+                           target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' +
+                                    encodeURIComponent(document.URL) + '&t='
+                                    + encodeURIComponent(document.title)); return false;"></a></li>
+                    <li><a href="https://twitter.com/intent/tweet?source=&amp;text=:%20"
+                           class="fa fa-twitter" target="_blank" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title)
+                                   + ':%20'  + encodeURIComponent(document.URL)); return false;"></a></li>
 
+                    <li><a href="https://plus.google.com/share?url=" class="fa fa-google-plus"
+                           target="_blank" title="Share on Google+" onclick="window.open('https://plus.google.com/share?url='
+                                   + encodeURIComponent(document.URL)); return false;"></a></li>
+                    <li><a id="mail-to" href="" class="fa fa-at" onclick=mailToHref(); target="_blank">
+                    </a></li>
+                </ul>
+            </form>
+        </div>
+        <img src="{{ url_for('static', filename = 'img/banner.png') }}" class="banner">
         <div class="box">
             <img src="{{ url_for('static', filename = 'img/prof3.png') }}" class="img-circle user-pic">
             <span class="user-name">{{ organization.name }}</span>
@@ -77,7 +101,8 @@
                         {% elif is_member.members.0.status == 'member' %}
 
                             <button type="button" style="background-color:#349946;"
-                                    class="ask-to-join pull-right cancel" onclick="cancel('{{ current_user.username }}')">{{ is_member.members.0.status | capitalize }}
+                                    class="ask-to-join pull-right cancel"
+                                    onclick="cancel('{{ current_user.username }}')">{{ is_member.members.0.status | capitalize }}
                             </button>
 
                         {% endif %}
