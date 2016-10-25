@@ -1014,3 +1014,19 @@ div.del-acc-label {
     margin-bottom: 20px;
     margin-left: 20px;
 }
+
+#profile div.popover{
+    padding: 0px !important;
+    background-color: #fff;
+    width: 220px;
+    left: 940.422px !important;
+}
+
+#profile .popover-content {
+    padding: 17px 15px !important;
+}
+
+.popover-list{
+    padding: 0px !important;
+    margin: 0px !important;
+}
