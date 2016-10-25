@@ -58,7 +58,6 @@ def login():
         if current_user.is_authenticated:
             return redirect(url_for('main.feed'))
         else:
-            print social.twitter
             return render_template('mod_auth/log_in.html')
     elif request.method == "POST":
         email = request.form['email']
