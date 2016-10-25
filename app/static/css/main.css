@@ -602,7 +602,8 @@ img.banner {
     width: 200px;
 }
 
-i#share-profile {
+i#share-profile,
+i#share-org{
     font-size: 20px !important;
     color: #fff !important;
     position: absolute;
@@ -1018,15 +1019,21 @@ div.del-acc-label {
 #profile div.popover{
     padding: 0px !important;
     background-color: #fff;
-    width: 220px;
+    width: 210px;
     left: 940.422px !important;
 }
 
 #profile .popover-content {
-    padding: 17px 15px !important;
+    padding: 17px 10px !important;
 }
 
-.popover-list{
+ul.popover-list{
     padding: 0px !important;
     margin: 0px !important;
+    list-style-type: none !important;
+    display: inline;
+}
+
+.popover-list li{
+    display: inline;
 }

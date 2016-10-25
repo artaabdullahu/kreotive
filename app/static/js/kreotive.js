@@ -24,6 +24,14 @@
          }
      });
 
+       $("#share-org").popover({
+         html: true,
+         placement: "top",
+         content: function () {
+             return $("#share-org-profile").html();
+         }
+     });
+
  });
 
       function goBack() {
