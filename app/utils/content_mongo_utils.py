@@ -254,4 +254,10 @@ class ContentMongoUtils(object):
                 article['avatar_url'] = self.mongo.db[self.users_collection] \
                     .find_one({"username": article['username']})['avatar_url']
         return articles_dump
-        return articles_dump
+
+    def get_articles_categories(self):
+
+        categories = self.mongo.db[self.content_collection] \
+            .distinct('category')
+
+        return categories
