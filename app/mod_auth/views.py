@@ -4,7 +4,7 @@ from flask.ext.security import login_user, logout_user, current_user, \
     login_required
 from flask.ext.principal import Principal, Identity, AnonymousIdentity, \
     identity_changed
-from app import user_mongo_utils, bcrypt
+from app import user_mongo_utils, bcrypt, facebook
 from slugify import slugify
 from bson.objectid import ObjectId
 
@@ -58,6 +58,7 @@ def login():
         if current_user.is_authenticated:
             return redirect(url_for('main.feed'))
         else:
+            print social.twitter
             return render_template('mod_auth/log_in.html')
     elif request.method == "POST":
         email = request.form['email']
@@ -97,3 +98,33 @@ def logout():
     identity_changed.send(current_app._get_current_object(),
                           identity=AnonymousIdentity())
     return redirect(url_for('main.feed'))
+
+
+@mod_auth.route('/facebook/login')
+def fb_login():
+    redirect_uri = url_for('auth.fb_authorized', _external=True)
+    params = {'redirect_uri': redirect_uri}
+    return redirect(facebook.get_authorize_url(**params))
+
+
+@mod_auth.route('/facebook/authorized')
+def fb_authorized():
+    # check to make sure the user authorized the request
+    if not 'code' in request.args:
+        flash('You did not authorize the request')
+        return redirect(url_for('auth.login'))
+
+    # make a request for the access token credentials using code
+    redirect_uri = url_for('auth.fb_authorized', _external=True)
+    data = dict(code=request.args['code'], redirect_uri=redirect_uri)
+
+    session = facebook.get_auth_session(data=data)
+
+    # the "me" response
+    me = session.get('me').json()
+
+    User.get_or_create(me['username'], me['id'])
+
+    flash('Logged in as ' + me['name'])
+    return redirect(url_for('main.feed'))
+
