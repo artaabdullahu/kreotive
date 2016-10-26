@@ -8,11 +8,26 @@
     .fa-bars::before {
         margin-left: 5px;
     }
+    .contact-info {
+    background-color: #ebebeb;
+    padding: 20px 0px;
+    /*width: 97%;*/
+    margin-left: 98px;
+    width: 80%;
+    }
 }
 
 @media (max-width: 991px) {
     .fa-share-alt, .fa-bookmark-o {
         font-size: 20px;
+    }
+
+    .contact-info {
+    background-color: #ebebeb;
+    padding: 20px 0px;
+    /*width: 97%;*/
+    margin-left: 15px;
+    width: 96%;
     }
 
     #single-article .article-t {
@@ -52,9 +67,23 @@
         margin-top: 200px;
     }
 
+    .contact-info {
+        font-size: 13px;
+        margin-left: 16px;
+        width: 580px;
+    }
+
+    .contact-info {
+    background-color: #ebebeb;
+    padding: 20px 0px;
+    /*width: 97%;*/
+    margin-left: 55px;
+    width: 200%;
+    }
+
     .popover {
-        width: 400px;
-        margin-left: -180px;
+        width: 300px;
+        margin-left: -120px;
     }
 
     .popover.bottom > .arrow {
@@ -120,6 +149,19 @@
         width: 180px;
         margin-left: 70px;
     }
+    /*.contact-info {*/
+        /*font-size: 13px;*/
+        /*margin-left: -10px;*/
+        /*width: 100%;*/
+    /*}*/
+
+    .contact-info {
+    background-color: #ebebeb;
+    padding: 20px 0px;
+    /*width: 97%;*/
+    margin-left: 15px;
+    width: 96%;
+    }
 
     #un-registered .btn-continue {
         width: 180px;
@@ -147,6 +189,7 @@
     .menu-icons .fa-file-audio-o,
     .menu-icons .fa-paperclip {
         text-align: right;
+        margin-left: -8px;
     }
 }
 
@@ -161,6 +204,14 @@
         float: none;
         width: 40%;
         margin-left: 20%;
+    }
+
+    .contact-info {
+    background-color: #ebebeb;
+    padding: 20px 0px;
+    /*width: 97%;*/
+    margin-left: 15px;
+    width: 95%;
     }
 
     .news, .time {
@@ -211,7 +262,7 @@
 @media (max-width: 492px) {
     #un-registered .btn-signup {
         width: 60%;
-        margin-left: 20%;
+        margin-left: 11%;
     }
 
 }
@@ -291,6 +342,15 @@
         padding-left: 25px;
     }
 
+    .contact-info {
+    background-color: #ebebeb;
+    padding: 20px 0px;
+    /*width: 97%;*/
+    margin-left: 15px;
+    width: 82%;
+    }
+
+
 }
 
 @media (max-width: 435px) {
@@ -300,7 +360,7 @@
     }
 
     .video-type {
-        margin-left: 25%;
+        margin-left: 30%;
     }
 
     .about-me-text {
@@ -309,7 +369,10 @@
 
     .contact-info {
         font-size: 12px;
+        margin-left: 16px;
+        width: 92%;
     }
+
 }
 
 @media (max-width: 415px) {
@@ -380,12 +443,14 @@
 @media only screen and (max-width: 360px) {
     #un-registered .btn-signup {
         width: 80%;
-        margin: 20px 30px;
+        margin: 20px -2px;
     }
+
+
 
     #un-registered .btn-continue {
         width: 80%;
-        margin: 5px 30px 20px 30px;
+        /*margin: 5px 0px 30px 9px;*/
     }
 
     ul {
@@ -414,6 +479,14 @@
 
     .comment {
         font-size: 20px;
+    }
+
+    .contact-info {
+    background-color: #ebebeb;
+    padding: 20px 0px;
+    /*width: 97%;*/
+    margin-left: 15px;
+    width: 91%;
     }
 
     .profile-avatar {
@@ -462,6 +535,7 @@
         font-size: 16px !important;
     }
 
+
     .fa {
         font-size: 25px;
     }
@@ -472,9 +546,9 @@
     }
 
     #un-registered .btn-signup {
-        width: 200px;
+        width: 150px;
         text-align: center;
-        margin-left: -5%;
+        margin-left: 7%;
     }
 
     #un-registered .btn-continue {
@@ -535,12 +609,14 @@
     button.btn.btn-google,
     button.btn.btn-facebook {
         font-size: 14px;
+        width: 100%;
     }
 
     button.btn.btn-log-in-google,
     button.btn.btn-log-in-facebook {
         font-size: 12px;
         padding: 0px;
+        width: 110%;
     }
 
     .btn-log-in-facebook:before,
@@ -548,12 +624,21 @@
         padding-right: 10px;
     }
 
-    a#sign-in {
-        display: none;
+    #sign-in {
+    float: right;
+    margin-top: 18px;
+    text-decoration: none;
+    font-size: 16px;
+    margin-right: 8px;
     }
 
     .popover {
         max-width: 250px;
+    }
+
+    .popover {
+        width: 400px;
+        margin-left: -95px;
     }
 
     .article-date {
@@ -566,5 +651,13 @@
 
     .fa-pencil:before {
         margin-left: 5px;
+    }
+
+    .contact-info {
+    background-color: #ebebeb;
+    padding: 20px 0px;
+    /*width: 97%;*/
+    margin-left: 15px;
+    width: 90%;
     }
 }

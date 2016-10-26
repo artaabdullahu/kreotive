@@ -15,7 +15,6 @@
                                         <thead>
                                             <tr>
                                                 <th>Name</th>
-                                                <th>Lastname</th>
                                                 <th>Email</th>
                                                 <th>Admin</th>
                                                 <th>Action</th>
@@ -25,7 +24,6 @@
                                         {% for organization in organizations %}
                                              <tr>
                                                 <td>{{ organization.name }}</td>
-                                                <td>{{ organization.lastname }}</td>
                                                 <td>{{ organization.email }}</td>
                                                 <td>{{ organization.org_admin[0] }}</td>
                                                 <td><a href="">Delete</a> |<a href=""> Edit </a></td>
@@ -39,9 +37,7 @@
                     </div>
             </div>
             <!-- /.container-fluid -->
-
         </div>
         <!-- /#page-wrapper -->
-
 
     {% endblock %}
