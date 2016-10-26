@@ -110,8 +110,8 @@
                 <i class="fa fa-comment-o"></i>
             </div>
 
-            <div class="col-md-4 col-sm-4 col-xs-4">
-                <span class="comment"> Comments</span>
+            <div class=" comment col-md-4 col-sm-4 col-xs-4">
+                <span> Comments</span>
             </div>
 
         </div>
@@ -128,7 +128,7 @@
             <div class="col-md-3 col-md-offset-1 col-sm-4 col-xs-6 ">
                 <button type="button" onclick="goBack()" class="btn btn-previous">Previous page</button>
             </div>
-            <div class="col-md-3 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-6 text-right">
+            <div class="col-md-3 col-md-offset-3 col-sm-4 col-sm-offset-4 col-xs-6 text-right">
                 <button id="comment-submit" class="comment-submit btn btn-reply">Reply</button>
             </div>
         </div>
@@ -191,14 +191,14 @@
             }
             var commentDIV = '' +
                     '<div id="comment-' + id + '" data-username="' + username + '"  data-firstname="' + firstname + '" data-lastname="' + lastname + '" class="row">' +
-                    '<div class="col-md-1  col-xs-1 col-xs-offset-1">' +
+                    '<div class="col-md-1 col-md-offset-0 col-xs-1 col-xs-offset-1 text-right">' +
 
                     '<img class="img-circle profile-img" src="{{ url_for('static',filename="")}}' + img_href + '"/>' +
                     '</div>' +
                     '<div class="col-md-10 col-xs-8">' +
                     '<div class="row">' +
                     '<div class="col-md-3">' +
-                    '<a href=""><h4> ' + firstname + ' ' + lastname + '</h4></a>' +
+                    '<a href=""><h4 class="commenting-person"> ' + firstname + ' ' + lastname + '</h4></a>' +
                     '</div>' +
                     '<div class="col-md-3 ">' +
                     '<span class="comment-time">' + time + '</span>' +
@@ -210,7 +210,7 @@
                     '</div>' +
                     '</div>' +
                     '<div class="row">' +
-                    '<div class="col-md-3">' +
+                    '<div class="col-md-3 reply-text">' +
                     '<a  id="reply-to-comment-' + id + '" class="comment-reply">Reply</a>' +
                     '</div>' +
                     '</div>' +
@@ -234,13 +234,13 @@
             }
             var commentDIV = '' +
                     '<div id="comment-' + id + '" data-username="' + username + '"  data-firstname="' + firstname + '" data-lastname="' + lastname + '" class="row">' +
-                    '<div class="col-md-1 col-md-offset-1 col-xs-1 col-xs-offset-2">' +
+                    '<div class="col-md-1 col-md-offset-0 col-xs-1 col-xs-offset-2 text-right">' +
                     '<img class="img-circle profile-img" src="{{ url_for('static',filename="")}}' + img_href + '"/>' +
                     '</div>' +
                     '<div class="col-md-8 col-xs-8">' +
                     '<div class="row">' +
-                    '<div class="col-md-3 col-xs-8">' +
-                    '<a href=""><h4> ' + firstname + ' ' + lastname + '</h4></a>' +
+                    '<div class="col-md-4 col-xs-8">' +
+                    '<a href=""><h4 class="commenting-person" > ' + firstname + ' ' + lastname + '</h4></a>' +
                     '</div>' +
                     '<div class="col-md-3 col-xs-3">' +
                     '<span class="comment-time">' + time + '</span>' +

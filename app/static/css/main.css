@@ -21,7 +21,7 @@ header {
 
 /*Button properties*/
 .btn {
-    width: 100%;
+    width: 75%;
     height: 40px;
     margin: 5px;
     color: #ffffff;
@@ -594,6 +594,11 @@ img.banner {
 .comment {
     font-size: 25px;
     font-weight: bold;
+    padding-top: 20px;
+}
+
+.commenting-person {
+    font-weight: 200 !important;
 }
 
 #single-article .popover {
@@ -606,7 +611,7 @@ img.banner {
 }
 
 i#share-profile,
-i#share-org{
+i#share-org {
     font-size: 20px !important;
     color: #fff !important;
     position: absolute;
@@ -627,6 +632,7 @@ i#share-org{
     border-radius: 2px;
     font-size: 17px;
     height: 50px;
+    margin-right: 20px;
 }
 
 .btn-reply {
@@ -899,8 +905,12 @@ a.org-adm:hover {
     cursor: hand;
 }
 
+.reply-text {
+    margin-bottom: 10px;
+}
+
 .reply-comment-field {
-    width: 98%;
+    width: 106%;
     border: 1px solid #dedede;
     resize: none;
     margin-top: 25px;
@@ -971,7 +981,7 @@ a.leave-org-button {
 
 }
 
-a.administrator-button{
+a.administrator-button {
     background-color: rgb(194, 47, 47);
     color: #fff !important;
     padding: 10px 26px;
@@ -1019,7 +1029,7 @@ div.del-acc-label {
     margin-left: 20px;
 }
 
-#profile div.popover{
+#profile div.popover {
     padding: 0px !important;
     background-color: #fff;
     width: 210px;
@@ -1030,18 +1040,18 @@ div.del-acc-label {
     padding: 17px 10px !important;
 }
 
-ul.popover-list{
+ul.popover-list {
     padding: 0px !important;
     margin: 0px !important;
     list-style-type: none !important;
     display: inline;
 }
 
-.popover-list li{
+.popover-list li {
     display: inline;
 }
 
-ul.list{
+ul.list {
     list-style-type: none;
 }
 
