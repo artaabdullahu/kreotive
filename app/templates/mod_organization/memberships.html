@@ -2,7 +2,7 @@
 {% block body %}
     <div class="org-feed">
 
-        {% if current_user.has_role('org_admin') or current_user.has_role('org_editor') %}
+        {% if current_user.has_role('administrator') or current_user.has_role('org_editor') %}
             <div class="row menu-icons">
                 <br/><br/><br/>
                 <div class="col-md-1 col-md-offset-1 col-sm-1 col-sm-offset-0 col-xs-1 col-xs-offset-0 text-center">
@@ -24,7 +24,7 @@
                             <a href="{{ url_for('profile.profile_settings', username=current_user.username) }}">Account
                                     Details</a>
                         </li>
-                        {% if current_user.has_role('org_admin') %}
+                        {% if current_user.has_role('administrator') %}
                             {% include ('mod_organization/org_administration.html') %}
                         {% endif %}
                     </ul>
@@ -54,8 +54,8 @@
                          class="img-circle member-avatar">
                 </div>
                 <div class="col-md-3 col-xs-3">
-                    <a href="{{ url_for ('profile.feed', username=organization.org_admin) }}">
-                        <span class="search-result-title">{{ current_user.username }}</span>
+                    <a href="{{ url_for ('profile.feed', username=organization.administrator) }}">
+                        <span class="search-result-title">{{ get_user_name_last_name_by_username(current_user.username).name }}, {{ get_user_name_last_name_by_username(current_user.username).name }}</span>
                     </a>
                 </div>
                 <div class="col-md-2 col-md-offset-4 col-xs-7 nopadding text-right">
@@ -157,6 +157,33 @@
                 </ul>
                 <ul class="pagination"></ul>
             </div>
+
+            {% for member in organization.members %}
+                {% if member.status == 'pending' %}
+                    <div class="row">
+                        <div class="col-md-1 col-md-offset-1 col-xs-2">
+                            <img src="{{ url_for('static', filename=user_avatar(member.username) ) }}"
+                                 class="img-circle member-avatar">
+                        </div>
+                        <div class="col-md-5 col-xs-3">
+                            <a href="{{ url_for ('profile.feed', username=member.username) }}">
+                                <span class="search-result-title">{{ get_user_name_last_name_by_username(member.username).name }}, {{ get_user_name_last_name_by_username(member.username).lastname }}</span>
+                            </a>
+                        </div>
+                        <div class="col-md-2 col-md-offset-4 col-xs-7 nopadding text-right">
+                            <button class="btn-membership btn-green" onclick="accept('{{ member.username }}')">
+                                Accept
+                            </button>
+                        </div>
+                        <div class="col-md-2 col-xs-7 nopadding text-right">
+                            <button class="btn-membership btn-white" onclick="deny('{{ member.username }}')">
+                                Deny
+                            </button>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
         </div>
 
         <script type="text/javascript" src="{{ url_for('static', filename='js/list.min.js') }}"></script>

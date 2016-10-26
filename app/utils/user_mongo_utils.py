@@ -46,6 +46,7 @@ class UserMongoUtils(object):
         user['people_following'] = []
         user['people_followers'] = []
         user['org_following'] = []
+        user['organization'] = []
         user['username'] = re.sub("[!@#$%^&*()[]{};:,./<>?\|`~-=_+ ]", "", user['username']).replace(' ', '').lower()
         self.mongo.db[self.users_collection] \
             .insert(user)
@@ -101,6 +102,7 @@ class UserMongoUtils(object):
                 roles=user_cursor['roles'],
                 role=user_cursor['role'],
                 username=user_cursor['username'],
+                organization=user_cursor['organization'],
                 location=user_cursor['location'],
                 telephone=user_cursor['telephone'],
                 mobile=user_cursor['mobile'],
@@ -133,6 +135,7 @@ class UserMongoUtils(object):
                 roles=user_cursor['roles'],
                 role=user_cursor['role'],
                 username=user_cursor['username'],
+                organization=user_cursor['organization'],
                 location=user_cursor['location'],
                 telephone=user_cursor['telephone'],
                 mobile=user_cursor['mobile'],
@@ -159,6 +162,7 @@ class UserMongoUtils(object):
                 roles=user_cursor['roles'],
                 role=user_cursor['role'],
                 username=user_cursor['username'],
+                organization=user_cursor['organization'],
                 location=user_cursor['location'],
                 telephone=user_cursor['telephone'],
                 mobile=user_cursor['mobile'],

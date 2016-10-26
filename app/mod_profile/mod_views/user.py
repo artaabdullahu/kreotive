@@ -8,7 +8,7 @@ from werkzeug.security import check_password_hash
 class User(UserMixin):
     def __init__(self, id=None, name=None, lastname=None, is_active=None, email=None, password=None, roles=None,
                  role=None, username=None, location=None, telephone=None, mobile=None, about_me=None, avatar_url=None,
-                 people_following=None, people_followers=None, org_following=None):
+                 people_following=None, people_followers=None, org_following=None, organization=None):
         self.id = id
         self.name = name
         self.lastname = lastname
@@ -27,6 +27,7 @@ class User(UserMixin):
         self.people_following = people_following
         self.people_followers = people_followers
         self.org_following = org_following
+        self.organization = organization
 
     def get_id(self):
         return unicode(self.id)

@@ -63,8 +63,7 @@ class ContentMongoUtils(object):
 
         articles = self.mongo.db[self.content_collection] \
             .find(
-            {'author.org_slug': org_slug, 'author.type': 'organization', 'published': True, 'delete': False, 'type': article_type}).sort(
-            [("_id", -1)])
+            {'author.org_slug': org_slug, 'author.type': 'organization', 'published': True, 'delete': False,'type': article_type}).sort([("_id", -1)])
 
         return articles
 
@@ -115,7 +114,7 @@ class ContentMongoUtils(object):
         :rtype: JSON with the queried articles
         """
         articles = self.mongo.db[self.content_collection] \
-            .find({'visible': True, 'published': True, 'delete': False}).sort([("_id", -1)]).limit(limits).skip(skips)
+            .find({'visible': True, 'published': True, 'delete': False, 'post_privacy': 'off'}).sort([("_id", -1)]).limit(limits).skip(skips)
 
         articles_dump = list(articles)
 
@@ -261,3 +260,4 @@ class ContentMongoUtils(object):
             .distinct('category')
 
         return categories
+

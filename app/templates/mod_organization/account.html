@@ -2,7 +2,7 @@
 {% block body %}
     <div class="org-feed">
 
-        {% if current_user.has_role('org_admin') or current_user.has_role('org_editor') %}
+        {% if current_user.has_role('administrator') or current_user.has_role('org_editor') %}
             <div class="row menu-icons">
                 <br/><br/><br/>
                 <div class="col-md-1 col-md-offset-1 col-sm-1 col-sm-offset-0 col-xs-1 col-xs-offset-0 text-center">
@@ -26,7 +26,7 @@
                             <a href="{{ url_for('profile.profile_settings', username=current_user.username) }}">Account
                                     Details</a>
                         </li>
-                        {% if current_user.has_role('org_admin') %}
+                        {% if current_user.has_role('administrator') %}
                             {% include ('mod_organization/org_administration.html') %}
                         {% endif %}
                     </ul>
