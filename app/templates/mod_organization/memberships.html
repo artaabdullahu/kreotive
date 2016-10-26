@@ -4,7 +4,7 @@
 
         {% if current_user.has_role('org_admin') or current_user.has_role('org_editor') %}
             <div class="row menu-icons">
-            <br/><br/><br/>
+                <br/><br/><br/>
                 <div class="col-md-1 col-md-offset-1 col-sm-1 col-sm-offset-0 col-xs-1 col-xs-offset-0 text-center">
                     <i class="fa fa-bars dropdown-toggle "
                        data-toggle="dropdown" role="menu" style="color: #000"></i>
@@ -64,48 +64,57 @@
                 </div>
             </div>
             <br/>
-            {% for member in organization.members %}
-                <div class="row">
-                    {% if member.status != 'pending' %}
-                        <div class="col-md-1 col-md-offset-1 col-xs-2">
-                            <img src="{{ url_for('static', filename=user_avatar(member.username) ) }}"
-                                 class="img-circle member-avatar">
+            <div id="test-list">
+                <ul class="list">
+                    {% for member in organization.members %}
+                        <div class="row">
+                            <li>
+                                {% if member.status != 'pending' %}
+                                    <div class="col-md-1 col-md-offset-1 col-xs-2">
+                                        <img src="{{ url_for('static', filename=user_avatar(member.username) ) }}"
+                                             class="img-circle member-avatar">
+                                    </div>
+                                    <div class="col-md-3 col-xs-3">
+                                        <a href="{{ url_for ('profile.feed', username=member.username) }}">
+                                            <span class="search-result-title">{{ get_user_name_last_name_by_username(member.username).name }}, {{ get_user_name_last_name_by_username(member.username).lastname }}</span>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-2 col-xs-7 nopadding text-right">
+                                        {% if member.status == "member" %}
+                                            <button class="btn-membership btn-green">{{ member.status | capitalize }}</button>
+                                        {% else %}
+                                            <button class="btn-membership btn-green"
+                                                    style="background-color:rgb(89, 53, 219);">{{ member.status | capitalize }}</button>
+                                        {% endif %}
+                                    </div>
+                                    {% if member.status == 'editor' %}
+                                        <div class="col-md-2 col-xs-7 nopadding text-right">
+                                            <button class="btn-membership btn-white"
+                                                    onclick="denote('{{ member.username }}')">Denote
+                                            </button>
+                                        </div>
+                                    {% else %}
+                                        <div class="col-md-2 col-xs-7 nopadding text-right">
+                                            <button class="btn-membership btn-white"
+                                                    onclick="promote('{{ member.username }}')">Promote
+                                            </button>
+                                        </div>
+                                    {% endif %}
+                                    <div class="col-md-2 col-xs-7 nopadding text-right">
+                                        <button class="btn-membership btn-white"
+                                                onclick="remove('{{ member.username }}')">
+                                            Remove
+                                        </button>
+                                    </div>
+                                {% endif %}
+                            </li>
                         </div>
-                        <div class="col-md-3 col-xs-3">
-                            <a href="{{ url_for ('profile.feed', username=member.username) }}">
-                                <span class="search-result-title">{{ get_user_name_last_name_by_username(member.username).name }}, {{ get_user_name_last_name_by_username(member.username).lastname }}</span>
-                            </a>
-                        </div>
-                        <div class="col-md-2 col-xs-7 nopadding text-right">
-                            {% if member.status == "member" %}
-                                <button class="btn-membership btn-green">{{ member.status | capitalize }}</button>
-                            {% else %}
-                                <button class="btn-membership btn-green"
-                                        style="background-color:rgb(89, 53, 219);">{{ member.status | capitalize }}</button>
-                            {% endif %}
-                        </div>
-                        {% if member.status == 'editor' %}
-                            <div class="col-md-2 col-xs-7 nopadding text-right">
-                                <button class="btn-membership btn-white"
-                                        onclick="denote('{{ member.username }}')">Denote
-                                </button>
-                            </div>
-                        {% else %}
-                            <div class="col-md-2 col-xs-7 nopadding text-right">
-                                <button class="btn-membership btn-white"
-                                        onclick="promote('{{ member.username }}')">Promote
-                                </button>
-                            </div>
-                        {% endif %}
-                        <div class="col-md-2 col-xs-7 nopadding text-right">
-                            <button class="btn-membership btn-white" onclick="remove('{{ member.username }}')">
-                                Remove
-                            </button>
-                        </div>
-                    {% endif %}
-                </div>
-                <br/>
-            {% endfor %}
+                        <br/>
+                    {% endfor %}
+                </ul>
+                <ul class="pagination"></ul>
+
+            </div>
 
             <div class="row">
                 <div class="col-md-2 col-md-offset-1">
@@ -113,35 +122,59 @@
                 </div>
             </div>
             <br/>
-            {% for member in organization.members %}
-                {% if member.status == 'pending' %}
-                    <div class="row">
-                        <div class="col-md-1 col-md-offset-1 col-xs-2">
-                            <img src="{{ url_for('static', filename=user_avatar(member.username) ) }}"
-                                 class="img-circle member-avatar">
-                        </div>
-                        <div class="col-md-5 col-xs-3">
-                            <a href="{{ url_for ('profile.feed', username=member.username) }}">
-                                <span class="search-result-title">{{ member.username }}</span>
-                            </a>
-                        </div>
-                        <div class="col-md-2 col-md-offset-4 col-xs-7 nopadding text-right">
-                            <button class="btn-membership btn-green" onclick="accept('{{ member.username }}')">
-                                Accept
-                            </button>
-                        </div>
-                        <div class="col-md-2 col-xs-7 nopadding text-right">
-                            <button class="btn-membership btn-white" onclick="remove('{{ member.username }}')">
-                                Deny
-                            </button>
-                        </div>
-                    </div>
-                {% endif %}
-            {% endfor %}
+
+            <div id="test-list1">
+                <ul class="list">
+                    {% for member in organization.members %}
+                        <li>
+                            {% if member.status == 'pending' %}
+                                <div class="row">
+                                    <div class="col-md-1 col-md-offset-1 col-xs-2">
+                                        <img src="{{ url_for('static', filename=user_avatar(member.username) ) }}"
+                                             class="img-circle member-avatar">
+                                    </div>
+                                    <div class="col-md-5 col-xs-3">
+                                        <a href="{{ url_for ('profile.feed', username=member.username) }}">
+                                            <span class="search-result-title">{{ member.username }}</span>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-2 col-md-offset-4 col-xs-7 nopadding text-right">
+                                        <button class="btn-membership btn-green"
+                                                onclick="accept('{{ member.username }}')">
+                                            Accept
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2 col-xs-7 nopadding text-right">
+                                        <button class="btn-membership btn-white"
+                                                onclick="remove('{{ member.username }}')">
+                                            Deny
+                                        </button>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+                <ul class="pagination"></ul>
+            </div>
         </div>
+
+        <script type="text/javascript" src="{{ url_for('static', filename='js/list.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/list.pagination.min.js') }}"></script>
+
         <script type="text/javascript">
             $(document).ready(function () {
+                var monkeyList = new List('test-list', {
+                    valueNames: ['name'],
+                    page: 10,
+                    plugins: [ListPagination({})]
+                });
 
+                var monkeyList1 = new List('test-list1', {
+                    valueNames: ['name'],
+                    page: 10,
+                    plugins: [ListPagination({})]
+                });
             });
             function accept(username) {
                 var post_url = "{{ url_for('organization.accept_member', organization_slug = organization.org_slug, username="USERNAME") }}";

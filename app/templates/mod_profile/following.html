@@ -77,29 +77,45 @@
                         <span class="people-following">People({{ profile.people_following|length }})</span>
                     </div>
                 </div>
-                {% for user in profile.people_following %}
-                    <div class="row follow-list">
-                        <div class="col-md-1 col-md-offset-1 col-sm-1 col-xs-1">
-                            <img src="{{ url_for('static', filename='img/prof3.png') }}"
-                                 class="img-circle search-img-item">
-                        </div>
-                        <div class="col-md-6 col-sm-6 col-xs-6">
-                            <a href="{{ url_for('profile.feed', username=user) }}"><span
-                                    class="search-result-title">{{ get_user_name_last_name_by_username(user)['name'] }}, {{ get_user_name_last_name_by_username(user)['lastname'] }}</span></a>
-                        </div>
-                        <div class="col-md-2 col-md-offset-1">
-                            <a class="unfollow"
-                               href="{{ url_for('profile.unfollow_people', username=user) }}">Unfollow</a>
-                        </div>
+                <div class="col-md-10 col-md-offset-1">
+                    <div id="test-list">
+                        <ul class="list">
+                            {% for user in profile.people_following %}
+                                <li>
+                                    <div class="row follow-list">
+                                        <div class="col-md-1 col-md-offset-1 col-sm-1 col-xs-1">
+                                            <img src="{{ url_for('static', filename='img/prof3.png') }}"
+                                                 class="img-circle search-img-item">
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <a href="{{ url_for('profile.feed', username=user) }}"><span
+                                                    class="search-result-title">{{ get_user_name_last_name_by_username(user)['name'] }}, {{ get_user_name_last_name_by_username(user)['lastname'] }}</span></a>
+                                        </div>
+                                        <div class="col-md-2 col-md-offset-1">
+                                            <a class="unfollow"
+                                               href="{{ url_for('profile.unfollow_people', username=user) }}">Unfollow</a>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <ul class="col-md-offset-1 pagination"></ul>
                     </div>
-                {% endfor %}
+                </div>
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/list.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/list.pagination.min.js') }}"></script>
     <script type="text/javascript">
 
 
         $(document).ready(function () {
+            var monkeyList = new List('test-list', {
+                valueNames: ['name'],
+                page: 10,
+                plugins: [ListPagination({})]
+            });
             $('.unfollow').click(function (event) {
                 event.preventDefault();
                 var url = this.href;
