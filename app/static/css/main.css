@@ -1037,3 +1037,7 @@ ul.popover-list{
 .popover-list li{
     display: inline;
 }
+
+ul.list{
+    list-style-type: none;
+}
