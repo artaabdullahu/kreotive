@@ -1040,3 +1040,15 @@ ul.popover-list{
 .popover-list li{
     display: inline;
 }
+
+ul.list{
+    list-style-type: none;
+}
+
+.active .page {
+    color: #fff !important;
+    background-color: #000 !important;
+    border-color: #fff !important;
+}
+
+

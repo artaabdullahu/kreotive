@@ -17,7 +17,10 @@ UPLOAD_FOLDER = 'app/static/uploads/'
 def article(slug):
     # TODO: Restrict access to only authenticated users if the article has "visible" set to False
     article = content_mongo_utils.get_single_article(slug)
-    is_bookmarked = bookmarks_mongo_utils.get_bookmark_article(current_user.username, article["slug"])
+    is_bookmarked = None
+    if current_user.is_authenticated:
+        is_bookmarked = bookmarks_mongo_utils.get_bookmark_article(current_user.username, article["slug"])
+
     profile = None
     organization = None
     if article:

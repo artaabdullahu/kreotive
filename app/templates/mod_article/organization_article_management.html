@@ -2,7 +2,7 @@
 {% block body %}
     <div class="org-feed">
         <br/><br/><br/>
-        {% if current_user.has_role('org_admin') or current_user.has_role('org_editor') %}
+        {% if current_user.has_role('administrator') or current_user.has_role('org_editor') %}
             <div class="row menu-icons">
                 <div class="col-md-1 col-md-offset-1 col-sm-1 col-sm-offset-0 col-xs-1 col-xs-offset-0 text-center">
                     <i class="fa fa-bars dropdown-toggle "
@@ -33,16 +33,20 @@
                        class="fa fa-pencil"></a>
                 </div>
                 <div class="col-md-1 col-md-offset-4 col-sm-1 col-sm-offset-5 col-xs-1 col-xs-offset-5 text-center video-type">
-                    <a href="{{ url_for('article.organization_articles_type', organization_slug=organization.org_slug, article_action="show", article_type='video') }}" class="fa fa-file-video-o" data-toggle="tooltip" title="Filter by video"></a>
+                    <a href="{{ url_for('article.organization_articles_type', organization_slug=organization.org_slug, article_action="show", article_type='video') }}"
+                       class="fa fa-file-video-o" data-toggle="tooltip" title="Filter by video"></a>
                 </div>
                 <div class="col-md-1 col-sm-1 col-xs-1 text-center">
-                    <a href="{{ url_for('article.organization_articles_type', organization_slug=organization.org_slug, article_action="show", article_type='audio') }}" class="fa fa-file-audio-o" data-toggle="tooltip" title="Filter by audio"></a>
+                    <a href="{{ url_for('article.organization_articles_type', organization_slug=organization.org_slug, article_action="show", article_type='audio') }}"
+                       class="fa fa-file-audio-o" data-toggle="tooltip" title="Filter by audio"></a>
                 </div>
                 <div class="col-md-1 col-sm-1 col-xs-1 text-center">
-                    <a href="{{ url_for('article.organization_articles_type', organization_slug=organization.org_slug, article_action="show", article_type='text') }}" class="fa fa-file-text-o" data-toggle="tooltip" title="Filter by text"></a>
+                    <a href="{{ url_for('article.organization_articles_type', organization_slug=organization.org_slug, article_action="show", article_type='text') }}"
+                       class="fa fa-file-text-o" data-toggle="tooltip" title="Filter by text"></a>
                 </div>
                 <div class="col-md-1 col-sm-1 col-xs-1 text-center">
-                    <a href="{{ url_for('article.organization_articles_type', organization_slug=organization.org_slug, article_action="show", article_type='attach') }}" class="fa fa-paperclip" data-toggle="tooltip" title="Filter by attachment"></a>
+                    <a href="{{ url_for('article.organization_articles_type', organization_slug=organization.org_slug, article_action="show", article_type='attach') }}"
+                       class="fa fa-paperclip" data-toggle="tooltip" title="Filter by attachment"></a>
                 </div>
             </div>
         {% endif %}
@@ -57,56 +61,71 @@
             <div class="row">
                 <div class="article-visibility">
                     <div class="col-md-10 col-md-offset-1">
-                        {% for article in articles %}
-                            <div id="{{ article['_id'] }}" class="manage-line" style="">
-                                <div class="col-md-6 col-sm-5 col-xs-10">
-                                    {% if article['published'] == False %}
-                                        <a href="{{ url_for('article.article',slug=article['slug']) }}">
-                                            <h3 class="articles-title">(DRAFT)
-                                                - {{ article['title'] }}
-                                            </h3>
-                                        </a>
-                                    {% else %}
-                                        <a href="{{ url_for('article.article',slug=article['slug']) }}">
-                                            <h3 class="articles-title">{{ article['title'] }}</h3>
-                                        </a>
-                                    {% endif %}
-                                </div>
-                                <div class="col-md-3 col-sm-3 col-xs-4 text-center">
-                                    <h3 class="article-date" style="font-size: 12px; padding: 8px 0px;"
-                                        datetime="2016-07-20T12:39">
-                                        {% if article['published_date'] %}
-                                            {{ article['published_date'].strftime('%Y-%m-%d %H:%M') }}
-                                        {% endif %}
-                                    </h3>
-                                </div>
-                                <div class="col-md-3 col-sm-4 col-xs-12 visible-article text-right">
-                                    {% if article['visible'] == True %}
-                                        <a href="{{ url_for('article.edit_org_article_visibility', organization_slug=organization.org_slug, slug = article.slug, visible=False) }}">
-                                            <i class="fa fa-eye "></i>
-                                        </a>
-                                    {% elif article['visible'] == False %}
-                                        <a href="{{ url_for('article.edit_org_article_visibility', organization_slug=organization.org_slug, slug = article.slug, visible=True) }}">
-                                            <i class="fa fa-eye-slash"></i>
-                                        </a>
-                                    {% endif %}
-                                    <a class="del"
-                                       href="{{ url_for('article.delete_article', slug = article.slug, delete = False) }}">
-                                        <i class="fa fa-trash-o"></i>
-                                    </a>
-                                    <a href=""><i class=" fa fa-pencil-square-o"></i></a>
-                                </div>
-                            </div>
-                        {% endfor %}
+                        <div id="test-list-org">
+                            <ul class="list">
+                                {% for article in articles %}
+                                    <li>
+                                        <div id="{{ article['_id'] }}" class="manage-line" style="">
+                                            <div class="col-md-6 col-sm-5 col-xs-10">
+                                                {% if article['published'] == False %}
+                                                    <a href="{{ url_for('article.article',slug=article['slug']) }}">
+                                                        <h3 class="articles-title">(DRAFT)
+                                                            - {{ article['title'] }}
+                                                        </h3>
+                                                    </a>
+                                                {% else %}
+                                                    <a href="{{ url_for('article.article',slug=article['slug']) }}">
+                                                        <h3 class="articles-title">{{ article['title'] }}</h3>
+                                                    </a>
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-md-3 col-sm-3 col-xs-4 text-center">
+                                                <h3 class="article-date" style="font-size: 12px; padding: 8px 0px;"
+                                                    datetime="2016-07-20T12:39">
+                                                    {% if article['published_date'] %}
+                                                        {{ article['published_date'].strftime('%Y-%m-%d %H:%M') }}
+                                                    {% endif %}
+                                                </h3>
+                                            </div>
+                                            <div class="col-md-3 col-sm-4 col-xs-12 visible-article text-right">
+                                                {% if article['visible'] == True %}
+                                                    <a href="{{ url_for('article.edit_org_article_visibility', organization_slug=organization.org_slug, slug = article.slug, visible=False) }}">
+                                                        <i class="fa fa-eye "></i>
+                                                    </a>
+                                                {% elif article['visible'] == False %}
+                                                    <a href="{{ url_for('article.edit_org_article_visibility', organization_slug=organization.org_slug, slug = article.slug, visible=True) }}">
+                                                        <i class="fa fa-eye-slash"></i>
+                                                    </a>
+                                                {% endif %}
+                                                <a class="del"
+                                                   href="{{ url_for('article.delete_article', slug = article.slug, delete = False) }}">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </a>
+                                                <a href=""><i class=" fa fa-pencil-square-o"></i></a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <ul class="pagination"></ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <script type="text/javascript" src="{{ url_for('static', filename='js/list.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/list.pagination.min.js') }}"></script>
+
     <script type="text/javascript">
 
         $(document).ready(function () {
+            var monkeyList = new List('test-list-org', {
+                valueNames: ['name'],
+                page: 10,
+                plugins: [ListPagination({})]
+            });
             $('.del').click(function (event) {
                 event.preventDefault();
                 var url = this.href;
@@ -138,7 +157,7 @@
                             }
                         });
             });
-        });
+            });
 
 
     </script>
