@@ -5,21 +5,11 @@
 
     <section>
         <div class="row"><br>
-{#        {% macro social_login(provider_id, display_name) %}#}
-{#          <form action="{{ url_for('social.login', provider_id=provider_id) }}" method="POST">#}
-{#            <input type="submit" value="Login with {{ display_name }}" />#}
-{#          </form>#}
-{#        {% endmacro %}#}
-{##}
-{#        {{ social_login('twitter', 'Twitter' )}}#}
-{##}
-{#        {{ social_login('facebook', 'Facebook' )}}#}
-{##}
-{#        {{ social_login('foursquare', 'foursquare' )}}#}
             <form id="log-in" method="post" action="{{ url_for('auth.login') }}">
                 <div class=" col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1 text-center">
-                    <button type="button" class="btn btn-log-in-google">Log in with Google</button>
-                    <button type="button" class="btn btn-log-in-facebook">Log in with Facebook</button>
+                    <a href="{{ url_for('auth.google_login') }}" type="button" class="btn btn-log-in-google">Log in with Google</a>
+                    <a href="{{ url_for('auth.fb_login') }}" type="button" class="btn btn-log-in-facebook">Log in with Facebook</a>
+
                     <br>
                     <h5 class="text-center">- or -</h5>
                     <input name="email" type="email" class="form-control" align="middle" id="email-login" placeholder="Email">
