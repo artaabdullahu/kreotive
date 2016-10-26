@@ -57,22 +57,19 @@ facebook = OAuth2Service(
     client_id='1041284292636754',
     client_secret='c3804d7b43d6e7496cb6d2cb18aa4aaa'
 )
+
 google = OAuth2Service(
     name='google',
-   authorize_url='https://accounts.google.com/o/oauth2/auth',
-   access_token_url='https://accounts.google.com/o/oauth2/token',
-   client_id='221467046713-je0ce5ksagepckaoflrmtuei0secl859.apps.googleusercontent.com',
-   client_secret='tWZT_A-9pi7S19Gg7ofn_q9O',
-   base_url=None
+    authorize_url='https://accounts.google.com/o/oauth2/auth',
+    access_token_url='https://accounts.google.com/o/oauth2/token',
+    base_url="https://www.googleapis.com/oauth2/v1/",
+    client_id='221467046713-je0ce5ksagepckaoflrmtuei0secl859.apps.googleusercontent.com',
+    client_secret='tWZT_A-9pi7S19Gg7ofn_q9O'
 )
-
 
 def create_app():
     # Here we  create flask instance
     app = Flask(__name__)
-
-    # Allow cross-domain access to API.
-    # cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
     # Load application configurations
     load_config(app)
@@ -94,12 +91,7 @@ def create_app():
 
     return app
 
-
 def configure_login_manager(app):
-    # Init flask-security
-    # security.init_app(app, UserDataStore)
-    # Init flask-social
-    # social.init_app(app)
     security = Security(app)
     security.init_app(app, UserDataStore)
 
@@ -134,23 +126,24 @@ def load_config(app):
 
     app.config['SERVER_PORT'] = config.get('Application', 'SERVER_PORT')
     app.config['MONGO_DBNAME'] = config.get('Mongo', 'DB_NAME')
+    app.config['MONGO_HOST'] = config.get('Application', 'HOST')
     app.config['SECRET_KEY'] = config.get('Application', 'SECURITY_KEY')
     app.config['SECURITY_PASSWORD_SALT'] = config.get('Application', 'SECURITY_PASSWORD_SALT')
     app.config['SECURITY_REGISTREABLE'] = config.get('Application', 'SECURITY_REGISTREABLE')
 
-    app.config['SOCIAL_FACEBOOK'] = {
-        'consumer_key': config.get('SOCIAL', 'FACEBOOK_CONSUMER_KEY'),
-        'consumer_secret': config.get('SOCIAL', 'FACEBOOK_CONSUMER_SECRET')
-    }
+    app.config['FACEBOOK_CONSUMER_KEY'] = config.get('SOCIAL', 'FACEBOOK_CONSUMER_KEY')
+    app.config['FACEBOOK_CONSUMER_SECRET'] = config.get('SOCIAL', 'FACEBOOK_CONSUMER_SECRET')
+    app.config['GOOGLE_CONSUMER_KEY'] = config.get('SOCIAL', 'GOOGLE_CONSUMER_KEY')
+    app.config['GOOGLE_CONSUMER_SECRET'] = config.get('SOCIAL', 'GOOGLE_CONSUMER_SECRET')
+
+    facebook_client_id = app.config['FACEBOOK_CONSUMER_KEY']
+    facebook_client_secret = app.config['FACEBOOK_CONSUMER_SECRET']
+    google_client_id = app.config['GOOGLE_CONSUMER_KEY']
+    google_client_secret = app.config['GOOGLE_CONSUMER_SECRET']
 
     app.config['UPLOAD_FOLDER'] = upload_folder
     app.config['ALLOWED_EXTENSIONS'] = allowed_extensions
 
-    app.config['SOCIAL_GOOGLE'] = {
-        'consumer_key': config.get('SOCIAL', 'GOOGLE_CONSUMER_KEY'),
-        'consumer_secret': config.get('SOCIAL', 'GOOGLE_CONSUMER_SECRET')
-    }
-    # db.connect(app.config['MONGO_DBNAME'], alias='default')
     # Logging path might be relative or starts from the root.
     # If it's relative then be sure to prepend the path with the application's root directory path.
     log_path = config.get('Logging', 'PATH')
@@ -160,7 +153,6 @@ def load_config(app):
         app.config['LOG_PATH'] = app_dir + '/' + log_path
 
     app.config['LOG_LEVEL'] = config.get('Logging', 'LEVEL').upper()
-
 
 def configure_logging(app):
     """ Configure the app's logging.

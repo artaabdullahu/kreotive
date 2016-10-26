@@ -71,9 +71,9 @@
                         <div class="col-md-12">
                             <form id="log-in-form" method="post" action="{{ url_for('auth.login') }}" class="hidden">
                                 <div class=" col-md-10 text-center">
-                                    <button type="button" class="btn btn-log-in-google">Log in with
+                                    <a href="{{ url_for('auth.google_login') }}" type="button" class="btn btn-log-in-google">Log in with
                                         Google
-                                    </button>
+                                    </a>
                                     <a href="{{ url_for('auth.fb_login') }}" type="button" class="btn btn-log-in-facebook">Log in with
                                         Facebook
                                     </a>

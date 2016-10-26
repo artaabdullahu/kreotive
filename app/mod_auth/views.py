@@ -105,7 +105,7 @@ def logout():
 def fb_login():
     redirect_uri = url_for('auth.fb_authorized', _external=True)
     params = {'redirect_uri': redirect_uri, 'response_type': 'code'}
-    return redirect(facebook.get_authorize_url( **params))
+    return redirect(facebook.get_authorize_url(**params))
 
 
 @mod_auth.route('/facebook/authorized')
@@ -129,11 +129,11 @@ def fb_authorized():
     last_name = me['last_name']
 
     password = ''.join(random.choice('abcdefghij') for _ in range(10))
-    id =  me['id']
+    id = me['id']
     user_json = {
-        "facebook_id":id,
+        "facebook_id": id,
         "name": first_name,
-        "lastname": last_name ,
+        "lastname": last_name,
         "email": '',
         "username": first_name + last_name + '-' + str(ObjectId()),
         "password": bcrypt.generate_password_hash(password, rounds=12),
@@ -154,11 +154,14 @@ def fb_authorized():
 
     return redirect(url_for('profile.profile_settings', username=user.username))
 
+
 @mod_auth.route('/google/login')
 def google_login():
     redirect_uri = url_for('auth.google_authorized', _external=True)
-    params = {'redirect_uri': redirect_uri, 'response_type': 'code', 'scope':'https://www.googleapis.com/auth/userinfo.profile'}
-    return redirect(google.get_authorize_url( **params))
+    params = {'redirect_uri': redirect_uri, 'response_type': 'code',
+              'scope': 'https://www.googleapis.com/auth/userinfo.email'}
+    return redirect(google.get_authorize_url(**params))
+
 
 @mod_auth.route('/google/authorized')
 def google_authorized():
@@ -172,9 +175,8 @@ def google_authorized():
     data = {'code': request.args['code'],
             'grant_type': 'authorization_code',
             'redirect_uri': redirect_uri}
-    session = google.get_auth_session(data=data)
-
-    me = session.get('/me?locale=en_US&fields=first_name,last_name,email,about,picture').json()
+    g_session = google.get_auth_session(data=data, decoder=json.loads)
+    me = g_session.get('userinfo').json()
     first_name = me['given_name']
     last_name = me['family_name']
 
@@ -203,4 +205,3 @@ def google_authorized():
         login_user(user)
 
     return redirect(url_for('profile.profile_settings', username=user.username))
-
