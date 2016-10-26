@@ -157,7 +157,7 @@ def fb_authorized():
 @mod_auth.route('/google/login')
 def google_login():
     redirect_uri = url_for('auth.google_authorized', _external=True)
-    params = {'redirect_uri': redirect_uri, 'response_type': 'code', 'scope'='https://www.googleapis.com/auth/userinfo.profile'}
+    params = {'redirect_uri': redirect_uri, 'response_type': 'code', 'scope':'https://www.googleapis.com/auth/userinfo.profile'}
     return redirect(google.get_authorize_url( **params))
 
 @mod_auth.route('/google/authorized')
