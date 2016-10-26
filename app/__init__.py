@@ -17,10 +17,9 @@ from flask.ext.social import Social, login_failed
 from flask.ext.principal import Principal
 from bson.objectid import ObjectId
 from os.path import join, dirname, realpath
-from rauth.service import OAuth2Service
+from rauth import OAuth2Service
 
 login_manager = LoginManager()
-
 
 # Create MongoDB database object.
 mongo = PyMongo()
@@ -58,6 +57,15 @@ facebook = OAuth2Service(
     client_id='1041284292636754',
     client_secret='c3804d7b43d6e7496cb6d2cb18aa4aaa'
 )
+google = OAuth2Service(
+    name='google',
+   authorize_url='https://accounts.google.com/o/oauth2/auth',
+   access_token_url='https://accounts.google.com/o/oauth2/token',
+   client_id='113600267258012099658',
+   client_secret='a1072b05bb82bf2cc3103e0e981f4f4f7417372f',
+   base_url=None
+)
+
 
 def create_app():
     # Here we  create flask instance
@@ -91,10 +99,9 @@ def configure_login_manager(app):
     # Init flask-security
     # security.init_app(app, UserDataStore)
     # Init flask-social
-    social.init_app(app)
+    # social.init_app(app)
     security = Security(app)
     security.init_app(app, UserDataStore)
-
 
     app.config['SECURITY_LOGIN_URL'] = '/auth/login'
     app.config['SECURITY_LOGIN_USER_TEMPLATE'] = 'mod_auth/log_in.html'

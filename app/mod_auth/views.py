@@ -4,9 +4,11 @@ from flask.ext.security import login_user, logout_user, current_user, \
     login_required
 from flask.ext.principal import Principal, Identity, AnonymousIdentity, \
     identity_changed
-from app import user_mongo_utils, bcrypt, facebook
+from app import user_mongo_utils, bcrypt, facebook, google
 from slugify import slugify
 from bson.objectid import ObjectId
+import json
+import random
 
 mod_auth = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -37,7 +39,7 @@ def sign_up():
                     "active": True,
                     "user_slug": slugify(name + ' ' + lastname),
                     "roles": [user_mongo_utils.get_role_id('individual')],
-                    "organizations": ['kreotive']
+                    "organizations": []
                 }
                 # Regiser user
                 user_mongo_utils.add_user(user_json)
@@ -102,8 +104,8 @@ def logout():
 @mod_auth.route('/facebook/login')
 def fb_login():
     redirect_uri = url_for('auth.fb_authorized', _external=True)
-    params = {'redirect_uri': redirect_uri}
-    return redirect(facebook.get_authorize_url(**params))
+    params = {'redirect_uri': redirect_uri, 'response_type': 'code'}
+    return redirect(facebook.get_authorize_url( **params))
 
 
 @mod_auth.route('/facebook/authorized')
@@ -115,15 +117,90 @@ def fb_authorized():
 
     # make a request for the access token credentials using code
     redirect_uri = url_for('auth.fb_authorized', _external=True)
-    data = dict(code=request.args['code'], redirect_uri=redirect_uri)
-
+    data = {'code': request.args['code'],
+            'grant_type': 'authorization_code',
+            'redirect_uri': redirect_uri}
+    # authorize_url = facebook.get_authorize_url(request_token)
     session = facebook.get_auth_session(data=data)
-
+    # session = OAuth2Session(facebook.client_id, facebook.client_secret, access_token=data['code'])
     # the "me" response
-    me = session.get('me').json()
+    me = session.get('/me?locale=en_US&fields=first_name,last_name,email,about,picture').json()
+    first_name = me['first_name']
+    last_name = me['last_name']
 
-    User.get_or_create(me['username'], me['id'])
+    password = ''.join(random.choice('abcdefghij') for _ in range(10))
+    id =  me['id']
+    user_json = {
+        "facebook_id":id,
+        "name": first_name,
+        "lastname": last_name ,
+        "email": '',
+        "username": first_name + last_name + '-' + str(ObjectId()),
+        "password": bcrypt.generate_password_hash(password, rounds=12),
+        "active": True,
+        "user_slug": slugify(first_name + ' ' + last_name),
+        "roles": [user_mongo_utils.get_role_id('individual')],
+        "organizations": []
+    }
+    user = user_mongo_utils.get_user_by_facebook_id(id)
+    if user == None:
+        # Regiser user
+        user_mongo_utils.add_user(user_json)
+        user = user_mongo_utils.get_user_by_facebook_id(id)
+        #  login user
+        login_user(user)
+    else:
+        login_user(user)
 
-    flash('Logged in as ' + me['name'])
-    return redirect(url_for('main.feed'))
+    return redirect(url_for('profile.profile_settings', username=user.username))
+
+@mod_auth.route('/google/login')
+def google_login():
+    redirect_uri = url_for('auth.google_authorized', _external=True)
+    params = {'redirect_uri': redirect_uri, 'response_type': 'code'}
+    return redirect(google.get_authorize_url( **params))
+
+@mod_auth.route('/google/authorized')
+def google_authorized():
+    # check to make sure the user authorized the request
+    if not 'code' in request.args:
+        flash('You did not authorize the request')
+        return redirect(url_for('auth.login'))
+
+    # make a request for the access token credentials using code
+    redirect_uri = url_for('auth.google_authorized', _external=True)
+    data = {'code': request.args['code'],
+            'grant_type': 'authorization_code',
+            'redirect_uri': redirect_uri}
+    session = google.get_auth_session(data=data)
+
+    me = session.get('/me?locale=en_US&fields=first_name,last_name,email,about,picture').json()
+    first_name = me['given_name']
+    last_name = me['family_name']
+
+    password = ''.join(random.choice('abcdefghij') for _ in range(10))
+    id =  me['id']
+    user_json = {
+        "facebook_id":id,
+        "name": first_name,
+        "lastname": last_name ,
+        "email": '',
+        "username": first_name + last_name + '-' + str(ObjectId()),
+        "password": bcrypt.generate_password_hash(password, rounds=12),
+        "active": True,
+        "user_slug": slugify(first_name + ' ' + last_name),
+        "roles": [user_mongo_utils.get_role_id('individual')],
+        "organizations": []
+    }
+    user = user_mongo_utils.get_user_by_facebook_id(id)
+    if user == None:
+        # Regiser user
+        user_mongo_utils.add_user(user_json)
+        user = user_mongo_utils.get_user_by_facebook_id(id)
+        #  login user
+        login_user(user)
+    else:
+        login_user(user)
+
+    return redirect(url_for('profile.profile_settings', username=user.username))
 
