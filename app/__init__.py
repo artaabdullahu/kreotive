@@ -61,8 +61,8 @@ google = OAuth2Service(
     name='google',
    authorize_url='https://accounts.google.com/o/oauth2/auth',
    access_token_url='https://accounts.google.com/o/oauth2/token',
-   client_id='113600267258012099658',
-   client_secret='a1072b05bb82bf2cc3103e0e981f4f4f7417372f',
+   client_id='221467046713-je0ce5ksagepckaoflrmtuei0secl859.apps.googleusercontent.com',
+   client_secret='tWZT_A-9pi7S19Gg7ofn_q9O',
    base_url=None
 )
 
