@@ -171,7 +171,33 @@ class UserMongoUtils(object):
         else:
             return None
         return user_instance
-
+    def get_user_by_facebook_id(self, facebook_id):
+        user_cursor = self.mongo.db[self.users_collection] \
+            .find_one({"facebook_id": facebook_id})
+        user_instance = None
+        if user_cursor is not None:
+            user_instance = User(
+                id=unicode(user_cursor['_id']),
+                name=user_cursor['name'],
+                lastname=user_cursor['lastname'],
+                is_active=user_cursor['active'],
+                email=user_cursor['email'],
+                password=user_cursor['password'],
+                roles=user_cursor['roles'],
+                role=user_cursor['role'],
+                username=user_cursor['username'],
+                location=user_cursor['location'],
+                telephone=user_cursor['telephone'],
+                mobile=user_cursor['mobile'],
+                about_me=user_cursor['about_me'],
+                avatar_url=user_cursor['avatar_url'],
+                people_followers=user_cursor['people_followers'],
+                people_following=user_cursor['people_following'],
+                org_following=user_cursor['org_following']
+            )
+        else:
+            return None
+        return user_instance
     def get_avatar_url(self, username):
         return self.mongo.db[self.users_collection] \
             .find_one({"username": username})['avatar_url']
