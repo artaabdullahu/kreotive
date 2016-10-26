@@ -39,7 +39,7 @@ def sign_up():
                     "active": True,
                     "user_slug": slugify(name + ' ' + lastname),
                     "roles": [user_mongo_utils.get_role_id('individual')],
-                    "organizations": []
+                    "organization": []
                 }
                 # Regiser user
                 user_mongo_utils.add_user(user_json)
@@ -140,7 +140,7 @@ def fb_authorized():
         "active": True,
         "user_slug": slugify(first_name + ' ' + last_name),
         "roles": [user_mongo_utils.get_role_id('individual')],
-        "organizations": []
+        "organization": []
     }
     user = user_mongo_utils.get_user_by_facebook_id(id)
     if user == None:
@@ -192,7 +192,7 @@ def google_authorized():
         "active": True,
         "user_slug": slugify(first_name + ' ' + last_name),
         "roles": [user_mongo_utils.get_role_id('individual')],
-        "organizations": []
+        "organization": []
     }
     user = user_mongo_utils.get_user_by_facebook_id(id)
     if user == None:
