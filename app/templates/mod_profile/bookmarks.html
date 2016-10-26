@@ -32,35 +32,49 @@
         <div class="row">
             <div class="bookmarks-list">
                 <div class="col-md-10 col-md-offset-1">
-                    {% for bookmark in bookmarks %}
-                        <div id="" class="manage-line">
-                            <div class="col-md-6 col-sm-6 col-xs-6">
-                                <a href="{{ url_for('article.article', slug=bookmark['slug']) }}">
-                                    <h3 class="articles-title">{{ article_title(bookmark['slug'])['title'] }}</h3>
-                                </a>
-                            </div>
-                            <div class="col-md-4 col-sm-4 col-xs-4">
-                                <h3 class="article-date" style="font-size: 12px; padding: 20px 0px;"
-                                    datetime="2016-07-20T12:39">
-                                    {% if article_title(bookmark['slug'])['published_date'] %}
-                                        {{ article_title(bookmark['slug'])['published_date'].strftime('%Y-%m-%d %H:%M') }}
-                                    {% endif %}
-                                </h3>
-                            </div>
-                            <div class="col-md-2 col-sm-2 col-xs-2 text-center">
-                                <a class="remove"
-                                   href="{{ url_for('profile.remove_bookmarks', username= current_user.username, slug = bookmark['slug']) }}"><i
-                                        class=" fa fa-bookmark"></i></a>
-                            </div>
-                        </div>
-                    {% endfor %}
+                    <div id="test-list">
+                        <ul class="list">
+                            {% for bookmark in bookmarks %}
+                                <li>
+                                <div id="" class="manage-line">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <a href="{{ url_for('article.article', slug=bookmark['slug']) }}">
+                                            <h3 class="articles-title">{{ article_title(bookmark['slug'])['title'] }}</h3>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                        <h3 class="article-date" style="font-size: 12px; padding: 20px 0px;"
+                                            datetime="2016-07-20T12:39">
+                                            {% if article_title(bookmark['slug'])['published_date'] %}
+                                                {{ article_title(bookmark['slug'])['published_date'].strftime('%Y-%m-%d %H:%M') }}
+                                            {% endif %}
+                                        </h3>
+                                    </div>
+                                    <div class="col-md-2 col-sm-2 col-xs-2 text-center">
+                                        <a class="remove"
+                                           href="{{ url_for('profile.remove_bookmarks', username= current_user.username, slug = bookmark['slug']) }}"><i
+                                                class=" fa fa-bookmark"></i></a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </ul>
+                        <ul class="pagination"></ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/list.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/list.pagination.min.js') }}"></script>
     <script type="text/javascript">
 
         $(document).ready(function () {
+            var monkeyList = new List('test-list', {
+                valueNames: ['name'],
+                page: 10,
+                plugins: [ListPagination({})]
+            });
             $('.remove').click(function (event) {
                 event.preventDefault();
                 var url = this.href;

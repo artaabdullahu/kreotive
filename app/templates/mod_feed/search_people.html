@@ -93,19 +93,41 @@
             </div>
         </div>
         <div class="row">
-            {% for user in users %}
-                <div class="search-item row">
-                    <div class="col-md-1 col-md-offset-2 col-sm-1 col-sm-offset-2 col-xs-2">
-                        <img src="{{ url_for('static', filename='img/prof3.png') }}" class="img-circle search-img-item">
-                    </div>
-                    <div class="col-md-6 col-sm-7 col-xs-7">
-                        <a href="{{ url_for('profile.feed', username=user.username) }}"><span
-                                class="search-result-title">{{ user.name }}, {{ user.lastname }}</span></a>
-                    </div>
-                </div>
-            {% endfor %}
+            <div id="test-list">
+                <ul class="list">
+                    {% for user in users %}
+                        <li>
+                            <div class="search-item row">
+                                <div class="col-md-1 col-md-offset-2 col-sm-1 col-sm-offset-2 col-xs-2">
+                                    <img src="{{ url_for('static', filename='img/prof3.png') }}"
+                                         class="img-circle search-img-item">
+                                </div>
+                                <div class="col-md-6 col-sm-7 col-xs-7">
+                                    <a href="{{ url_for('profile.feed', username=user.username) }}"><span
+                                            class="search-result-title">{{ user.name }}, {{ user.lastname }}</span></a>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <ul class="pagination"></ul>
+            </div>
         </div>
 
     </section>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/list.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/list.pagination.min.js') }}"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var monkeyList = new List('test-list', {
+                valueNames: ['name'],
+                page: 10,
+                plugins: [ListPagination({})]
+            });
+        });
+    </script>
 
 {% endblock %}

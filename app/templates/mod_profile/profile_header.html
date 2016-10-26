@@ -24,14 +24,20 @@
         }
 
     }
+
+    function mailToHref() {
+        var hrefMAilTo = "mailto:?subject= Find out {{ profile['name']}}{{ profile['lastname']}}'s profile &BODY=I found this profile interesting and thought of sharing it with you. Check it out:" + window.location.href;
+        $("#mail-to").attr("href", hrefMAilTo);
+    }
+    mailToHref();
 </script>
 
-<div class="row">
+<div id="profile" class="row">
     <div class="col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0">
         <i id="share-profile" class="fa fa-share-alt" data-toggle="popover" content="#share-individual-profile"></i>
         <div class="col-md-12 col-xs-6">
             <form id="share-individual-profile" class="hidden">
-                <ul>
+                <ul class="popover-list">
                     <li><a href="https://www.facebook.com/sharer/sharer.php?u=&t=" class="fa fa-facebook"
                            target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' +
                                     encodeURIComponent(document.URL) + '&t='

@@ -8,9 +8,9 @@
                     <li><a href="{{ url_for ('organization.feed', organization_slug=organization.org_slug) }}"
                            class="active">Feed</a></li>
                     <li><a href="{{ url_for ('organization.about', organization_slug=organization.org_slug) }}">About
-                            us</a></li>
+                        us</a></li>
                     <li><a href="{{ url_for ('organization.archive', organization_slug=organization.org_slug) }}">All
-                            articles</a>
+                        articles</a>
                     </li>
                 </ul>
             </div>
@@ -40,19 +40,21 @@
         $(document).ready(function () {
             // Initialize displaying articles in feed
             initFeed();
-
             $(window).endlessScroll({
-                inflowPixels: 0,
-                fireOnce: false,
-                fireDelay: false,
-                loader: '<div class="loading"><div>',
-                callback: function () {
-                    getArticles();
-                }
-            });
+                    inflowPixels: 0,
+                    fireOnce: false,
+                    fireDelay: false,
+                    loader: '<div class="loading"><div>',
+                    callback: function () {
+                        getArticles();
+                    }
+                });
         });
         function getArticles() {
             var url = "{{ url_for('article.paginated_org_articles', organization_slug=organization.org_slug, skip_posts_number='1111111111', posts_per_page='999999999') }}";
+            {% if article_type %}
+                url = "{{ url_for('organization.feed_filter', organization_slug=organization.org_slug, article_type=article_type, skip_posts_number='1111111111', posts_per_page='999999999') }}";
+            {% endif %}
             var skip_posts_number = parseInt($('.loading').data().skipPostsNumber);
             var number_of_posts = parseInt($('.loading').data().postsPerPage);
             var post_url = url.replace("1111111111", skip_posts_number).replace("999999999", number_of_posts);
@@ -70,27 +72,17 @@
             $('.loading').data('skip-posts-number', (parseInt(skip_posts_number) + 6));
         }
 
-        {% if current_user.has_role('org_admin') or current_user.has_role('org_editor') or current_user.has_role('member') %}
-
-            function initFeed() {
-                var articles = {{ feed|safe }};
-                for (var idx in articles) {
-                    feedTheFeed(articles[idx], idx)
-                }
-                addTileColors();
+        function initFeed() {
+            // Get the first 6 feeds
+            var articles = {{ feed|safe }};
+            for (var idx in articles) {
+                feedTheFeed(articles[idx], idx);
             }
-
-        {% else %}
-
-            function initFeed() {
-                // Get the first 6 feeds
-                var articles = {{ public_feed|safe }};
-                for (var idx in articles) {
-                    feedTheFeed(articles[idx], idx);
-                }
-                addTileColors();
+            addTileColors();
+            if (articles.length < 8) {
+                $('.loading').css('display', 'none');
             }
-        {% endif %}
+        }
 
         function loadMoreArticles(posts) {
             for (var idx in posts) {

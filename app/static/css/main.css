@@ -4,7 +4,7 @@ h1 {
     font-family: 'Comfortaa', cursive;
     color: #666666;
     font-size: 32px;
-    margin-left: -10px;
+    margin-left: 16px;
 }
 
 header {
@@ -13,14 +13,15 @@ header {
 
 #sign-in {
     float: right;
-    margin-top: 30px;
+    margin-top: 14px;
     text-decoration: none;
     font-size: 16px;
+    margin-right: 8px;
 }
 
 /*Button properties*/
 .btn {
-    width: 75%;
+    width: 100%;
     height: 40px;
     margin: 5px;
     color: #ffffff;
@@ -58,7 +59,7 @@ header {
 .popover {
     max-width: 500px;
     border: none;
-    margin-left: -200px;
+    margin-left: -215px;
     background-color: #f7f7f7;
     box-shadow: none;
     border-radius: 0px;
@@ -236,7 +237,7 @@ footer a:hover {
     font-size: 1.1em;
     background-color: transparent;
     color: #000;
-    margin-top: 30px;
+    margin-top: 38px;
     font-weight: 100;
 }
 
@@ -306,7 +307,7 @@ time {
 /*positioning dropdown menu*/
 
 .dropdown-menu {
-    margin-left: 10px;
+    margin-left: 17px;
     box-shadow: none;
     padding-top: 0px !important;
 }
@@ -508,6 +509,8 @@ img.banner {
     background-color: #ebebeb;
     padding: 20px 0px;
     /*width: 97%;*/
+    margin-left: 110px;
+    width: 81%;
 }
 
 .load-more-btn {
@@ -602,7 +605,8 @@ img.banner {
     width: 200px;
 }
 
-i#share-profile {
+i#share-profile,
+i#share-org{
     font-size: 20px !important;
     color: #fff !important;
     position: absolute;
@@ -715,7 +719,7 @@ i#share-profile {
 }
 
 .col-xs-1 {
-    padding: 0px;
+    padding: 6px;
 }
 
 .search-img-item {
@@ -980,7 +984,7 @@ a.administrator-button{
 }
 
 .col-xs-1 {
-    margin-right: 5px;
+    margin-right: 0px;
 }
 
 div.acc-details-label {
@@ -1014,3 +1018,37 @@ div.del-acc-label {
     margin-bottom: 20px;
     margin-left: 20px;
 }
+
+#profile div.popover{
+    padding: 0px !important;
+    background-color: #fff;
+    width: 210px;
+    left: 940.422px !important;
+}
+
+#profile .popover-content {
+    padding: 17px 10px !important;
+}
+
+ul.popover-list{
+    padding: 0px !important;
+    margin: 0px !important;
+    list-style-type: none !important;
+    display: inline;
+}
+
+.popover-list li{
+    display: inline;
+}
+
+ul.list{
+    list-style-type: none;
+}
+
+.active .page {
+    color: #fff !important;
+    background-color: #000 !important;
+    border-color: #fff !important;
+}
+
+

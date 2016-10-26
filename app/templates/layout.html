@@ -22,16 +22,16 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/sweetalert.css') }}" type="text/css">
 
 
+
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="//code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script>
-
-
     <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-
     <script type="text/javascript" src="{{ url_for('static', filename='js/kreotive.js') }}"></script>
-
     <script type="text/javascript" src="{{ url_for('static', filename='js/filtering.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/sweetalert.min.js') }}"></script>
+
+
+
 
 
     <script>
@@ -83,9 +83,6 @@
                                            id="email-login-popover" placeholder="Email">
                                     <input name="password" type="password" class="form-control" id="pass-login-popover"
                                            placeholder="Password">
-                                    <input type="checkbox" id="remember_me_popover" name="remember_me"
-                                           value="remember_me" style="margin: 0"><label style="font-weight:normal">Remember
-                                    me</label><br>
                                     <a href="" style="color:#666666; font-size: 0.8em;">Forgot your password?</a></br>
                                     {% if error %}
                                         <div style="color:red;">   {{ error }}</div>
