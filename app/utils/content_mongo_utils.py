@@ -149,7 +149,7 @@ class ContentMongoUtils(object):
     def update_article(self, id, data):
 
         self.mongo.db[self.content_collection].update({'_id': ObjectId(id)}, {"$set": data})
-        
+
         return True
 
     def get_single_article_by_id(self, id):

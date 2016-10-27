@@ -16,75 +16,22 @@
 
     <section id="feed">
         {% include "unregistered.html" %}
+        {% include "mod_feed/main_menu.html" %}
 
-        {% if current_user.is_authenticated %}
-
-
-            <nav id="nav-bar1" style="margin-top: 100px;">
-                <br><br><br><br>
-
-                <div class="row menu-icons">
-
-                    <div class="col-md-1 col-sm-1 col-xs-1 text-center">
-                        {% if current_user.is_authenticated %}
-                            <button class="fa fa-bars dropdown-toggle" data-toggle="dropdown"
-                                    style="color: #000"></button>
-                            <ul class="dropdown-menu" style="margin: 12px 0 0 30px;">
-                                <li><a href="{{ url_for('main.feed') }}" class="active">Feed</a></li>
-                                <li><a href="{{ url_for('article.my_articles', article_action='show') }}">Article
-                                    management</a></li>
-                                <li><a href="#">Comments</a></li>
-                                <li><a href="#">Bookmarks</a></li>
-                                <li><a href="#">Following</a></li>
-                                <li><a href="#">Account details</a></li>
-                            </ul>
-                        {% endif %}
-                    </div>
-                    <div class="col-md-1 col-sm-1 col-xs-1 text-center">
-                        {% if current_user.is_authenticated %}
-                            <a href="{{ url_for('article.new_article', author_type='individual', name=current_user.name , username=current_user.username) }}"
-                               class="fa fa-pencil"></a>
-                        {% endif %}
-                    </div>
-                    <div class="col-md-1 col-sm-1 col-xs-1 text-center">
-                        <a href="{{ url_for('main.search_organizations') }}" class="fa fa-search " aria-hidden="true" id="search1"
-                           style="margin-left: 0px;"></a>
-                    </div>
-                    <div class="col-md-5 col-sm-5 col-xs-5">
-                        <input type="text" id="search-people" class="search-field" placeholder="Search for people"/>
-                    </div>
-                </div>
-            </nav>
-
-        {% else %}
-            <nav id="nav-bar">
-                <br><br>
-                <div class="row">
-                    <div class="col-md-1 col-sm-1 col-xs-1 text-right">
-                        <a href="#" class="fa fa-search" aria-hidden="true" id="search"></a>
-                    </div>
-
-                    <div class="col-md-5 col-sm-5 col-xs-5">
-                        <input type="text" id="search-people" class="search-field" placeholder="Search for people"/>
-                    </div>
-
-                </div>
-            </nav>
-        {% endif %}
         <div class="row">
-            <div class="col-md-2 col-md-offset-3">
+            <div class="col-md-2 col-md-offset-3 col-sm-4 col-xs-4 text-center">
                 <a href="{{ url_for('main.search_organizations') }}">
-                    <span  class="search-title ">Organizations</span>
+                    <span class="search-title ">Organizations</span>
                 </a>
 
             </div>
-            <div class="col-md-1 col-md-offset-0">
+            <div class="col-md-1 col-md-offset-0 col-sm-4 col-xs-4 text-center">
                 <a href="{{ url_for('main.search_people') }}">
-                    <span  class="search-title active">People</span>
+                    <span class="search-title active">People</span>
                 </a>
 
             </div>
-            <div class="col-md-2 col-md-offset-0">
+            <div class="col-md-2 col-md-offset-0 col-sm-4 col-xs-4 text-center">
                 <a href="{{ url_for('main.search_articles') }}">
                     <span class="search-title">Articles</span>
                 </a>
@@ -94,11 +41,12 @@
         <div class="row">
             {% for user in users %}
                 <div class="search-item row">
-                    <div class="col-md-1 col-md-offset-2">
+                    <div class="col-md-1 col-md-offset-2 col-sm-1 col-sm-offset-2 col-xs-2">
                         <img src="{{ url_for('static', filename='img/prof3.png') }}" class="img-circle search-img-item">
                     </div>
-                    <div class="col-md-6">
-                        <a href="{{ url_for('profile.feed', username=user.username) }}"><span class="search-result-title">{{ user.name }}, {{ user.lastname }}</span></a>
+                    <div class="col-md-6 col-sm-7 col-xs-7">
+                        <a href="{{ url_for('profile.feed', username=user.username) }}"><span
+                                class="search-result-title">{{ user.name }}, {{ user.lastname }}</span></a>
                     </div>
                 </div>
             {% endfor %}

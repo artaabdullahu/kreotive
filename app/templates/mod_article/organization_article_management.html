@@ -1,14 +1,27 @@
 {% extends "layout.html" %}
 {% block body %}
 
-
-    <div id="article-management">
+    <div class="org-article-management">
+        <div class="row org-menu">
+            <div class="col-md-10 col-md-offset-1">
+                <ul>
+                    <li><a href="{{ url_for ('organization.feed', organization_slug=organization.org_slug) }}"
+                           >Feed</a></li>
+                    <li><a href="{{ url_for ('organization.about', organization_slug=organization.org_slug) }}">About
+                            us</a></li>
+                    <li><a href="{{ url_for ('organization.archive', organization_slug=organization.org_slug) }}">All
+                            articles</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        {% include('mod_organization/org_header.html') %}
         {% include('mod_organization/org_menu.html') %}
 
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <h3>Article Management</h3>
-                <span style="color:red;"> {{ message }} </span>
+                <span style="color:green;"> {{ message }} </span>
             </div>
         </div>
 

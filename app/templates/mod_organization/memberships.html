@@ -18,44 +18,8 @@
                     </div>
                 </div>
                 {% include('mod_organization/org_header.html') %}
+                {% include('mod_organization/org_menu.html') %}
                 <div id="org-members">
-                    <div class="row">
-                        <div class="col-md-1 col-md-offset-1 col-sm-1 col-xs-1 text-center">
-                            <div class="dropdown">
-                                <button class="fa fa-bars dropdown-toggle"
-                                        data-toggle="dropdown" role="menu"></button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="{{ url_for('main.feed') }}">Feed</a></li>
-                                    <li>
-                                        <a href="{{ url_for('article.my_articles', article_action='show') }}">Article
-                                            management</a>
-                                    </li>
-                                    <li><a href="#">Comments</a></li>
-                                    <li><a href="#">Bookmarks</a></li>
-                                    <li>
-                                        <a href="{{ url_for('profile.following', username=current_user.username) }}">Following</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ url_for('profile.profile_settings', username=current_user.username) }}">Account
-                                            Details</a>
-                                    </li>
-                                    {% if current_user.has_role('org_admin') %}
-                                        {% include ('mod_organization/org_administration.html') %}
-                                    {% endif %}
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-md-1 col-md-offset-0 col-sm-1 col-sm-offset-0 col-xs-1 col-xs-offset-1 text-center">
-                            <a href="{{ url_for('article.new_article' , author_type="organization", name=organization.name, username=organization['org_slug']) }}"
-                               class="fa fa-pencil"></a>
-                        </div>
-
-                        <div class="col-md-1 col-md-offset-0 col-sm-1 col-sm-offset-0 col-xs-1 col-xs-offset-1 text-center">
-                            <a href="{{ url_for('organization.search', organization_slug=organization.org_slug) }}"
-                               class="fa fa-search"></a>
-                        </div>
-                    </div>
-
                     <div class="row">
                         <div class="col-md-6 col-md-offset-1">
                             <h3 class="administration-title">Membership administration</h3>

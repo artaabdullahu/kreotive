@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
 
-        <script type="text/javascript" src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"></script>
+    {#        <script type="text/javascript" src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"></script>#}
     <script type="text/javascript" src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"
             xmlns="http://www.w3.org/1999/html"></script>
 
@@ -69,8 +69,8 @@
                         </div>
                         <div class="col-md-10">
                        <textarea name="content" id="text_editor">
-                        {{ article['content']|safe }}
-                        </textarea>
+                                {{ article['content']|safe }}
+                       </textarea>
                         </div>
                     </div>
 
@@ -88,10 +88,8 @@
                     <div class="row">
                         <div class="col-md-9 col-md-offset-2">
                             <label class="category-label">Category</label>
-                            <input name="category" id="categories" class="text-right" required
-                                   value="{% if article -%}
-                                     {{ article['category']|safe }}
-                                     {% endif %}">
+                            <input name="category" id="categories" required
+                                   value=" {{ article['category']|safe }}"/>
                             <br/>
                         </div>
 
@@ -99,10 +97,10 @@
                             <label>{{ article['post-privacy'] }}
                                 {% if article['post_privacy'] == "on" %}
                                     <input checked type="checkbox" id="post-privacy" name="post-privacy"
-                                           onchange='javascript:fillValues()'"/>
+                                           onchange='javascript:fillValues()'/>
                                 {% else %}
                                     <input type="checkbox" id="post-privacy" name="post-privacy"
-                                           onchange='javascript:fillValues()'"/>
+                                           onchange='javascript:fillValues()'/>
                                 {% endif %}
                             </label>
                         </div>
@@ -165,37 +163,68 @@
                     });
         </script>
     {% endif %}
-<script type="text/javascript">
-         $(document).ready(function () {
-             var action = "{{ action }}";
-             if (action == 'edit') {
-                 fillValues();
-             }
-         });
-         function fillValues() {
-             var article_type = "{{article['type'] | safe}}";
-             if (article_type) {
-                 $('.type option[value=' + article_type + ']').attr('selected', 'selected');
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var action = "{{ action }}";
+            if (action == 'edit') {
+                fillValues();
             }
-             var content = "";
-             {#            var article_privacy = "{{article['post-privacy']}}";#}
+        });
+        function fillValues() {
+            var article_type = "{{article['type'] | safe}}";
+            if (article_type) {
+                $('.type option[value=' + article_type + ']').attr('selected', 'selected');
+            }
+            var content = "";
 
-             {#            $("#article_privacy").change(function () {#}
-             {#                $(this).click(function() {#}
-             {#                    $('#post-privacy' + $(this).attr('id')).toggle();#}
-             {#                if (post-privacy.chcked) {#}
-             {#                    $('#post-privacy').toggle();#}
-             {#                } else {#}
-             {#                    $('#post-privacy').hide();#}
-             {#                }#}
-             {#                })#}
-         }
-         {#        });#}
+            {#            var article_privacy = "{{article['post-privacy']}}";#}
 
-         //CKEDITOR.instances.text_editor.setData(content);
+            {#            $("#article_privacy").change(function () {#}
+            {#                $(this).click(function() {#}
+            {#                    $('#post-privacy' + $(this).attr('id')).toggle();#}
+            {#                if (post-privacy.chcked) {#}
+            {#                    $('#post-privacy').toggle();#}
+            {#                } else {#}
+            {#                    $('#post-privacy').hide();#}
+            {#                }#}
+            {#                })#}
+        }
+        {#        });#}
 
-         $("#article_type").autocomplete({
-             source: ['type']
-         });
-     </script>
+
+        $("#article_type").autocomplete({
+            source: ['type']
+        });
+    </script>
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var action = "{{ action }}"
+            if (action == 'edit') {
+
+                $('.btn-publish').click(function () {
+                    {#                    event.preventDefault(edit = 'False');#}
+                    var action = "{{ action }}"
+                    var url = this.href;
+                    swal({
+                                title: '',
+                                text: 'Article is successfully published!',
+                                type: 'success',
+                                timer: 8000
+                            }
+                            {#                                }, function () {#}
+                            {#                                    window.location = url;#}
+                            {##}
+                            {#                                }#}
+                    );
+
+                });
+            }
+        });
+
+
+    </script>
 {% endblock %}

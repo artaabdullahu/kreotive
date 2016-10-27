@@ -74,7 +74,8 @@ def my_articles(article_action):
         message = "Article/s deleted."
     # TODO: Restrict access to only authenticated users
     articles = content_mongo_utils.get_authors_articles(current_user.username)
-    return render_template('mod_article/article_management.html', articles=articles, article_action=article_action,
+    profile = user_mongo_utils.get_user_by_username(current_user.username)
+    return render_template('mod_article/article_management.html', profile=profile, articles=articles, article_action=article_action,
                            message=message)
 
 
@@ -205,7 +206,7 @@ def edit_article(article_id, edit):
         publish_article = True
         delete = False
         if action == "save":
-            publish_article = False
+            return redirect(url_for('article.my_articles', article_action='show'))
         elif action == "cancel":
             return redirect(url_for('article.my_articles', article_action='show'))
     data_ = {

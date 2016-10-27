@@ -12,10 +12,7 @@
                 </ul>
             </div>
         </div>
-
-
         <!-- Banner part at Feed/About/Article Pages-->
-
         {% include('mod_profile/profile_header.html') %}
         {% include('mod_profile/user_menu.html') %}
 
@@ -24,7 +21,7 @@
             </div>
         </div>
         <div class="loading row" data-skip-posts-number="6" data-posts-per-page="6">
-            <img class="col-md-offset-5"
+            <img class="col-md-offset-5 col-sm-offset-5 col-xs-offset-5"
                  src="{{ url_for('static', filename='img/loading.gif') }}"/>
         </div>
     </div>

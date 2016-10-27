@@ -22,7 +22,7 @@
             {% include('mod_organization/org_menu.html') %}
             <div class="row">
                 <div class="col-md-6 col-md-offset-1">
-                    <h4>Org account details</h4>
+                    <div class="acc-details-label">Org account details</div>
                 </div>
             </div>
             <br/>
@@ -40,7 +40,7 @@
                 </div>
 
                 <div class="col-md-4 col-md-offset-0 col-sm-6 col-sm-offset-4 col-xs-10 col-xs-offset-2">
-                    <h5>Edit account details</h5>
+                    <div class="edit-acc-label">Edit account details</div>
                     <span style="color:green;">{% if error != '' %}{{ error }}{% endif %}</span>
                     <form name="org-details" id="org-details" method="POST"
                           action="{{ url_for('organization.organization_settings', organization_slug=organization.org_slug) }}">
@@ -72,7 +72,7 @@
 
                 </div>
                 <div class="col-md-4 col-md-offset-0 col-sm-6 col-sm-offset-4 col-xs-10 col-xs-offset-2">
-                    <h5>Delete organization account</h5>
+                    <div class="del-acc-label">Delete organization account</div>
                     <h6>Are you sure? There's no coming back from this one!</h6>
                     <h6><b>All organization articles will be deleted.</b></h6><br>
                     <button type="submit" class="del-account">Send email to Superadmin</button>

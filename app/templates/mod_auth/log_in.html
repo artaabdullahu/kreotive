@@ -17,14 +17,14 @@
 {##}
 {#        {{ social_login('foursquare', 'foursquare' )}}#}
             <form id="log-in" method="post" action="{{ url_for('auth.login') }}">
-                <div class=" col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-12 text-center">
-                    <button type="button" class="btn btn-log-in-google"><img src="{{ url_for('static', filename='img/google-plus.png') }}" /> Log in with Google</button>
-                    <button type="button" class="btn btn-log-in-facebook"><img src="{{ url_for('static', filename='img/facebook.png') }}" />Log in with Facebook</button>
+                <div class=" col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1 text-center">
+                    <button type="button" class="btn btn-log-in-google">Log in with Google</button>
+                    <button type="button" class="btn btn-log-in-facebook">Log in with Facebook</button>
                     <br>
                     <h5 class="text-center">- or -</h5>
                     <input name="email" type="email" class="form-control" align="middle" id="email-login" placeholder="Email">
                     <input name="password" type="password" class="form-control" id="pass-login" placeholder="Password">
-                    <input type="checkbox" name="remember_me" value="remember_me" id="remember_me">Remember me<br>
+                    <input type="checkbox" name="remember_me" value="remember_me" id="remember_me"><label style="font-weight:normal">Remember me</label><br>
                     <a href="" style="color:#666666; font-size: 0.8em;">Forgot your password?</a></br>
                         {% if error %}
                         <div style="color:red;">   {{ error }}</div>

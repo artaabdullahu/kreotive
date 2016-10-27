@@ -2,53 +2,23 @@
 {% block body %}
 
     <div id="article-management">
-        <div class="row menu-icons">
-            <div class="col-md-1 col-md-offset-1 col-sm-1 col-xs-1 text-center">
-                <button class="fa fa-bars dropdown-toggle" data-toggle="dropdown"
-                        style="color: #000"></button>
-                <ul class="dropdown-menu" style="margin: 12px 0 0 30px;">
-                    <li><a href="#" class="active">Feed</a></li>
-                    <li><a href="{{ url_for('article.my_articles', article_action='show') }}">Article
-                        management</a></li>
-                    <li><a href="#">Comments</a></li>
-                    <li><a href="#">Bookmarks</a></li>
-                    <li><a href="#">Following</a></li>
-                    <li><a href="#">Account details</a></li>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <ul>
+                    <li><a href="{{ url_for ('profile.feed', username = profile.username ) }}">Feed</a></li>
+                    <li><a href="{{ url_for ('profile.about', username = profile.username ) }}">About me</a></li>
+                    <li><a href="{{ url_for ('profile.archive', username = profile.username ) }}">All articles</a>
+                    </li>
                 </ul>
-            </div>
-            <div class="col-md-1 col-sm-1 col-xs-1 text-center">
-                <a href="{{ url_for('article.new_article', author_type='individual', name=current_user.name , username=current_user.username) }}"
-                   class="fa fa-pencil"></a>
-            </div>
-            <div class="col-md-1 col-sm-1 col-xs-1 text-center">
-                <a href="{{ url_for('main.search_organizations') }}" class="fa fa-search " aria-hidden="true"
-                   id="search1"
-                   style="margin-left: 0px;"></a>
-            </div>
-            <div id="filter">
-                <div class="col-md-1 col-md-offset-3 col-sm-1 col-sm-offset-5 col-xs-1 col-xs-offset-5 text-center">
-                    <a href="" class="fa fa-file-video-o" aria-hidden="true" id="video-type1"
-                       data-toggle="tooltip" title="Filter by video" data-category="video"></a>
-                </div>
-                <div class="col-md-1 col-sm-1 col-xs-1 text-center">
-                    <a href="" class="fa fa-file-audio-o" aria-hidden="true" id="audio-type1"
-                       data-toggle="tooltip" title="Filter by audio" data-category="audio"></a>
-                </div>
-                <div class="col-md-1 col-sm-1 col-xs-1 text-center">
-                    <a href="" class="fa fa-file-text-o" aria-hidden="true" id="text-type1"
-                       data-toggle="tooltip" title="Filter by text" data-category="text"></a>
-                </div>
-
-                <div class="col-md-1 col-sm-1 col-xs-1 text-center">
-                    <a href="" class="fa fa-paperclip" aria-hidden="true" id="attach-type1"
-                       data-toggle="tooltip" title="Filter by attachment" data-category="attachment"></a>
-                </div>
             </div>
         </div>
 
+        {% include('mod_profile/profile_header.html') %}
+        {% include('mod_profile/user_menu.html') %}
+
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                <h3>Article Management</h3>
+                <h3 class="administration-title">Article Management</h3>
                 <span style="color:green;"> {{ message }} </span>
             </div>
         </div>
@@ -58,27 +28,23 @@
                 <div class="col-md-10 col-md-offset-1">
                     {% for article in articles %}
                         <div id="{{ article['_id'] }}" class="manage-line">
-                            <div class="col-md-6 col-sm-5 col-xs-10">
-                                {% if article['published'] == False %}
-                                    <a href="{{ url_for('article.article',slug=article['slug']) }}">
-                                        <h3 style="font-size: 20px; padding: 10px;">(DRAFT)
-                                            - {{ article['title'] }}
-                                        </h3>
-                                    </a>
-                                {% else %}
-                                    <a href="{{ url_for('article.article',slug=article['slug']) }}">
-                                        <h3 style="font-size: 20px; padding: 10px;">{{ article['title'] }}</h3>
-                                    </a>
-                                {% endif %}
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                <input class="form-control title" name="title" placeholder="Title"
+                                   value="{% if article -%}
+
+                                     {{ article['title']|escape }}
+
+                                 {% endif %}">
                             </div>
-                            <div class="col-md-3 col-sm-3 col-xs-4">
-                                <h3 style="font-size: 14px; padding: 20px 0px;" datetime="2016-07-20T12:39">
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <h3 class="article-date" style="font-size: 12px; padding: 8px 0px;"
+                                    datetime="2016-07-20T12:39">
                                     {% if article['published_date'] %}
                                         {{ article['published_date'].strftime('%Y-%m-%d %H:%M') }}
                                     {% endif %}
                                 </h3>
                             </div>
-                            <div class="col-md-3 col-sm-4 col-xs-12 visible-article text-right">
+                            <div class="col-md-1 col-sm-1 col-xs-1 text-center">
                                 {% if article['visible'] == True %}
                                     <a href="{{ url_for('article.edit_article_visibility', slug = article.slug, visible=False) }}">
                                         <i class="fa fa-eye "></i>
@@ -88,14 +54,18 @@
                                         <i class="fa fa-eye-slash"></i>
                                     </a>
                                 {% endif %}
+                            </div>
+                            <div class="col-md-1 col-sm-1 col-xs-1 text-center">
+                                <a class="edit"
+
+                                   href="{{ url_for('article.edit_article', article_id = article._id, edit = False) }}">
+                                    <i class=" fa fa-pencil-square-o"></i></a>
+                            </div>
+                            <div class="col-md-1 col-sm-1 col-xs-1 text-center">
                                 <a class="del"
                                    href="{{ url_for('article.delete_article', slug = article.slug, delete = False) }}">
                                     <i class="fa fa-trash-o"></i>
                                 </a>
-                                <a class="edit"
-
-                                   href="{{ url_for('article.edit_article', article_id = article._id, edit = False) }}">
-                                     <i class=" fa fa-pencil-square-o"></i></a>
                             </div>
                         </div>
                     {% endfor %}
