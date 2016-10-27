@@ -50,9 +50,10 @@
                          class="img-responsive img-circle avatar">
                     <form name="avatar_change" method=POST enctype="multipart/form-data"
                           action="{{ url_for('profile.upload_avatar') }}">
+                        <input type='file' name='photo' id="file" class="inputfile">
+                        <label for="file">Change avatar</label>
+                        
 
-                        <input type='file' name='photo'>
-                        <button type="submit" class="change-avatar">Change avatar</button>
                     </form>
 
                 </div>
@@ -98,4 +99,23 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function () {
+            var inputs = document.querySelectorAll('.inputfile');
+            Array.prototype.forEach.call(inputs, function (input) {
+                var label = input.nextElementSibling,
+                        labelVal = label.innerHTML;
+
+                input.addEventListener('change', function (e) {
+                    var fileName = '';
+                    if (this.files && this.files.length > 1)
+                        $("form[name='avatar_change']").submit();
+                });
+            });
+            $('#file').change(function () {
+                $("form[name='avatar_change']").submit();
+            });
+        });
+    </script>
 {% endblock body %}
