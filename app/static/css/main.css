@@ -740,6 +740,10 @@ i#share-org {
     padding-top: 16px;
 }
 
+.fa-close{
+    color: rgb(181, 181, 181);
+}
+
 .search-item.row a {
     color: #000;
 }
