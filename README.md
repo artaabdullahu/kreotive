@@ -47,13 +47,13 @@ And configure it to point to the project's app.wsgi file:
 <VirtualHost *:80>
   ServerAdmin admin@localhost
   #ServerName kreotive.com
-  
+
   WSGIScriptAlias / /var/www/kreotive/app.wsgi
   <Directory /var/www/kreotive>
     Order allow,deny
     Allow from all
   </Directory>
-    
+
   ErrorLog ${APACHE_LOG_DIR}/error.log
   CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
@@ -99,11 +99,11 @@ bash run-debug.sh
 ```
 
 ### 3. Create Indexes for search fields
-
+```
 db.organizations.createIndex({name:"text"})
 db.users.createIndex({name:"text", lastname:"text"})
 db.content.createIndex({title:"text", content:"text"})
-
+```
 
 
 
