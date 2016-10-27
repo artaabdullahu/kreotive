@@ -27,9 +27,11 @@ a#cke_21, a#cke_22, a#cke_23, a#cke_24, a#cke_25, .cke_button__attachments {
 .cke_button__attachments:before {
     content: "\f1c6";
 }
+
 .cke_button__audioattachments:before {
     content: "\f1c7";
 }
+
 .cke_button__videoattachments:before {
     content: "\f1c8";
 }
@@ -55,7 +57,7 @@ a#cke_15:before {
 }
 
 a.cke_combo_button:before {
-    font-family:FontAwesome;
+    font-family: FontAwesome;
     visibility: visible;
     content: "\f034" !important;
     z-index: 1;
@@ -157,6 +159,19 @@ span#cke_1_top, .cke_inner {
 /*#cke_11_text{*/
 /*visibility: hidden;*/
 /*}*/
+
+a.cke_button_off:hover, a.cke_button_off:focus, a.cke_button_off:active, a.cke_button_disabled:hover, a.cke_button_disabled:focus, a.cke_button_disabled:active {
+    box-shadow: none !important;
+    background: none !important;
+    background-image: none !important;
+}
+
+a.cke_button_on {
+    box-shadow: none !important;
+    background: none !important;
+    background-image: none !important;
+
+}
 
 .cke_combo_arrow {
     display: none;
