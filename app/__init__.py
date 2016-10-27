@@ -10,6 +10,7 @@ from app.utils.content_mongo_utils import ContentMongoUtils
 from app.utils.org_mongo_utils import OrgMongoUtils
 from app.utils.comments_mongo_utils import CommentsMongoUtils
 from app.utils.bookmarks_mongo_utils import BookmarksMongoUtils
+from app.utils.mail_utils import Mailer
 from flask.ext.bcrypt import Bcrypt
 from flask.ext.login import LoginManager
 from flask.ext.security import Security
@@ -18,6 +19,8 @@ from flask.ext.principal import Principal
 from bson.objectid import ObjectId
 from os.path import join, dirname, realpath
 from rauth import OAuth2Service
+from flask.ext.mail import Mail
+import ast
 
 login_manager = LoginManager()
 
@@ -35,6 +38,12 @@ principal = Principal()
 
 # Create flask-social object
 social = Social()
+
+# Create mail obj
+mail = Mail()
+
+# Mailer
+mailer = Mailer(mail)
 
 uds = UserDataStore()
 
@@ -86,6 +95,8 @@ def create_app():
     # init principal
     principal.init_app(app)
 
+    # Init mail
+    mail.init_app(app)
     # Initialize the app to work with MongoDB
     mongo.init_app(app, config_prefix='MONGO')
 
@@ -125,6 +136,7 @@ def load_config(app):
     config.read(config_filepath)
 
     app.config['SERVER_PORT'] = config.get('Application', 'SERVER_PORT')
+    app.config['HOST'] = config.get('Application', 'HOST')
     app.config['MONGO_DBNAME'] = config.get('Mongo', 'DB_NAME')
     app.config['MONGO_HOST'] = config.get('Application', 'HOST')
     app.config['SECRET_KEY'] = config.get('Application', 'SECURITY_KEY')
@@ -136,10 +148,13 @@ def load_config(app):
     app.config['GOOGLE_CONSUMER_KEY'] = config.get('SOCIAL', 'GOOGLE_CONSUMER_KEY')
     app.config['GOOGLE_CONSUMER_SECRET'] = config.get('SOCIAL', 'GOOGLE_CONSUMER_SECRET')
 
-    facebook_client_id = app.config['FACEBOOK_CONSUMER_KEY']
-    facebook_client_secret = app.config['FACEBOOK_CONSUMER_SECRET']
-    google_client_id = app.config['GOOGLE_CONSUMER_KEY']
-    google_client_secret = app.config['GOOGLE_CONSUMER_SECRET']
+    app.config['MAIL_SERVER'] = config.get('Mail', 'MAIL_SERVER')
+    app.config['MAIL_PORT'] = config.get('Mail', 'MAIL_PORT')
+    app.config['MAIL_USE_SSL'] = ast.literal_eval(config.get('Mail', 'MAIL_USE_SSL'))
+    app.config['MAIL_USE_TLS'] = ast.literal_eval(config.get('Mail', 'MAIL_USE_TLS'))
+    app.config['MAIL_USERNAME'] = config.get('Mail', 'MAIL_USERNAME')
+    app.config['MAIL_PASSWORD'] = config.get('Mail', 'MAIL_PASSWORD')
+
 
     app.config['UPLOAD_FOLDER'] = upload_folder
     app.config['ALLOWED_EXTENSIONS'] = allowed_extensions

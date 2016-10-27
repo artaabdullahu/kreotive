@@ -1,14 +1,16 @@
 from flask import Blueprint, render_template, url_for, redirect, flash, \
-    jsonify, request, Response, current_app, session
+    jsonify, request, Response, current_app, session, Markup
 from flask.ext.security import login_user, logout_user, current_user, \
     login_required
 from flask.ext.principal import Principal, Identity, AnonymousIdentity, \
     identity_changed
-from app import user_mongo_utils, bcrypt, facebook, google
+from app import user_mongo_utils, bcrypt, facebook, google, uds, mailer
 from slugify import slugify
 from bson.objectid import ObjectId
 import json
 import random
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+
 
 mod_auth = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -84,6 +86,67 @@ def login():
                 identity_changed.send(current_app._get_current_object(),
                                       identity=Identity(current_user.id))
                 return redirect(url_for('main.feed'))
+
+@mod_auth.route('/reset-password', methods=["POST", "GET"])
+def reset_password():
+    if request.method == 'GET':
+        return render_template('mod_auth/reset_password.html')
+    elif request.method=='POST':
+        email = request.form['email']
+        user = user_mongo_utils.get_user(email=email)
+        if user:
+            token = get_token(email)
+            url = url_for('auth.new_password', _external=True)+'?token='+token
+            send_mail = mailer.send_mail(subject="Reset password", sender="partin.imeri@gmail.com",
+                                     recipient=email, message=render_template("mod_auth/email_template/reset_password.txt",
+                               name=user.name, url=url))
+            return render_template('mod_auth/reset_password.html', msg="Email with the token to change password sent.", token=token)
+        else:
+            return render_template('mod_auth/reset_password.html', msg="Email doesn't exist.")
+
+
+@mod_auth.route('/new-password', methods=["GET","POST"])
+def new_password():
+    if request.method == 'GET':
+        token = request.args.get('token')
+        verified = verify_token(token)
+        if verified:
+            return render_template('mod_auth/new_password.html', msg="", token=token, verified = True)
+        else:
+            return render_template('mod_auth/new_password.html', msg="Token expired", verified = False)
+    elif request.method=='POST':
+        form = request.form
+        token = form['token']
+        user = verify_token(token)
+        password = form['password']
+        confirm_password = form['password_confirm']
+        if password == confirm_password:
+            user_mongo_utils.new_password(user.id, password)
+            msg = Markup("Password changed. Click <a href="+url_for('auth.login')+">here</a> to login.")
+            return render_template('mod_auth/new_password.html', msg=msg, verified=False)
+        else:
+            return render_template('mod_auth/new_password.html', msg="Please write the same password in both fields.",
+                                   verified=True)
+
+
+def get_token(email):
+    expiration = 1800
+    user = user_mongo_utils.get_user(email=email)
+    s = Serializer(current_app.config['SECRET_KEY'], expiration)
+    return s.dumps({'user': user.id}).decode('utf-8')
+
+
+def verify_token(token):
+    s = Serializer(current_app.config['SECRET_KEY'])
+    try:
+        data = s.loads(token)
+    except:
+        return None
+    id = data.get('user')
+    if id:
+        return user_mongo_utils.get_user_by_id(id)
+    return None
+
 
 
 @login_required

@@ -9,12 +9,12 @@
                 <ul class="dropdown-menu" style="margin-left: 10px;">
                     <li><a href="{{ url_for('main.feed') }}">Feed</a></li>
                     <li><a href="{{ url_for('article.my_articles', article_action='show') }}">Article
-                                management</a></li>
+                        management</a></li>
                     <li><a href="{{ url_for('profile.comments', username=current_user.username) }}">Comments</a></li>
                     <li><a href="{{ url_for('profile.bookmarks', username=current_user.username) }}">Bookmarks</a></li>
                     <li><a href="{{ url_for('profile.following', username=profile.username) }}">Following</a></li>
                     <li><a href="{{ url_for('profile.profile_settings', username=profile.username) }}">Account
-                                details</a></li>
+                        details</a></li>
                 </ul>
 
             </div>
@@ -35,8 +35,8 @@
                      class="img-responsive img-circle avatar">
                 <form name="avatar_change" method=POST enctype="multipart/form-data"
                       action="{{ url_for('profile.upload_avatar') }}">
-                    <input type='file' name='photo'>
-                    <button type="submit" class="change-avatar">Change avatar</button>
+                    <input type='file' name='photo'  id="file" class="inputfile">
+                    <label for="file">Change avatar</label>
                 </form>
             </div>
             <div class="col-md-4 col-md-offset-0 col-sm-6 col-sm-offset-4 col-xs-10 col-xs-offset-2">
@@ -62,8 +62,9 @@
             </div>
             <div class="col-md-4 col-md-offset-0 col-sm-6 col-sm-offset-4 col-xs-10 col-xs-offset-2">
                 <div class="edit-acc-label">Change password</div>
-                    <span style="color:green;">{% if success == "Password was changed successfully" %}{{ success }}{% endif %}</span>
-                    <span style="color:red;">{% if errorP != '' %}{{ errorP }}{% endif %}</span>
+                <span style="color:green;">{% if success == "Password was changed successfully" %}
+                    {{ success }}{% endif %}</span>
+                <span style="color:red;">{% if errorP != '' %}{{ errorP }}{% endif %}</span>
 
                 <form name="change-password" id="change-password" method="post"
                       action="{{ url_for('profile.change_password', username=current_user.username) }}">
@@ -82,6 +83,23 @@
         </div>
     </div>
     <script>
+    $(document).ready(function(){
+          var inputs = document.querySelectorAll('.inputfile');
+        Array.prototype.forEach.call(inputs, function (input) {
+            var label = input.nextElementSibling,
+                    labelVal = label.innerHTML;
+
+            input.addEventListener('change', function (e) {
+                var fileName = '';
+                if (this.files && this.files.length > 1)
+                    $("form[name='avatar_change']").submit();
+            });
+        });
+        $('#file').change(function(){
+            $("form[name='avatar_change']").submit();
+        });
+    });
+
         document.querySelector('a#del-account').onclick = function (event) {
             event.preventDefault();
             swal({

@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template
-from app import user_mongo_utils, bcrypt, org_mongo_utils
+from app import user_mongo_utils, bcrypt, org_mongo_utils, mailer
 from flask import request
 from flask import Response
 import json
@@ -114,6 +114,15 @@ def add_org():
             users_list.append(user['username'])
         return render_template('mod_superadmin/add_org.html', error=error, users_list=users_list,
                                get_user_name_last_name_by_username=get_user_name_last_name_by_username)
+
+
+@mod_superadmin.route('/send_mail', methods=['GET'])
+def send_mail():
+    send_mail = mailer.send_mail(subject="Hello", sender="partin.imeri@gmail.com", recipient="partin@opendatakosovo.org", message="Hey" )
+    if send_mail['sent'] == True:
+        return "Mail sent"
+    else:
+        return "Mail not sent"
 
 
 def get_user_name_last_name_by_username(username):

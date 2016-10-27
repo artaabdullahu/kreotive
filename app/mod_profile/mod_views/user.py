@@ -1,9 +1,9 @@
 # coding=utf-8
-from flask import redirect, url_for
+from flask import redirect, url_for, current_app
 from flask.ext.security import UserMixin, RoleMixin
 import datetime
 from werkzeug.security import check_password_hash
-
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 class User(UserMixin):
     def __init__(self, id=None, name=None, lastname=None, is_active=None, email=None, password=None, roles=None,
@@ -41,6 +41,7 @@ class User(UserMixin):
     def is_anonymous(self):
         return False
 
+
     @staticmethod
     def validate_login(password_hash, password):
         return check_password_hash(password_hash, password)
@@ -57,6 +58,8 @@ class Roles(RoleMixin):
 
 
 class UserDataStore(object):
+
+
     @staticmethod
     def activate_user(self, user):
         """
