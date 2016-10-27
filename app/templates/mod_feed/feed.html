@@ -141,7 +141,7 @@
                     if (posts.length > 0) {
                         loadMoreArticles(posts);
                     } else {
-                        $('.loading').css('display', 'none');
+                        $('.loading').css('display','none')
                     }
 
                 });
@@ -149,29 +149,21 @@
             }
 
             function initFeed() {
-
-                // Get the first 6 feeds
                 var articles = {{ all_articles|safe }};
-                console.log(articles.length);
                 for (var idx in articles) {
                     feedTheFeed(articles[idx], idx);
                 }
                 addTileColors();
-
-                if (articles.length < 8) {
-                    $('.loading').css('display', 'none');
+                if(articles.length<8){
+                    $('.loading').css('display','none')
                 }
-
-
             }
-
 
             function loadMoreArticles(posts) {
                 for (var idx in posts) {
                     feedTheFeed(posts[idx], idx);
                 }
                 addTileColors();
-
             }
 
             function feedTheFeed(article, idx) {
@@ -252,7 +244,6 @@
                 $(".article:nth-child(8n+6)").css("background-color", "#cf463a").addClass('col-md-4 col-sm-6 col-xs-12');
                 $(".article:nth-child(8n+7)").css("background-color", "#445d9b").addClass('col-md-4 col-sm-6 col-xs-12');
                 $(".article:nth-child(8n)").css("background-color", "#1c7184").addClass('col-md-8 col-sm-6 col-xs-12');
-
             }
 
 

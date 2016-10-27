@@ -1050,5 +1050,32 @@ ul.list{
     background-color: #000 !important;
     border-color: #fff !important;
 }
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+.inputfile + label {
+    margin-top: 24px;
+    font-size: 1.25em;
+    font-weight: 700;
+    padding: 6px;
+    color: white;
+    background-color: #3498db;
+    display: inline-block;
+}
 
-
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background-color: #63b3e8;
+}
+.inputfile + label {
+	cursor: pointer; /* "hand" cursor */
+}
+.inputfile:focus + label {
+	outline: 1px dotted #000;
+	outline: -webkit-focus-ring-color auto 5px;
+}
