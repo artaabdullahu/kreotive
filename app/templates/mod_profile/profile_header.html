@@ -64,12 +64,8 @@
                 {% else %}
                     <button type="button" class="follow pull-right" onclick="follow()">Unfollow</button>
                 {% endif %}
-
             {% else %}
-                <button type="button" class="follow pull-right" onclick="{{ url_for('auth.sign_up') }}">Follow</button>
-                <button type="button" class="ask-to-join pull-right" onclick="{{ url_for('auth.sign_up') }}">Ask
-                    to join
-                </button>
+                <a href="{{ url_for('auth.sign_up') }}" type="button" class="follow pull-right" onclick="not_loggedin()">Follow</a>
             {% endif %}
         </div>
     </div>
