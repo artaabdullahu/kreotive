@@ -282,7 +282,7 @@ footer a:hover {
 }
 
 i.fa.fa-bookmark,
-i.fa.fa-bookmark-o{
+i.fa.fa-bookmark-o {
     color: #000;
     font-size: 25px;
     padding-top: 11px;
@@ -731,6 +731,7 @@ i#share-org {
 
 .search-img-item {
     height: 36px;
+    width: 36px;
     position: absolute;
     right: 0;
 }
@@ -1062,14 +1063,16 @@ ul.list {
     background-color: #000 !important;
     border-color: #fff !important;
 }
+
 .inputfile {
-	width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	z-index: -1;
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
 }
+
 .inputfile + label {
     margin-top: 24px;
     font-size: 1.25em;
@@ -1084,10 +1087,12 @@ ul.list {
 .inputfile + label:hover {
     background-color: #63b3e8;
 }
+
 .inputfile + label {
-	cursor: pointer; /* "hand" cursor */
+    cursor: pointer; /* "hand" cursor */
 }
+
 .inputfile:focus + label {
-	outline: 1px dotted #000;
-	outline: -webkit-focus-ring-color auto 5px;
+    outline: 1px dotted #000;
+    outline: -webkit-focus-ring-color auto 5px;
 }

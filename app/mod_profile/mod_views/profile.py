@@ -239,7 +239,7 @@ class Profile():
 
 
 def user_avatar(username):
-    avatar_url = user_mongo_utils.get_user_by_username(username)['avatar_url']
+    avatar_url = user_mongo_utils.get_user_by_username(username).avatar_url
     return avatar_url
 
 
