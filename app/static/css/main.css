@@ -69,7 +69,6 @@ header {
 .btn-log-in-google {
     background-color: #d6d6d6;
     color: #5c5c5c;
-    height: 50px;
     font-size: 14px;
 
 }
@@ -97,7 +96,6 @@ header {
 .btn-log-in-facebook {
     font-size: 14px;
     background-color: #2d59a1;
-    height: 50px;
 }
 
 .btn-log-in, .btn-popover-log-in {

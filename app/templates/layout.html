@@ -22,7 +22,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/sweetalert.css') }}" type="text/css">
 
 
-
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="//code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
@@ -31,13 +30,26 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/sweetalert.min.js') }}"></script>
 
 
-
-
-
     <script>
-        $(function () {
-            $("#tabs").tabs();
+        $(document).ready(function () {
+            $(function () {
+                $("#tabs").tabs();
+            });
+
+            var width = window.screen.width;
+            var url = "{{ url_for('auth.sign_up') }}";
+            if (width < 1202) {
+
+                $('a#sign-in').removeAttr('data-toggle');
+                $('a#sign-in').removeAttr('content');
+                $('a#sign-in').attr("href", url);
+
+
+            }
+            ;
         });
+
+
     </script>
 </head>
 
@@ -71,10 +83,12 @@
                         <div class="col-md-12">
                             <form id="log-in-form" method="post" action="{{ url_for('auth.login') }}" class="hidden">
                                 <div class=" col-md-10 text-center">
-                                    <a href="{{ url_for('auth.google_login') }}" type="button" class="btn btn-log-in-google">Log in with
+                                    <a href="{{ url_for('auth.google_login') }}" type="button"
+                                       class="btn btn-log-in-google">Log in with
                                         Google
                                     </a>
-                                    <a href="{{ url_for('auth.fb_login') }}" type="button" class="btn btn-log-in-facebook">Log in with
+                                    <a href="{{ url_for('auth.fb_login') }}" type="button"
+                                       class="btn btn-log-in-facebook">Log in with
                                         Facebook
                                     </a>
                                     <br>
