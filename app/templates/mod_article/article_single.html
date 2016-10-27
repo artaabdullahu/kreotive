@@ -31,7 +31,7 @@
                 <span class="fa fa-clock-o time">   {{ article['published_date'].strftime('%Y-%m-%d %H:%M') }}</span>
             </div>
 
-            <div class="col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-1 col-xs-5 text-right">
+            <div class="col-md-2 col-md-offset-0 col-sm-2 col-sm-offset-1 col-xs-5 text-right">
                 {% if organization %}
                     <a href="{{ url_for('organization.archive', organization_slug=organization['org_slug']) }}"
                        class="fa fa-tag news">  {{ article['category'] }}</a>

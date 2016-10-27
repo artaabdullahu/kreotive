@@ -281,7 +281,8 @@ footer a:hover {
     font-size: 25px;
 }
 
-i.fa.fa-bookmark {
+i.fa.fa-bookmark,
+i.fa.fa-bookmark-o{
     color: #000;
     font-size: 25px;
     padding-top: 11px;

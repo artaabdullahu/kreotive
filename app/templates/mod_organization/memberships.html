@@ -55,7 +55,7 @@
                 </div>
                 <div class="col-md-3 col-xs-3">
                     <a href="{{ url_for ('profile.feed', username=organization.administrator) }}">
-                        <span class="search-result-title">{{ get_user_name_last_name_by_username(current_user.username).name }}, {{ get_user_name_last_name_by_username(current_user.username).name }}</span>
+                        <span class="search-result-title">{{ get_user_name_last_name_by_username(current_user.username).name }}, {{ get_user_name_last_name_by_username(current_user.username).lastname }}</span>
                     </a>
                 </div>
                 <div class="col-md-2 col-md-offset-4 col-xs-7 nopadding text-right">
