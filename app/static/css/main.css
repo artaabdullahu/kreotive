@@ -744,6 +744,11 @@ i#share-org {
     color: #000;
 }
 
+.article-single-img{
+    height: 70px;
+    width: 70px;
+}
+
 .search-item.row {
     margin: 0px;
 }

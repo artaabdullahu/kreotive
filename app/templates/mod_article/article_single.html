@@ -14,7 +14,7 @@
     <div id="single-article">
         <div class="row">
             <div class="col-md-1 col-md-offset-1 col-sm-1 col-xs-2 text-center">
-                <img src="{{ url_for('static', filename='img/prof3.png') }}" class="img-circle">
+                <img src="{{ url_for('static', filename= user_avatar(article['author']['slug'])) }}" class="img-circle article-single-img">
             </div>
 
             <div class="col-md-3 col-sm-5 col-xs-9 text-left">
@@ -191,7 +191,7 @@
             }
             var commentDIV = '' +
                     '<div id="comment-' + id + '" data-username="' + username + '"  data-firstname="' + firstname + '" data-lastname="' + lastname + '" class="row">' +
-                    '<div class="col-md-1 col-md-offset-0 col-xs-1 col-xs-offset-1 text-right">' +
+                    '<div class="col-md-1  col-xs-1 col-xs-offset-1">' +
 
                     '<img class="img-circle profile-img" src="{{ url_for('static',filename="")}}' + img_href + '"/>' +
                     '</div>' +
@@ -210,7 +210,7 @@
                     '</div>' +
                     '</div>' +
                     '<div class="row">' +
-                    '<div class="col-md-3 reply-text">' +
+                    '<div class="col-md-3">' +
                     '<a  id="reply-to-comment-' + id + '" class="comment-reply">Reply</a>' +
                     '</div>' +
                     '</div>' +
@@ -234,7 +234,7 @@
             }
             var commentDIV = '' +
                     '<div id="comment-' + id + '" data-username="' + username + '"  data-firstname="' + firstname + '" data-lastname="' + lastname + '" class="row">' +
-                    '<div class="col-md-1 col-md-offset-0 col-xs-1 col-xs-offset-2 text-right">' +
+                    '<div class="col-md-1 col-md-offset-1 col-xs-1 col-xs-offset-2">' +
                     '<img class="img-circle profile-img" src="{{ url_for('static',filename="")}}' + img_href + '"/>' +
                     '</div>' +
                     '<div class="col-md-8 col-xs-8">' +
