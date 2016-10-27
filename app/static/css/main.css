@@ -1054,6 +1054,7 @@ ul.popover-list {
 
 ul.list {
     list-style-type: none;
+    padding-top: 0px;
 }
 
 .active .page {
