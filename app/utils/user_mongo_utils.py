@@ -265,3 +265,11 @@ class UserMongoUtils(object):
                     {"$set": {"password": bcrypt.generate_password_hash(new_password, rounds=12)}})
 
         return new_pass
+
+    def new_password(self, id, new_password):
+        from app import bcrypt
+        new_pass = self.mongo.db[self.users_collection] \
+            .update({"_id": ObjectId(id)},
+                    {"$set": {"password": bcrypt.generate_password_hash(new_password, rounds=12)}})
+
+        return new_pass

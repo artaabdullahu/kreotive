@@ -31,6 +31,18 @@ def feed_filter(article_type, skip_posts_number, posts_per_page):
         return all_articles
 
 
+@mod_main.route('/articles/search/<string:article_type>/<int:skip_posts_number>/<int:posts_per_page>', methods=['GET', 'POST'])
+def search_filter(article_type, skip_posts_number, posts_per_page):
+    if request.method == 'GET':
+        articles_cursor = content_mongo_utils.get_articles_by_type(article_type=article_type, skips=skip_posts_number, limits=posts_per_page)
+        all_articles = dumps(articles_cursor)
+        return render_template('mod_feed/search_articles.html', all_articles=all_articles, article_type=article_type)
+    elif request.method == 'POST':
+        articles_cursor = content_mongo_utils.get_articles_by_type(article_type=article_type, skips=skip_posts_number, limits=posts_per_page)
+        all_articles = dumps(articles_cursor)
+        return all_articles
+
+
 @mod_main.route('/organizations/search', methods=['GET'])
 def search_organizations():
     ''' Renders the Search organizations page.
@@ -46,7 +58,7 @@ def search_organizations():
     else:
         organizations = org_mongo_utils.get_organizations()
 
-    return render_template('mod_feed/search.html', organizations=organizations)
+    return render_template('mod_feed/search.html', organizations=organizations, user_avatar=user_avatar)
 
 
 @mod_main.route('/articles/search', methods=['GET'])
@@ -62,7 +74,7 @@ def search_articles():
     else:
         # TODO: Show latest 10 from each category
         articles = content_mongo_utils.get_articles()
-    return render_template('mod_feed/search_articles.html', articles=articles)
+    return render_template('mod_feed/search_articles.html', articles=articles, user_avatar=user_avatar)
 
 
 @mod_main.route('/people/search', methods=['GET'])
@@ -79,5 +91,9 @@ def search_people():
     else:
 
         users = user_mongo_utils.get_users()
-    return render_template('mod_feed/search_people.html', users=users)
+    return render_template('mod_feed/search_people.html', users=users, user_avatar=user_avatar)
 
+
+def user_avatar(username):
+    avatar_url = user_mongo_utils.get_user_by_username(username).avatar_url
+    return avatar_url

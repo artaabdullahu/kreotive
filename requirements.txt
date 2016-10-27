@@ -1,4 +1,5 @@
 Flask==0.10.1
+Flask-Mail==0.9.1
 flask-bcrypt==0.5.2
 Flask-PyMongo==0.3.1
 

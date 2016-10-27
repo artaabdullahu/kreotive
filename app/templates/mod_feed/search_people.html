@@ -99,7 +99,7 @@
                         <li>
                             <div class="search-item row">
                                 <div class="col-md-1 col-md-offset-2 col-sm-1 col-sm-offset-2 col-xs-2">
-                                    <img src="{{ url_for('static', filename='img/prof3.png') }}"
+                                    <img src="{{ url_for('static', filename=user.avatar_url) }}"
                                          class="img-circle search-img-item">
                                 </div>
                                 <div class="col-md-6 col-sm-7 col-xs-7">
@@ -110,7 +110,11 @@
                         </li>
                     {% endfor %}
                 </ul>
-                <ul class="pagination"></ul>
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1 text-center">
+                        <ul class="pagination"></ul>
+                    </div>
+                </div>
             </div>
         </div>
 

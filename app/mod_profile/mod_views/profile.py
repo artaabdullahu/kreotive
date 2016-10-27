@@ -53,13 +53,8 @@ class Profile():
     def feed(self, username):
         ''' Loads the feed page.
         '''
-        if current_user.is_authenticated:
-            # get the profile object for the given username
-            profile = user_mongo_utils.get_user_by_username(username)
-            feed = dumps(content_mongo_utils.get_authors_paginated_articles(profile.username, 0, 8))
-        else:
-            feed = None
-            profile = current_user
+        profile = user_mongo_utils.get_user_by_username(username)
+        feed = dumps(content_mongo_utils.get_authors_paginated_articles(profile.username, 0, 8))
         return render_template('mod_profile/feed.html', profile=profile, feed=feed)
 
     def category_feed(self, username, category):
@@ -239,7 +234,7 @@ class Profile():
 
 
 def user_avatar(username):
-    avatar_url = user_mongo_utils.get_user_by_username(username)['avatar_url']
+    avatar_url = user_mongo_utils.get_user_by_username(username).avatar_url
     return avatar_url
 
 

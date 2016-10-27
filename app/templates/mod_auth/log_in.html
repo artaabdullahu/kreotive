@@ -14,7 +14,7 @@
                     <h5 class="text-center">- or -</h5>
                     <input name="email" type="email" class="form-control" align="middle" id="email-login" placeholder="Email">
                     <input name="password" type="password" class="form-control" id="pass-login" placeholder="Password">
-                    <a href="" style="color:#666666; font-size: 0.8em;">Forgot your password?</a></br>
+                    <a href="{{ url_for('auth.reset_password') }}" style="color:#666666; font-size: 0.8em;">Forgot your password?</a></br>
                         {% if error %}
                         <div style="color:red;">   {{ error }}</div>
                         {% endif %}

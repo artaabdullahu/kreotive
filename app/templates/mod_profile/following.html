@@ -84,7 +84,7 @@
                                 <li>
                                     <div class="row follow-list">
                                         <div class="col-md-1 col-md-offset-1 col-sm-1 col-xs-1">
-                                            <img src="{{ url_for('static', filename='img/prof3.png') }}"
+                                            <img src="{{ url_for('static', filename=user_avatar(user))}}"
                                                  class="img-circle search-img-item">
                                         </div>
                                         <div class="col-md-6 col-sm-6 col-xs-6">
@@ -99,7 +99,11 @@
                                 </li>
                             {% endfor %}
                         </ul>
-                        <ul class="col-md-offset-1 pagination"></ul>
+                          <div class="row">
+                            <div class="col-md-10 col-md-offset-1 text-center">
+                                <ul class="pagination"></ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

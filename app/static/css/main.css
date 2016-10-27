@@ -21,7 +21,7 @@ header {
 
 /*Button properties*/
 .btn {
-    width: 100%;
+    width: 75%;
     height: 40px;
     margin: 5px;
     color: #ffffff;
@@ -69,7 +69,6 @@ header {
 .btn-log-in-google {
     background-color: #d6d6d6;
     color: #5c5c5c;
-    height: 50px;
     font-size: 14px;
 
 }
@@ -97,7 +96,6 @@ header {
 .btn-log-in-facebook {
     font-size: 14px;
     background-color: #2d59a1;
-    height: 50px;
 }
 
 .btn-log-in, .btn-popover-log-in {
@@ -281,7 +279,8 @@ footer a:hover {
     font-size: 25px;
 }
 
-i.fa.fa-bookmark {
+i.fa.fa-bookmark,
+i.fa.fa-bookmark-o {
     color: #000;
     font-size: 25px;
     padding-top: 11px;
@@ -474,7 +473,7 @@ img.banner {
     background-color: #81b7e3;
 }
 
-.follow, .ask-to-join {
+.follow, .ask-to-join, a.follow, a.ask-to-join{
     border: none;
     background-color: #3498db;
     color: #fff;
@@ -483,6 +482,16 @@ img.banner {
     height: 45px;
     margin: 12px 10px;
 }
+
+a.follow.pull-right{
+    padding: 10px 50px;
+}
+
+a.ask-to-join{
+    padding: 10px 39px;
+}
+
+
 
 .user-pic {
     margin: 5px;
@@ -594,6 +603,11 @@ img.banner {
 .comment {
     font-size: 25px;
     font-weight: bold;
+    padding-top: 20px;
+}
+
+.commenting-person {
+    font-weight: 200 !important;
 }
 
 #single-article .popover {
@@ -627,6 +641,7 @@ i#share-org{
     border-radius: 2px;
     font-size: 17px;
     height: 50px;
+    margin-right: 20px;
 }
 
 .btn-reply {
@@ -724,6 +739,7 @@ i#share-org{
 
 .search-img-item {
     height: 36px;
+    width: 36px;
     position: absolute;
     right: 0;
 }
@@ -732,8 +748,17 @@ i#share-org{
     padding-top: 16px;
 }
 
+.fa-close{
+    color: rgb(181, 181, 181);
+}
+
 .search-item.row a {
     color: #000;
+}
+
+.article-single-img{
+    height: 70px;
+    width: 70px;
 }
 
 .search-item.row {
@@ -899,8 +924,12 @@ a.org-adm:hover {
     cursor: hand;
 }
 
+.reply-text {
+    margin-bottom: 10px;
+}
+
 .reply-comment-field {
-    width: 98%;
+    width: 106%;
     border: 1px solid #dedede;
     resize: none;
     margin-top: 25px;
@@ -971,7 +1000,7 @@ a.leave-org-button {
 
 }
 
-a.administrator-button{
+a.administrator-button {
     background-color: rgb(194, 47, 47);
     color: #fff !important;
     padding: 10px 26px;
@@ -1019,7 +1048,7 @@ div.del-acc-label {
     margin-left: 20px;
 }
 
-#profile div.popover{
+#profile div.popover {
     padding: 0px !important;
     background-color: #fff;
     width: 210px;
@@ -1030,19 +1059,20 @@ div.del-acc-label {
     padding: 17px 10px !important;
 }
 
-ul.popover-list{
+ul.popover-list {
     padding: 0px !important;
     margin: 0px !important;
     list-style-type: none !important;
     display: inline;
 }
 
-.popover-list li{
+.popover-list li {
     display: inline;
 }
 
-ul.list{
+ul.list {
     list-style-type: none;
+    padding-top: 0px;
 }
 
 .active .page {
@@ -1051,4 +1081,35 @@ ul.list{
     border-color: #fff !important;
 }
 
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
 
+.inputfile + label {
+    margin-top: 24px;
+    font-size: 1.25em;
+    font-weight: 700;
+    padding: 6px;
+    color: white;
+    background-color: #3498db;
+    display: inline-block;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background-color: #63b3e8;
+}
+
+.inputfile + label {
+    cursor: pointer; /* "hand" cursor */
+}
+
+.inputfile:focus + label {
+    outline: 1px dotted #000;
+    outline: -webkit-focus-ring-color auto 5px;
+}

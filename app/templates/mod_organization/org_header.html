@@ -111,11 +111,11 @@
 
                 {% endif %}
             {% else %}
-                <button type="button" class="follow pull-right" onclick="{{ url_for('auth.sign_up') }}">Follow
-                </button>
-                <button type="button" class="ask-to-join pull-right" onclick="{{ url_for('auth.sign_up') }}">Ask
+                <a type="button" class="follow pull-right" href="{{ url_for('auth.sign_up') }}">Follow
+                </a>
+                <a type="button" class="ask-to-join pull-right" href="{{ url_for('auth.sign_up') }}">Ask
                     to join
-                </button>
+                </a>
             {% endif %}
         </div>
 

@@ -359,9 +359,9 @@
         margin: 42px;
     }
 
-    .video-type {
-        margin-left: 30%;
-    }
+    /*.video-type {*/
+        /*margin-left: 30%;*/
+    /*}*/
 
     .about-me-text {
         font-size: 12px;
@@ -660,4 +660,17 @@
     margin-left: 15px;
     width: 90%;
     }
+
+    .btn-log-in-facebook,
+    .btn-log-in-google,
+    .btn-facebook,
+    .btn-google{
+    font-size: 11px;}
+
+    .btn-facebook,
+    .btn-google{
+        padding-top: 10px;
+    }
+
+
 }
