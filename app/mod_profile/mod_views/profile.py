@@ -119,7 +119,7 @@ class Profile():
 
         return render_template('mod_profile/following.html', user_avatar=user_avatar, profile=profile,
                                get_user_name_last_name_by_username=get_user_name_last_name_by_username,
-                               organization=organization, get_org_name_by_username=get_org_name_by_username)
+                               organization=organization, get_org_name_by_username=get_org_name_by_username, get_avatar_url=get_avatar_url)
 
     def unfollow_people(self, username):
 
@@ -210,10 +210,11 @@ class Profile():
                                        errorP="This isn't your actual password")
 
     def bookmarks(self, username):
+        message = "Showing your bookmarked articles"
         profile = user_mongo_utils.get_user_by_username(username)
         bookmarks = bookmarks_mongo_utils.get_bookmark_list(username)
         return render_template('mod_profile/bookmarks.html', article_title=bookmarked_article_title, profile=profile,
-                               bookmarks=bookmarks)
+                               bookmarks=bookmarks, message=message)
 
     def remove_bookmarks(self, username, slug):
 
@@ -221,11 +222,12 @@ class Profile():
         return redirect(url_for('profile.bookmarks', username=current_user.username))
 
     def comments(self, username):
+        message = "Showing your comments on articles"
         profile = user_mongo_utils.get_user_by_username(username)
         comments = comment_mongo_util.get_comments_list(username)
 
         return render_template('mod_profile/comments.html', article_title=commented_article_title, profile=profile,
-                               comments=comments)
+                               comments=comments, message = message)
 
     def remove_comment(self, username, comment_id):
 
@@ -254,3 +256,7 @@ def get_user_name_last_name_by_username(username):
 
 def get_org_name_by_username(organization_slug):
     return org_mongo_utils.get_org_by_slug(organization_slug)
+
+def get_avatar_url(org_slug):
+    organization = org_mongo_utils.get_org_by_slug(org_slug)
+    return organization['avatar_url']

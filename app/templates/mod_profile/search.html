@@ -68,30 +68,31 @@
                         </div>
                     </div>
                 </nav>
-                {% endif %}
-            {% else %}
-                <nav>
-                    <div class="row menu-icons">
-                        <div class="col-md-1 col-md-offset-1 col-sm-1 col-sm-offset-0 col-xs-1 col-xs-offset-0 text-center">
-                            <a href="{{ url_for('profile.search', username=profile.username) }}" class="fa fa-search"
-                               aria-hidden="true"
-                               id="search"></a>
-                        </div>
-                        <div class="col-md-7 col-sm-7 col-xs-7">
-                            <input type="text" id="search-articles" class="search-field"
-                                   placeholder="Search for {{ profile.name }}'s articles"/>
-                        </div>
+            {% endif %}
+        {% else %}
+            <nav>
+                <div class="row menu-icons">
+                    <div class="col-md-1 col-md-offset-1 col-sm-1 col-sm-offset-0 col-xs-1 col-xs-offset-0 text-center">
+                        <a href="{{ url_for('profile.search', username=profile.username) }}" class="fa fa-search"
+                           aria-hidden="true"
+                           id="search"></a>
                     </div>
-                </nav>
+                    <div class="col-md-7 col-sm-7 col-xs-7">
+                        <input type="text" id="search-articles" class="search-field"
+                               placeholder="Search for {{ profile.name }}'s articles"/>
+                    </div>
+                </div>
+            </nav>
         {% endif %}
 
         <br/><br/>
         <div id="test-list">
             <ul class="list">
                 {% for article in feed %}
-                    <div class="row">
+                    <div class="row search-item">
                         <div class="col-md-8 col-md-offset-2">
-                            <h4 class="search-article-title">{{ article['title'] }}</h4>
+                            <a href="{{ url_for('article.article', slug = article.slug) }}"><h4
+                                    class="search-result-title">{{ article['title'] }}</h4></a>
                         </div>
                     </div>
                 {% endfor %}

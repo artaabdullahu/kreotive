@@ -24,7 +24,6 @@
                    id="search1"></a>
             </div>
         </div>
-        {% endif %}
     {% else %}
         <div class="row menu-icons">
             <div class="col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-0 col-xs-2 col-xs-offset-0">
@@ -35,5 +34,17 @@
                        class="search-field"/>
             </div>
         </div>
+    {% endif %}
+{% else %}
+    <div class="row menu-icons">
+        <div class="col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-0 col-xs-2 col-xs-offset-0">
+            <a href="{{ url_for('profile.search', username = profile.username) }}" class="fa fa-search"></a>
+        </div>
+        <div class="col-md-8 col-sm-10 col-xs-10 ">
+            <input type="text" placeholder="Search for Articles by {{ profile.name }}"
+                   class="search-field"/>
+        </div>
+    </div>
+
 
 {% endif %}

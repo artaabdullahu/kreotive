@@ -46,13 +46,14 @@
             <br/>
             <div class="row">
                 <div class="col-md-2 col-md-offset-1 col-sm-6 col-sm-offset-4 col-xs-10 col-xs-offset-2">
-                    <img src="{{ url_for('static',filename=current_user.avatar_url) }}"
+                    <img src="{{ url_for('static',filename=organization['avatar_url']) }}"
                          class="img-responsive img-circle avatar">
-                    <form name="avatar_change" method=POST enctype="multipart/form-data"
-                          action="{{ url_for('profile.upload_avatar') }}">
+                    <form name="org_avatar_change" method=POST enctype="multipart/form-data"
+                          action="{{ url_for('organization.upload_avatar', organization_slug=organization.org_slug) }}">
+                        <input type='file' name='photo' id="file" class="inputfile">
+                        <label for="file">Change avatar</label>
 
-                        <input type='file' name='photo'>
-                        <button type="submit" class="change-avatar">Change avatar</button>
+
                     </form>
 
                 </div>
@@ -98,4 +99,23 @@
             </div>
         </div>
     </div>
+
+    <script>
+      $(document).ready(function(){
+          var inputs = document.querySelectorAll('.inputfile');
+        Array.prototype.forEach.call(inputs, function (input) {
+            var label = input.nextElementSibling,
+                    labelVal = label.innerHTML;
+
+            input.addEventListener('change', function (e) {
+                var fileName = '';
+                if (this.files && this.files.length > 1)
+                    $("form[name='org_avatar_change']").submit();
+            });
+        });
+        $('#file').change(function(){
+            $("form[name='org_avatar_change']").submit();
+        });
+    });
+    </script>
 {% endblock body %}

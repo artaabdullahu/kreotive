@@ -87,6 +87,11 @@ class OrgMongoUtils(object):
             .find_one({'administrator':{"$in":[username]}})
         return find_org_result
 
+    def change_avatar(self, organization_slug, avatar_url):
+        self.mongo.db[self.org_collection] \
+            .update({"org_slug": organization_slug}, {"$set": {"avatar_url": avatar_url}})
+        return True
+
     # Membership administration
 
     def ask_to_join(self, username, organization_slug):

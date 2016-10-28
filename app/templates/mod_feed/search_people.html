@@ -92,6 +92,7 @@
 
             </div>
         </div>
+    <br/><br/>
         <div class="row">
             <div id="test-list">
                 <ul class="list">
@@ -103,8 +104,8 @@
                                          class="img-circle search-img-item">
                                 </div>
                                 <div class="col-md-6 col-sm-7 col-xs-7">
-                                    <a href="{{ url_for('profile.feed', username=user.username) }}"><span
-                                            class="search-result-title">{{ user.name }}, {{ user.lastname }}</span></a>
+                                    <a href="{{ url_for('profile.feed', username=user.username) }}"><h4
+                                            class="search-result-title">{{ user.name }}, {{ user.lastname }}</h4></a>
                                 </div>
                             </div>
                         </li>

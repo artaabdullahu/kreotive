@@ -75,7 +75,7 @@
         </div>
         <img src="{{ url_for('static', filename = 'img/banner.png') }}" class="banner">
         <div class="box">
-            <img src="{{ url_for('static', filename = 'img/prof3.png') }}" class="img-circle user-pic">
+            <img src="{{ url_for('static', filename=organization['avatar_url']) }}" class="img-circle user-pic">
             <span class="user-name">{{ organization.name }}</span>
             {% if current_user.is_authenticated %}
                 {% if not current_user.username in organization.administrator %}
