@@ -90,6 +90,7 @@
 
             </div>
         </div>
+    <br/><br/>
         <div id="test-list">
             <ul class="list">
                 {% for organization in organizations %}
@@ -98,7 +99,7 @@
 
                             <div class="search-item row">
                                 <div class="col-md-1 col-md-offset-2 col-sm-1 col-sm-offset-2 col-xs-2 col-xs-offset-0">
-                                    <img src="{{ url_for('static', filename='img/prof3.png') }}"
+                                    <img src="{{ url_for('static', filename=organization['avatar_url']) }}"
                                          class="img-circle search-img-item">
                                 </div>
                                 <div class="col-md-6 col-sm-7 col-xs-7">

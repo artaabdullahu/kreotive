@@ -59,7 +59,7 @@
                 {% for org in profile.org_following %}
                     <div class="row follow-list">
                         <div class="col-md-1 col-md-offset-1 col-sm-1 col-xs-1">
-                            <img src="{{ url_for('static', filename='img/prof3.png') }}"
+                            <img src="{{ url_for('static', filename= get_avatar_url(org)) }}"
                                  class="img-circle search-img-item">
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-6">

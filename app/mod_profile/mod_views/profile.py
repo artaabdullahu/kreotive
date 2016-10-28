@@ -119,7 +119,7 @@ class Profile():
 
         return render_template('mod_profile/following.html', user_avatar=user_avatar, profile=profile,
                                get_user_name_last_name_by_username=get_user_name_last_name_by_username,
-                               organization=organization, get_org_name_by_username=get_org_name_by_username)
+                               organization=organization, get_org_name_by_username=get_org_name_by_username, get_avatar_url=get_avatar_url)
 
     def unfollow_people(self, username):
 
@@ -256,3 +256,7 @@ def get_user_name_last_name_by_username(username):
 
 def get_org_name_by_username(organization_slug):
     return org_mongo_utils.get_org_by_slug(organization_slug)
+
+def get_avatar_url(org_slug):
+    organization = org_mongo_utils.get_org_by_slug(org_slug)
+    return organization['avatar_url']

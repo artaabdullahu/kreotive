@@ -31,7 +31,7 @@ def article(slug):
     else:
         article = None
     return render_template('mod_article/article_single.html', is_bookmarked=is_bookmarked, user_avatar=user_avatar,
-                           article=article, profile=profile, organization=organization)
+                           article=article, profile=profile, organization=organization, get_avatar_url=get_avatar_url)
 
 
 @mod_article.route('/articles/organization/<organization_slug>/<string:article_action>')
@@ -285,6 +285,10 @@ def bookmark_article():
 def user_avatar(username):
     avatar_url = user_mongo_utils.get_user_by_username(username).avatar_url
     return avatar_url
+
+def get_avatar_url(org_slug):
+    organization = org_mongo_utils.get_org_by_slug(org_slug)
+    return organization['avatar_url']
 
 
 @mod_article.route('/bookmark/remove', methods=["POST"])

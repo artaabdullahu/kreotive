@@ -134,14 +134,18 @@
 
             </div>
         </div>
+
+    <br/><br/>
         <div class="row" id="Articles-found">
             <div id="test-list">
                 <ul class="list">
                     {% for article in articles %}
+
+                        {% if article['author']['type'] == "organization" %}
                         <li>
                             <div class="search-item row">
                                 <div class="col-md-1 col-md-offset-2 col-sm-1 col-sm-offset-2 col-xs-2">
-                                    <img src="{{ url_for('static', filename='img/prof3.png') }}"
+                                    <img src="{{ url_for('static', filename=get_avatar_url(article['author']['org_slug'])) }}"
                                          class="img-circle search-img-item">
                                 </div>
                                 <div class="col-md-6 col-sm-7 col-xs-7">
@@ -150,6 +154,22 @@
                                 </div>
                             </div>
                         </li>
+                        {% else %}
+
+                        <li>
+                            <div class="search-item row">
+                                <div class="col-md-1 col-md-offset-2 col-sm-1 col-sm-offset-2 col-xs-2">
+                                    <img src="{{ url_for('static', filename=user_avatar(article['username'])) }}"
+                                         class="img-circle search-img-item">
+                                </div>
+                                <div class="col-md-6 col-sm-7 col-xs-7">
+                                    <a href="{{ url_for('article.article', slug = article.slug) }}"><h4
+                                            class="search-result-title">{{ article.title }}</h4></a>
+                                </div>
+                            </div>
+                        </li>
+                        {% endif %}
+
                     {% endfor %}
                 </ul>
                 <div class="row">

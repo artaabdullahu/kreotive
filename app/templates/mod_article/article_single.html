@@ -13,10 +13,18 @@
 
     <div id="single-article">
         <div class="row">
-            <div class="col-md-1 col-md-offset-1 col-sm-1 col-xs-2 text-center">
-                <img src="{{ url_for('static', filename= user_avatar(article['author']['slug'])) }}"
-                     class="img-circle article-single-img">
-            </div>
+            {% if organization %}
+                <div class="col-md-1 col-md-offset-1 col-sm-1 col-xs-2 text-center">
+                    <a href="{{ url_for('organization.feed', organization_slug= article['author']['org_slug']) }}"><img
+                            src="{{ url_for('static', filename= get_avatar_url(article['author']['org_slug'])) }}"
+                            class="img-circle article-single-img"></a>
+                </div>
+            {% else %}
+                <div class="col-md-1 col-md-offset-1 col-sm-1 col-xs-2 text-center">
+                    <img src="{{ url_for('static', filename= user_avatar(article['author']['slug'])) }}"
+                         class="img-circle article-single-img">
+                </div>
+            {% endif %}
 
             <div class="col-md-3 col-sm-5 col-xs-9 text-left">
                 {% if organization %}
@@ -148,7 +156,8 @@
         {% else %}
             <div class="row">
                 <div class="col-md-10 col-md-offset-1">
-                    <textarea class="comment-field text-muted" style="font-size: 19px; padding-top: 10px; font-style:italic;" disabled>    Please log in to comment</textarea>
+                    <textarea class="comment-field text-muted"
+                              style="font-size: 19px; padding-top: 10px; font-style:italic;" disabled>    Please log in to comment</textarea>
                 </div>
             </div>
         {% endif %}
@@ -157,9 +166,16 @@
             <div class="col-md-3 col-md-offset-1 col-sm-4 col-xs-6 ">
                 <button type="button" onclick="goBack()" class="btn btn-previous">Previous page</button>
             </div>
-            <div class="col-md-3 col-md-offset-3 col-sm-4 col-sm-offset-4 col-xs-6 text-right">
-                <button id="comment-submit" class="comment-submit btn btn-reply">Reply</button>
-            </div>
+            {% if current_user.is_authenticated %}
+                <div class="col-md-3 col-md-offset-3 col-sm-4 col-sm-offset-4 col-xs-6 text-right">
+                    <button id="comment-submit" class="comment-submit btn btn-reply">Reply</button>
+                </div>
+            {% else %}
+                <div class="col-md-3 col-md-offset-3 col-sm-4 col-sm-offset-4 col-xs-6 text-right">
+                    <button id="comment-submit" class="comment-submit btn btn-reply" disabled style="color:#fff">Reply</button>
+                </div>
+
+            {% endif %}
         </div>
 
     </div>

@@ -74,7 +74,7 @@ def search_articles():
     else:
         # TODO: Show latest 10 from each category
         articles = content_mongo_utils.get_articles()
-    return render_template('mod_feed/search_articles.html', articles=articles, user_avatar=user_avatar)
+    return render_template('mod_feed/search_articles.html', articles=articles, user_avatar=user_avatar, get_avatar_url=get_avatar_url)
 
 
 @mod_main.route('/people/search', methods=['GET'])
@@ -97,3 +97,7 @@ def search_people():
 def user_avatar(username):
     avatar_url = user_mongo_utils.get_user_by_username(username).avatar_url
     return avatar_url
+
+def get_avatar_url(org_slug):
+    organization = org_mongo_utils.get_org_by_slug(org_slug)
+    return organization['avatar_url']
