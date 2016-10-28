@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, Response, redirect, url_for, send_from_directory
 from flask.ext.security import login_required, current_user
-from app import org_mongo_utils, content_mongo_utils, user_mongo_utils, upload_folder, uds
+from app import org_mongo_utils, content_mongo_utils, user_mongo_utils, upload_folder, uds, allowed_extensions, \
+    upload_folder
 from bson.json_util import dumps
 import os
 from datetime import datetime
@@ -219,17 +220,24 @@ def user_avatar(username):
     return avatar_url
 
 
+def allowed_file_(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in allowed_extensions
+
+
 @login_required
-@mod_organization.route('/upload', methods=["GET", 'POST'])
-def upload_avatar(self):
+@mod_organization.route('/upload/<string:organization_slug>', methods=['POST'])
+def upload_avatar(organization_slug):
+    organization = org_mongo_utils.get_org_by_slug(organization_slug)
     error = ""
     if request.method == 'POST':
+        error = ""
         # check if the post request has the file part
         if 'photo' not in request.files:
             error = 'No file part'
             return redirect(request.url)
         file = request.files['photo']
-        allowed_file = self.allowed_file(file.filename)
+        allowed_file = allowed_file_(file.filename)
         # if user does not select file, browser also
         # submit a empty part without filename
         if file.filename == '':
@@ -237,22 +245,22 @@ def upload_avatar(self):
             return redirect(request.url)
         if file and allowed_file:
             filename = secure_filename(file.filename)
-            directory = str(upload_folder) + str(current_user.username) + '/' + str(
+            directory = str(upload_folder) + str(organization['org_slug']) + '/' + str(
                 datetime.now().strftime('%Y-%m'))
             if not os.path.exists(directory):
                 os.makedirs(directory)
             file.save(os.path.join(directory, filename))
-            photo_url = 'uploads/' + str(current_user.username) + '/' + str(
+            photo_url = 'uploads/' + str(organization['org_slug']) + '/' + str(
                 datetime.now().strftime('%Y-%m')) + "/" + filename
-            user_mongo_utils.change_avatar(current_user.username, photo_url)
+            org_mongo_utils.change_avatar(organization['org_slug'], photo_url)
             return redirect(url_for('organization.organization_settings',
-                                    username=current_user.username))
-    return redirect(url_for('organization.organization_settings', username=current_user.username, error=error))
+                                    organization_slug=organization['org_slug']))
+    return redirect(url_for('organization.organization_settings', organization_slug=organization['org_slug'], error=error))
 
 
 @login_required
 @mod_organization.route('/photo/<filename>', methods=["GET"])
-def get_avatar_url(self, org_slug):
+def get_avatar_url(org_slug):
     organization = org_mongo_utils.get_org_by_slug(org_slug)
     return organization['avatar_url']
 

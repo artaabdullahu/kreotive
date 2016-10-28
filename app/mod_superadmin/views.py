@@ -81,6 +81,7 @@ def add_org():
         mobile = request.form['mobile']
         about_org = request.form['about_org']
         admin = request.form['administrator']
+        avatar_url = "img/no-avatar.png"
 
         user_mongo_utils.update_user_role(admin, 'administrator')
 
@@ -102,6 +103,7 @@ def add_org():
                 "telephone": telephone,
                 "mobile": mobile,
                 "about_org": about_org,
+                "avatar_url": avatar_url
 
             }
 
