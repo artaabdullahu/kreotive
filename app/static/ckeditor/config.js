@@ -26,8 +26,8 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'about' }
 	];
 
-	config.extraPlugins = 'attach,attach_audio,autogrow,attach_video,scayt,wsc,maxlength';
-	config.extraAllowedContent = 'video(*)[src, controls]{*};audio(*)[src, controls]{*}';
+	config.extraPlugins = 'attach_attachment,attach_audio,autogrow,attach_video,attach_picture,scayt,wsc,maxlength';
+	config.extraAllowedContent = 'video(*)[src, controls]{*};audio(*)[src, controls]{*};img(*)[src, width]{*};a(*)[href, download]{*};';
 	config.removePlugins = 'resize';
 
 	// Remove some buttons provided by the standard plugins, which are
