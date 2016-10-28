@@ -24,12 +24,16 @@ a#cke_21, a#cke_22, a#cke_23, a#cke_24, a#cke_25, .cke_button__attachments {
     /*top: 10px;*/
 }
 
-.cke_button__attachments:before {
+.cke_button__attachattachments:before {
     content: "\f1c6";
 }
 
 .cke_button__audioattachments:before {
     content: "\f1c7";
+}
+
+.cke_button__pictureattachments:before {
+    content: "\f03e";
 }
 
 .cke_button__videoattachments:before {
@@ -312,4 +316,13 @@ iframe {
         left: 0px;
         top: -79px;
     }
+}
+
+a.attach-attachment:before {
+    content: "\f1c6";
+    font-family: fontAwesome;
+    padding-right: 15px;
+}
+a.attach-attachment {
+    font-size: 23px;
 }
