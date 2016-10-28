@@ -49,7 +49,7 @@
                     <img src="{{ url_for('static',filename=current_user.avatar_url) }}"
                          class="img-responsive img-circle avatar">
                     <form name="avatar_change" method=POST enctype="multipart/form-data"
-                          action="{{ url_for('profile.upload_avatar') }}">
+                          action="{{ url_for('organization.upload_avatar') }}">
 
                         <input type='file' name='photo'>
                         <button type="submit" class="change-avatar">Change avatar</button>

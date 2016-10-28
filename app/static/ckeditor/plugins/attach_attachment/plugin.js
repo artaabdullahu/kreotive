@@ -7,13 +7,13 @@
  2) Callback on attachment upload - onAttachmentUpload: function() {}
  3) validateSize - Validate size of file before upload (validateSize: 30) i.e 30mb limit
  */
-videoAttachmentUploader = {
+attachAttachmentUploader = {
     uploadButton: null,
     editor: null,
     uploadEventBinded: false,
     uploadingContainer: null,
     statusMessageContainer: null,
-    uploadingSource: CKEDITOR.plugins.getPath('attach_video') + 'uploading.gif',
+    uploadingSource: CKEDITOR.plugins.getPath('attach_attachment') + 'uploading.gif',
     autoClose: false,
     validateSize: 0,
     setStatusMessageContainer: function (_this) {
@@ -34,34 +34,34 @@ videoAttachmentUploader = {
     bindUploadEvent: function () {
         //Handle iframe redirect
         var uploadHandler = function () {
-            if (videoAttachmentUploader.uploadButton.text() == 'Uploading..') {
+            if (attachAttachmentUploader.uploadButton.text() == 'Uploading..') {
                 //Provide onAttachmentUpload Callback after upload
                 //Define this function in CKEDITOR config
-                if (videoAttachmentUploader.editor.config.onVideoAttachmentUpload) {
-                    videoAttachmentUploader.editor.config.onVideoAttachmentUpload(videoAttachmentUploader.getResultantHTML());
+                if (attachAttachmentUploader.editor.config.onVideoAttachmentUpload) {
+                    attachAttachmentUploader.editor.config.onVideoAttachmentUpload(attachAttachmentUploader.getResultantHTML());
                 }
-                videoAttachmentUploader.uploadButton.text('Uploaded');
-                videoAttachmentUploader.statusMessageContainer.setText('File Upload Successful!!');
-                videoAttachmentUploader.statusMessageContainer.show();
-                videoAttachmentUploader.uploadingContainer.hide();
-                if (videoAttachmentUploader.autoClose) {
+                attachAttachmentUploader.uploadButton.text('Uploaded');
+                attachAttachmentUploader.statusMessageContainer.setText('File Upload Successful!!');
+                attachAttachmentUploader.statusMessageContainer.show();
+                attachAttachmentUploader.uploadingContainer.hide();
+                if (attachAttachmentUploader.autoClose) {
                     CKEDITOR.dialog.getCurrent().hide();
                 }
             }
         }
         $('body').find('iframe.cke_dialog_ui_input_file').load(uploadHandler);
-        videoAttachmentUploader.uploadEventBinded = true;
+        attachAttachmentUploader.uploadEventBinded = true;
     }
 }
 
-CKEDITOR.dialog.add('abbrDialogVideo', function (editor) {
+CKEDITOR.dialog.add('abbrDialogAttachment', function (editor) {
     return {
-        title: 'Upload Video',
+        title: 'Upload Attachment',
         minWidth: 400,
         minHeight: 200,
         contents: [
             {
-                id: 'UploadVideo',
+                id: 'UploadAttachment',
                 filebrowser: 'uploadButton',
                 hidden: true,
                 elements: [
@@ -81,39 +81,41 @@ CKEDITOR.dialog.add('abbrDialogVideo', function (editor) {
                         id: 'uploadButton',
                         filebrowser: 'info:txtUrl',
                         label: editor.lang.image.btnUpload,
-                        'for': ['UploadVideo', 'attachment'],
+                        'for': ['UploadAttachment', 'attachment'],
                         onClick: function () {
-                            var attachment = videoAttachmentUploader.getFileField();
+                            var attachment = attachAttachmentUploader.getFileField();
                             if (attachment.val()) {
-                                if (videoAttachmentUploader.validateSize > 0 && attachment[0].files[0].size > videoAttachmentUploader.validateSize * 1000000) {
-                                    alert('File Size Limit is ' + videoAttachmentUploader.validateSize + 'mb');
+                                if (attachAttachmentUploader.validateSize > 0 && attachment[0].files[0].size > attachAttachmentUploader.validateSize * 1000000) {
+                                    alert('File Size Limit is ' + attachAttachmentUploader.validateSize + 'mb');
                                     attachment.val('');
                                 } else {
-                                    var allowed_ext = ['mp4', 'mpeg'];
+
+                                    var allowed_ext = ['pdf', 'odt', 'ppt'];
                                     var extension = attachment.val().substr(attachment.val().length - 3);
                                     if (!!(allowed_ext.indexOf(extension) + 1)) {
-                                        videoAttachmentUploader.uploadButton.text('Uploading..').parent('a').hide();
-                                        videoAttachmentUploader.uploadingContainer.show();
+                                        attachAttachmentUploader.uploadButton.text('Uploading..').parent('a').hide();
+                                        attachAttachmentUploader.uploadingContainer.show();
                                     } else {
-                                        alert(extension + ' files are not allowed to be uploaded as attachments. Please upload an mp4 or mpeg file.');
+                                        alert(extension + ' files are not allowed to be uploaded as attachments. Please upload a pdf,ppt or odt file.');
                                         attachment.val('');
                                     }
+
                                 }
                             } else {
-                                alert('Please select a video first');
+                                alert('Please select an attachment first');
                             }
                         },
                         onLoad: function () {
-                            videoAttachmentUploader.setuploadButton(this);
+                            attachAttachmentUploader.setuploadButton(this);
                         }
                     },
                     {
                         type: 'html',
-                        html: '<img class="uploading-img" src="' + videoAttachmentUploader.uploadingSource + '"></img>',
+                        html: '<img class="uploading-img" src="' + attachAttachmentUploader.uploadingSource + '"></img>',
                         style: 'margin-left:35%',
                         hidden: true,
                         onLoad: function () {
-                            videoAttachmentUploader.setUploadingContainer(this);
+                            attachAttachmentUploader.setUploadingContainer(this);
                         }
                     },
                     {
@@ -122,7 +124,7 @@ CKEDITOR.dialog.add('abbrDialogVideo', function (editor) {
                         style: 'margin-left:32%;  color: green',
                         hidden: true,
                         onLoad: function () {
-                            videoAttachmentUploader.setStatusMessageContainer(this);
+                            attachAttachmentUploader.setStatusMessageContainer(this);
                         }
                     }
                 ]
@@ -130,14 +132,14 @@ CKEDITOR.dialog.add('abbrDialogVideo', function (editor) {
         ],
         onOk: function (event) {
 
-            if (videoAttachmentUploader.uploadButton.text() != 'Uploaded') {
+            if (attachAttachmentUploader.uploadButton.text() != 'Uploaded') {
                 if (!confirm('Please make sure you send files to server or else upload will be cancelled!!')) {
                     event.preventDefault();
                 }
             } else {
-                var url = videoAttachmentUploader.getResultantHTML();
-                console.log(url);
-                var value = "<video src='/static/" + url + "' width='450' height='640' controls></video>"
+                var url = attachAttachmentUploader.getResultantHTML();
+
+                var value = "<a class='attach-attachment' href='/static/" + url + "' download> Download </a>"
                 if (editor.mode == 'wysiwyg') {
                     editor.insertHtml(value);
                 } else {
@@ -151,36 +153,36 @@ CKEDITOR.dialog.add('abbrDialogVideo', function (editor) {
         },
         onShow: function () {
             //Remove Focus & fix height
-            var fileField = videoAttachmentUploader.getFileField().css('outline', 0);
+            var fileField = attachAttachmentUploader.getFileField().css('outline', 0);
             $('body').find('iframe.cke_dialog_ui_input_file').css('height', '100px');
 
-            if (videoAttachmentUploader.uploadButton) {
-                videoAttachmentUploader.uploadButton.text('Upload attachment').parent('a').show();
+            if (attachAttachmentUploader.uploadButton) {
+                attachAttachmentUploader.uploadButton.text('Upload attachment').parent('a').show();
             }
             //bindUploadEvent only if not binded before
-            if (!videoAttachmentUploader.uploadEventBinded) {
-                videoAttachmentUploader.bindUploadEvent();
+            if (!attachAttachmentUploader.uploadEventBinded) {
+                attachAttachmentUploader.bindUploadEvent();
             }
-            videoAttachmentUploader.statusMessageContainer.setText('');
-            videoAttachmentUploader.statusMessageContainer.hide();
+            attachAttachmentUploader.statusMessageContainer.setText('');
+            attachAttachmentUploader.statusMessageContainer.hide();
 
             //setCustomConfiguration
-            videoAttachmentUploader.autoClose = videoAttachmentUploader.editor.config.autoCloseUpload || false;
-            videoAttachmentUploader.validateSize = videoAttachmentUploader.editor.config.validateSize || 0;
+            attachAttachmentUploader.autoClose = attachAttachmentUploader.editor.config.autoCloseUpload || false;
+            attachAttachmentUploader.validateSize = attachAttachmentUploader.editor.config.validateSize || 0;
         }
     }
 });
 
-CKEDITOR.plugins.add('attach_video',
+CKEDITOR.plugins.add('attach_attachment',
     {
         init: function (editor) {
-            videoAttachmentUploader.editor = editor;
-            editor.ui.addButton('VideoAttachments',
+            attachAttachmentUploader.editor = editor;
+            editor.ui.addButton('AttachAttachments',
                 {
-                    label: 'Attach video files',
-                    command: 'OpenVideoWindow',
-                    icon: CKEDITOR.plugins.getPath('attach_video') + 'attach.png'
+                    label: 'Attach attachment files',
+                    command: 'OpenAttachmentWindow',
+                    icon: CKEDITOR.plugins.getPath('attach_attachment') + 'attach.png'
                 });
-            editor.addCommand('OpenVideoWindow', new CKEDITOR.dialogCommand('abbrDialogVideo'));
+            editor.addCommand('OpenAttachmentWindow', new CKEDITOR.dialogCommand('abbrDialogAttachment'));
         }
     });

@@ -13,7 +13,7 @@ audioAttachmentUploader = {
     uploadEventBinded: false,
     uploadingContainer: null,
     statusMessageContainer: null,
-    uploadingSource: CKEDITOR.plugins.getPath('attach') + 'uploading.gif',
+    uploadingSource: CKEDITOR.plugins.getPath('attach_audio') + 'uploading.gif',
     autoClose: false,
     validateSize: 0,
     setStatusMessageContainer: function (_this) {
@@ -63,7 +63,7 @@ CKEDITOR.dialog.add('abbrDialogsAudio', function (editor) {
         contents: [
             {
                 id: 'UploadAudio',
-                filebrowser: 'uploadAudioButton',
+                filebrowser: 'uploadButton',
                 hidden: true,
                 elements: [
                     {
@@ -72,17 +72,17 @@ CKEDITOR.dialog.add('abbrDialogsAudio', function (editor) {
                     },
                     {
                         type: 'file',
-                        id: 'audio',
+                        id: 'attachment',
                         inputStyle: 'outline: 0',
                         style: 'height:40px',
                         size: 38,
                     },
                     {
                         type: 'fileButton',
-                        id: 'uploadAudioButton',
+                        id: 'uploadButton',
                         filebrowser: 'info:txtUrl',
                         label: editor.lang.image.btnUpload,
-                        'for': ['UploadAudio', 'audio'],
+                        'for': ['UploadAudio', 'attachment'],
                         onClick: function () {
                             var attachment = audioAttachmentUploader.getFileField();
                             if (attachment.val()) {
@@ -90,11 +90,19 @@ CKEDITOR.dialog.add('abbrDialogsAudio', function (editor) {
                                     alert('File Size Limit is ' + audioAttachmentUploader.validateSize + 'mb');
                                     attachment.val('');
                                 } else {
-                                    audioAttachmentUploader.uploadAudioButton.text('Uploading..').parent('a').hide();
-                                    audioAttachmentUploader.uploadingContainer.show();
+                                    var allowed_ext = ['mp3', 'wav','MP3','WAV'];
+                                    var extension = attachment.val().substr(attachment.val().length - 3);
+                                    if (!!(allowed_ext.indexOf(extension) + 1)) {
+                                        audioAttachmentUploader.uploadAudioButton.text('Uploading..').parent('a').hide();
+                                        audioAttachmentUploader.uploadingContainer.show();
+                                    } else {
+                                        alert(extension + ' files are not allowed to be uploaded as audio. Please upload a mp3 or wav file.');
+                                        attachment.val('');
+                                    }
+
                                 }
                             } else {
-                                alert('Please select a file first');
+                                alert('Please select an audio first');
                             }
                         },
                         onLoad: function () {
@@ -169,9 +177,9 @@ CKEDITOR.plugins.add('attach_audio',
             editor.ui.addButton('AudioAttachments',
                 {
                     label: 'Attach audio files',
-                    command: 'OpenWindow',
+                    command: 'OpenAudioWindow',
                     icon: CKEDITOR.plugins.getPath('attach_audio') + 'attach.png'
                 });
-            var cmd = editor.addCommand('OpenWindow', new CKEDITOR.dialogCommand('abbrDialogsAudio'));
+            var cmd = editor.addCommand('OpenAudioWindow', new CKEDITOR.dialogCommand('abbrDialogsAudio'));
         }
     });
