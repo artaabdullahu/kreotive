@@ -210,10 +210,11 @@ class Profile():
                                        errorP="This isn't your actual password")
 
     def bookmarks(self, username):
+        message = "Showing your bookmarked articles"
         profile = user_mongo_utils.get_user_by_username(username)
         bookmarks = bookmarks_mongo_utils.get_bookmark_list(username)
         return render_template('mod_profile/bookmarks.html', article_title=bookmarked_article_title, profile=profile,
-                               bookmarks=bookmarks)
+                               bookmarks=bookmarks, message=message)
 
     def remove_bookmarks(self, username, slug):
 
@@ -221,11 +222,12 @@ class Profile():
         return redirect(url_for('profile.bookmarks', username=current_user.username))
 
     def comments(self, username):
+        message = "Showing your comments on articles"
         profile = user_mongo_utils.get_user_by_username(username)
         comments = comment_mongo_util.get_comments_list(username)
 
         return render_template('mod_profile/comments.html', article_title=commented_article_title, profile=profile,
-                               comments=comments)
+                               comments=comments, message = message)
 
     def remove_comment(self, username, comment_id):
 

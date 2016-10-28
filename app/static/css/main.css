@@ -104,7 +104,6 @@ header {
 
 }
 
-
 #email-login {
     margin-bottom: -5px;
 }
@@ -347,6 +346,7 @@ h5 {
     width: 80%;
     margin-bottom: 20px;
     height: 40px;
+    padding-left: 7px;
 }
 
 .about {
@@ -474,7 +474,7 @@ img.banner {
     background-color: #81b7e3;
 }
 
-.follow, .ask-to-join, a.follow, a.ask-to-join{
+.follow, .ask-to-join, a.follow, a.ask-to-join {
     border: none;
     background-color: #3498db;
     color: #fff;
@@ -484,15 +484,13 @@ img.banner {
     margin: 12px 10px;
 }
 
-a.follow.pull-right{
+a.follow.pull-right {
     padding: 10px 50px;
 }
 
-a.ask-to-join{
+a.ask-to-join {
     padding: 10px 39px;
 }
-
-
 
 .user-pic {
     margin: 5px;
@@ -621,7 +619,7 @@ a.ask-to-join{
 }
 
 i#share-profile,
-i#share-org{
+i#share-org {
     font-size: 20px !important;
     color: #fff !important;
     position: absolute;
@@ -720,6 +718,7 @@ i#share-org{
     width: 100%;
     border: none;
     font-size: 22px;
+    padding-top: 25px !important;
 }
 
 .search-field:focus {
@@ -749,7 +748,7 @@ i#share-org{
     padding-top: 16px;
 }
 
-.fa-close{
+.fa-close {
     color: rgb(181, 181, 181);
 }
 
@@ -757,7 +756,7 @@ i#share-org{
     color: #000;
 }
 
-.article-single-img{
+.article-single-img {
     height: 70px;
     width: 70px;
 }
@@ -929,6 +928,10 @@ a.org-adm:hover {
     margin-bottom: 10px;
 }
 
+ul.list {
+    padding-top: 0px !important;
+}
+
 .reply-comment-field {
     width: 106%;
     border: 1px solid #dedede;
@@ -941,7 +944,7 @@ a.org-adm:hover {
 .org-following, .people-following {
     font-size: 20px;
     font-weight: bold;
-    /*padding-left: 18px;*/
+    padding-left: 30px;
 }
 
 span.search-title,
@@ -949,6 +952,15 @@ span.search-result-title {
     font-size: 18px;
     color: #000;
 
+}
+
+h4.search-result-follow {
+    font-weight: 300 !important;
+    margin-top: -10px;
+}
+
+h4.search-result-title{
+    font-weight: 300 !important;
 }
 
 .articles-title {
@@ -985,6 +997,7 @@ span.search-result-title {
     font-size: 30px;
     font-weight: bold;
     padding-bottom: 20px;
+    padding-left: 30px;
 }
 
 a.unfollow {
