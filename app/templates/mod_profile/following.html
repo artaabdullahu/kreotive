@@ -130,52 +130,45 @@
         <script type="text/javascript">
 
 
-            $(document).ready(function () {
-                var monkeyList = new List('test-list', {
-                    valueNames: ['name'],
-                    page: 10,
-                    plugins: [ListPagination({})]
-                });
-
-                  var monkeyList = new List('test-list1', {
-                    valueNames: ['name'],
-                    page: 10,
-                    plugins: [ListPagination({})]
-                });
-
-                $('.unfollow').click(function (event) {
-                    event.preventDefault();
-                    var url = this.href;
-                    swal({
-                                title: "Are you sure?",
-                                text: "You will not have this contact on your following list!",
-                                type: "warning",
-                                showCancelButton: true,
-                                confirmButtonText: "Yes",
-                                confirmButtonColor: "#DD6B55",
-                                cancelButtonText: "Cancel",
-                                closeOnConfirm: false,
-                                closeOnCancel: false
-                            },
-
-                            function (isConfirm) {
-                                if (isConfirm) {
-                                    swal({
-                                        title: '',
-                                        text: 'Article is successfully deleted!',
-                                        type: 'success'
-                                    }, function () {
-                                        window.location = url;
-
-                                    });
-
-
-                                } else {
-                                    swal("Cancelled", "You did not unfollow this user :)", "error");
-                                }
-                            });
-                });
+        $(document).ready(function () {
+            var monkeyList = new List('test-list', {
+                valueNames: ['name'],
+                page: 10,
+                plugins: [ListPagination({})]
             });
+            $(document).on('click', '.unfollow', function () {
+                event.preventDefault();
+                var url = this.href;
+                swal({
+                            title: "Are you sure?",
+                            text: "You will not have this contact on your following list!",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: "Yes",
+                            confirmButtonColor: "#DD6B55",
+                            cancelButtonText: "Cancel",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        },
+
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                swal({
+                                    title: '',
+                                    text: 'Article is successfully deleted!',
+                                    type: 'success'
+                                }, function () {
+                                    window.location = url;
+
+                                });
+
+
+                            } else {
+                                swal("Cancelled", "You did not unfollow this user :)", "error");
+                            }
+                        });
+            });
+        });
 
 
         </script>
