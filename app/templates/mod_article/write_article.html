@@ -1,22 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
 
-    <script type="text/javascript" src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"></script>
-
-    <script>
-        $(function () {
-            var categories = {{ categories|safe }};
-
-            $("#categories").autocomplete({
-                source: categories
-            });
-        });
-
-    </script>
-
-
     <div class="row" style="display: inline">
-
         <div class="row">
             <div class="col-md-10">
                 <form method="post" action="" id="write-article">
@@ -120,22 +105,27 @@
         </div>
 
     </div>
-    <script>
-        CKEDITOR.replace('text_editor', {
-            toolbar: [
-                ['ajaxsave'],
-                ['Bold', 'FontSize', 'Italic', 'Underline', 'Strike', 'BulletedList', 'NumberedList', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'Link'],
-                ['PictureAttachments', 'AttachAttachments', 'AudioAttachments', 'VideoAttachments']
-            ],
-            width: 800,
-            height: 400,
-            filebrowserUploadUrl: '{{ url_for("article.new_article",author_type='file', username=current_user.username) }}',
-            filebrowserBrowseUrl: '{{ url_for("article.new_article",author_type='file', username=current_user.username) }}',
-            filebrowserImageBrowseUrl: '{{ url_for("article.new_article",author_type='file', username=current_user.username) }}',
-            filebrowserImageUploadUrl: '{{ url_for("article.new_article",author_type='file', username=current_user.username) }}'
+    <script type="text/javascript" src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var categories = {{ categories|safe }};
+            $("#categories").autocomplete({
+                source: categories
+            });
+            CKEDITOR.replace('text_editor', {
+                toolbar: [
+                    ['Bold', 'FontSize', 'Italic', 'Underline', 'Strike', 'BulletedList', 'NumberedList', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'Link'],
+                    ['PictureAttachments', 'AttachAttachments', 'AudioAttachments', 'VideoAttachments']
+                ],
+                width: 800,
+                height: 400,
+                filebrowserUploadUrl: '{{ url_for("article.new_article",author_type='file', username=current_user.username) }}',
+                filebrowserBrowseUrl: '{{ url_for("article.new_article",author_type='file', username=current_user.username) }}',
+                filebrowserImageBrowseUrl: '{{ url_for("article.new_article",author_type='file', username=current_user.username) }}',
+                filebrowserImageUploadUrl: '{{ url_for("article.new_article",author_type='file', username=current_user.username) }}'
+            });
         });
-
-
     </script>
 
 {% endblock %}

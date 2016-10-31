@@ -155,6 +155,12 @@
 
 <script>
     $(document).ready(function () {
+        $(document).on('keypress', '#pass-login-popover', function (event) {
+            if (event.which == 13) {
+                event.preventDefault();
+                $("#log-in-form").submit();
+            }
+        });
 
         $(document).on('click', '.btn-popover-log-in', function () {
             $.post('{{ url_for('auth.login')}}', {

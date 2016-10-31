@@ -184,38 +184,44 @@ def fb_authorized():
             'grant_type': 'authorization_code',
             'redirect_uri': redirect_uri}
     # authorize_url = facebook.get_authorize_url(request_token)
-    session = facebook.get_auth_session(data=data)
-    # session = OAuth2Session(facebook.client_id, facebook.client_secret, access_token=data['code'])
-    # the "me" response
-    me = session.get('/me?locale=en_US&fields=first_name,last_name,email,about,picture').json()
-    first_name = me['first_name']
-    last_name = me['last_name']
+    try:
+        session = facebook.get_auth_session(data=data)
+        # session = OAuth2Session(facebook.client_id, facebook.client_secret, access_token=data['code'])
+        # the "me" response
+        me = session.get('/me?locale=en_US&fields=first_name,last_name,email,about,picture').json()
+        first_name = me['first_name']
+        last_name = me['last_name']
+        email = ''
+        if 'email' in me:
+            email = me['email']
 
-    password = ''.join(random.choice('abcdefghij') for _ in range(10))
-    id = me['id']
-    user_json = {
-        "facebook_id": id,
-        "name": first_name,
-        "lastname": last_name,
-        "email": '',
-        "username": first_name + last_name + '-' + str(ObjectId()),
-        "password": bcrypt.generate_password_hash(password, rounds=12),
-        "active": True,
-        "user_slug": slugify(first_name + ' ' + last_name),
-        "roles": [user_mongo_utils.get_role_id('individual')],
-        "organization": []
-    }
-    user = user_mongo_utils.get_user_by_facebook_id(id)
-    if user == None:
-        # Regiser user
-        user_mongo_utils.add_user(user_json)
+        password = ''.join(random.choice('abcdefghij') for _ in range(10))
+        id = me['id']
+        user_json = {
+            "facebook_id": id,
+            "name": first_name,
+            "lastname": last_name,
+            "email": email,
+            "username": first_name + last_name + '-' + str(ObjectId()),
+            "password": bcrypt.generate_password_hash(password, rounds=12),
+            "active": True,
+            "user_slug": slugify(first_name + ' ' + last_name),
+            "roles": [user_mongo_utils.get_role_id('individual')],
+            "organization": []
+        }
         user = user_mongo_utils.get_user_by_facebook_id(id)
-        #  login user
-        login_user(user)
-    else:
-        login_user(user)
+        if user == None:
+            # Regiser user
+            user_mongo_utils.add_user(user_json)
+            user = user_mongo_utils.get_user_by_facebook_id(id)
+            #  login user
+            login_user(user)
+        else:
+            login_user(user)
 
-    return redirect(url_for('profile.profile_settings', username=user.username))
+        return redirect(url_for('profile.profile_settings', username=user.username))
+    except:
+        return render_template('mod_auth/log_in.html', error='Please try again.')
 
 
 @mod_auth.route('/google/login')
@@ -238,33 +244,41 @@ def google_authorized():
     data = {'code': request.args['code'],
             'grant_type': 'authorization_code',
             'redirect_uri': redirect_uri}
-    g_session = google.get_auth_session(data=data, decoder=json.loads)
-    me = g_session.get('userinfo').json()
-    first_name = me['given_name']
-    last_name = me['family_name']
+    try:
+        g_session = google.get_auth_session(data=data, decoder=json.loads)
+        me = g_session.get('userinfo').json()
+        first_name = me['given_name']
+        last_name = me['family_name']
 
-    password = ''.join(random.choice('abcdefghij') for _ in range(10))
-    id =  me['id']
-    user_json = {
-        "facebook_id":id,
-        "name": first_name,
-        "lastname": last_name ,
-        "email": '',
-        "username": first_name + last_name + '-' + str(ObjectId()),
-        "password": bcrypt.generate_password_hash(password, rounds=12),
-        "active": True,
-        "user_slug": slugify(first_name + ' ' + last_name),
-        "roles": [user_mongo_utils.get_role_id('individual')],
-        "organization": []
-    }
-    user = user_mongo_utils.get_user_by_facebook_id(id)
-    if user == None:
-        # Regiser user
-        user_mongo_utils.add_user(user_json)
+        email = ''
+        if 'email' in me:
+            email = me['email']
+
+        password = ''.join(random.choice('abcdefghij') for _ in range(10))
+        id =  me['id']
+        user_json = {
+            "facebook_id":id,
+            "name": first_name,
+            "lastname": last_name ,
+            "email": email,
+            "username": first_name + last_name + '-' + str(ObjectId()),
+            "password": bcrypt.generate_password_hash(password, rounds=12),
+            "active": True,
+            "user_slug": slugify(first_name + ' ' + last_name),
+            "roles": [user_mongo_utils.get_role_id('individual')],
+            "organization": []
+        }
         user = user_mongo_utils.get_user_by_facebook_id(id)
-        #  login user
-        login_user(user)
-    else:
-        login_user(user)
+        if user == None:
+            # Regiser user
+            user_mongo_utils.add_user(user_json)
+            user = user_mongo_utils.get_user_by_facebook_id(id)
+            #  login user
+            login_user(user)
+        else:
+            login_user(user)
 
-    return redirect(url_for('profile.profile_settings', username=user.username))
+        return redirect(url_for('profile.profile_settings', username=user.username))
+
+    except:
+        return render_template('mod_auth/log_in.html', error='Please try again.')
