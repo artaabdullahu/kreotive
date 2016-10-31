@@ -122,7 +122,7 @@
                 page: 10,
                 plugins: [ListPagination({})]
             });
-            $('.unfollow').click(function (event) {
+            $(document).on('click', '.unfollow' , function() {
                 event.preventDefault();
                 var url = this.href;
                 swal({
