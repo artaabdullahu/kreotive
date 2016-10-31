@@ -2,19 +2,24 @@ function comment(postUrl, slug, userName, firstName, lastName) {
     var text = "";
     $('.comment-submit').click(function () {
         text = $('.comment-field').val();
-        var data = {
-            slug: slug,
-            text: text,
-            username: userName,
-            firstname: firstName,
-            lastname: lastName
-        };
-        $.post(postUrl, data).done(function (data) {
-            addComment("commenting", data.id, text, userName, firstName, lastName, data.date);
+        if (text != '') {
+            var data = {
+                slug: slug,
+                text: text,
+                username: userName,
+                firstname: firstName,
+                lastname: lastName
+            };
+            $.post(postUrl, data).done(function (data) {
+                addComment("commenting", data.id, text, userName, firstName, lastName, data.date);
+                $('#comment-error').html('<p class="text-center">Your comment has been submitted!</p>')
+            }).fail(function () {
+                alert("Something went wrong. Please try again!");
+            });
+        } else {
+            $('#comment-error').html('<p class="text-center">Please write a comment before you hit reply!</p>')
+        }
 
-        }).fail(function () {
-            alert("Something went wrong. Please try again!");
-        });
     });
 
 }
@@ -29,28 +34,34 @@ function commentReply(postUrl, slug, userName, firstName, lastName) {
     $('body').on('click', '.comment-reply-submit', function () {
         var commentId = $(this)[0].className.split(' ')[0].split('-')[2];
         var text = $('.comment-of-' + commentId).val();
-        var data = {
-            slug: slug,
-            reply_of: commentId,
-            text: text,
-            username: userName,
-            firstname: firstName,
-            lastname: lastName
-        };
-        $.post(postUrl, data).done(function (data) {
+        if (text != '') {
+            var data = {
+                slug: slug,
+                reply_of: commentId,
+                text: text,
+                username: userName,
+                firstname: firstName,
+                lastname: lastName
+            };
+            $.post(postUrl, data).done(function (data) {
 
-            addCommentReply("commenting", commentId, data.id, text, userName, firstName, lastName, data.date);
+                addCommentReply("commenting", commentId, data.id, text, userName, firstName, lastName, data.date);
 
-            $('html,body').animate({
-                scrollTop: $('#comment-' + data.id).offset().top - 100
+                $('html,body').animate({
+                    scrollTop: $('#comment-' + data.id).offset().top - 100
+                });
+                $('#comment-' + data.id).effect('highlight', {}, 3000);
+                $('comment-of-' + data.id).val('');
+
+            }).fail(function () {
+                alert("Something went wrong. Please try again!");
             });
-            $('#comment-' + data.id).effect('highlight', {}, 3000);
-            $('comment-of-' + data.id).val('');
+            $('.reply-comment-field').val('');
+            $('#comment-error-of-'+ commentId).html('<p class="text-center">Your comment has been submitted!</p>')
+        }else{
+            $('#comment-error-of-'+ commentId).html('<p class="text-center">Please write a comment before you hit reply!</p>')
+        }
 
-        }).fail(function () {
-            alert("Something went wrong. Please try again!");
-        });
-        $('.reply-comment-field').val('');
     });
 
 }
@@ -58,6 +69,7 @@ function commentDIV(id) {
     div = '<div id="field-' + id + '" class="row">' +
         '<div class="col-md-7 col-md-offset-2 col-xs-8 col-xs-offset-2">' +
         '<textarea class="reply-comment-field comment-of-' + id + '"></textarea>' +
+            '<div class="comment-error-of-'+id+'"></div>' +
         '</div>' +
         '</div>' +
         '<div class="col-md-3 col-md-offset-6 col-sm-4 col-sm-offset-4 col-xs-6 col-xs-offset-4 text-right">' +
@@ -85,7 +97,7 @@ function getComments(post_url, slug) {
 function time_ago(time) {
     if (time != undefined) {
         time = new Date(time['$date'])
-    }else{
+    } else {
         time = new Date();
     }
 

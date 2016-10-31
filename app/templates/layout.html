@@ -158,19 +158,19 @@
         $(document).on('keypress', '#pass-login-popover', function (event) {
             if (event.which == 13) {
                 event.preventDefault();
-                $("#log-in-form").submit();
+                $.post('{{ url_for('auth.login')}}', {
+                    email: $('#email-login-popover').val(),
+                    password: $('#pass-login-popover').val()
+                }, function (r) {
+                    window.location = '{{ url_for('auth.login')}}';
+                }).fail(function () {
+
+                })
             }
         });
 
         $(document).on('click', '.btn-popover-log-in', function () {
-            $.post('{{ url_for('auth.login')}}', {
-                email: $('#email-login-popover').val(),
-                password: $('#pass-login-popover').val()
-            }, function (r) {
-                window.location = '{{ url_for('auth.login')}}';
-            }).fail(function () {
 
-            })
         });
 
         $('a[href*="#"]:not([href="#"])').click(function () {
