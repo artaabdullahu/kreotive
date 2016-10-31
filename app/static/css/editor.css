@@ -164,7 +164,7 @@ span#cke_1_top, .cke_inner {
 /*visibility: hidden;*/
 /*}*/
 
-a.cke_button_off:hover, a.cke_button_off:focus, a.cke_button_off:active, a.cke_button_disabled:hover, a.cke_button_disabled:focus, a.cke_button_disabled:active {
+a.cke_button_off:hover, a.cke_button_off:focus, a.cke_button_off:active, a.cke_button_disabled:hover, a.cke_button_disabled:focus, a.cke_button_disabled:active, .cke_combo_off a.cke_combo_button:hover, .cke_combo_off a.cke_combo_button:focus {
     box-shadow: none !important;
     background: none !important;
     background-image: none !important;
@@ -218,10 +218,11 @@ a.cke_combo_button {
     box-shadow: none;
 }
 
-.btn-cancel, .btn-save, .btn-publish {
-    width: 100%;
+button.btn-cancel, button.btn-save, button.btn-publish {
+    width: 75%;
     height: 50px;
-    padding-top: 13px;
+    padding-top: 6px;
+    font-weight: 300 !important;
 }
 
 .btn-cancel {
@@ -286,7 +287,7 @@ iframe {
 @media (max-width: 320px) {
     a#cke_13:before, a#cke_14:before, a#cke_15:before, a#cke_16:before, a#cke_17:before,
     span#cke_11:before, a#cke_16:before, a#cke_18:before, a#cke_19:before, a#cke_20:before, a#cke_21:before,
-    a#cke_22:before, a#cke_23:before, a#cke_24:before {
+    a#cke_22:before, a#cke_23:before, a#cke_24:before, a.cke_combo_button:before, a#cke_25:before, a#cke_26:before, a#cke_27:before, a#cke_28:before, .fa-bars:before{
 
         font-size: 20px;
         margin: 0px 5px !important;
@@ -297,7 +298,7 @@ iframe {
     .cke_ltr .cke_button__bulletedlist_icon, .cke_button__numberedlist_icon,
     .cke_button__justifyleft_icon, .cke_button__justifycenter_icon,
     .cke_button__justifyright_icon, .cke_button__justifyleft_icon,
-    .cke_button__justifyblock_icon, .cke_button__image_icon, .cke_button__link_icon, .cke_ltr .cke_button__source_icon {
+    .cke_button__justifyblock_icon, .cke_button__image_icon, .cke_button__link_icon, .cke_ltr .cke_button__source_icon, a.cke_combo_button {
 
         width: 20px;
         height: 20px;
@@ -306,15 +307,35 @@ iframe {
     span#cke_1_top {
 
         overflow: hidden;
-        width: 320px;
         margin: 0px !important;
     }
 
     .write-menu .fa {
         font-size: 30px;
-        position: absolute;
         left: 0px;
         top: -79px;
+        margin: 0px !important;
+    }
+
+    a.cke_combo_button {
+        margin: 0px !important;
+    }
+
+    a.cke_button, a.cke_combo_button{
+        padding: 0px !important;
+    }
+
+    button.btn-cancel, button.btn-save, button.btn-publish {
+    width: 100%;
+    padding: 0px;
+    }
+
+    .title{
+        font-size: 20px;
+    }
+
+    .fa-bars{
+        text-align: left !important;
     }
 }
 
@@ -323,6 +344,11 @@ a.attach-attachment:before {
     font-family: fontAwesome;
     padding-right: 15px;
 }
+
 a.attach-attachment {
     font-size: 23px;
+}
+
+.cke_chrome {
+    width: 100% !important;
 }

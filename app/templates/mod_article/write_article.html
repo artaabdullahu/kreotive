@@ -16,21 +16,21 @@
 
 
     <div class="row" style="display: inline">
-
-        <div class="row">
+{##}
+{#        <div class="row">#}
             <div class="col-md-10">
                 <form method="post" action="" id="write-article">
 
 
                     <div class="row">
-                        <div class="col-md-12 col-md-offset-1">
+                        <div class="col-md-11 col-md-offset-1 col-sm-12 col-xs-12">
                             <input class="form-control title" name="title" placeholder="Title" maxlength="70" required>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-2">
-                            <div class="dropdown write-menu col-md-6">
+                        <div class="col-md-2 col-sm-2 col-xs-1 text-right">
+                            <div class="dropdown write-menu">
                                 <button class="fa fa-bars dropdown-toggle "
                                         data-toggle="dropdown" role="menu"></button>
                                 <ul class="dropdown-menu">
@@ -58,7 +58,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-md-10">
+                        <div class="col-md-10 col-sm-10 col-xs-10 col-xs-offset-1">
                        <textarea name="content" id="text_editor">
 
                       </textarea>
@@ -75,51 +75,46 @@
                             </select><br/>
                         </div>
                     </div>
-
-                    <div class="row">
-                        <div class="col-md-9 col-md-offset-2">
-                            <label class="category-label">Category</label>
-                            <input name="category" id="categories" required><br/>
-                        </div>
-                        {% if current_user.has_role ('administrator') or current_user.has_role ('editor') or current_user.has_role ('member') %}
+                    {% if organization %}
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-1">
+                                <label class="category-label">Category</label>
+                                <input name="category" id="categories" required><br/>
+                            </div>
                             <div class="col-md-1" style="padding-top: 30px;">
                                 <label>
                                     <input type="checkbox" id="post-privacy" name="post-privacy"/>
                                 </label>
                             </div>
-                        {% endif %}
-                    </div>
+                        </div>
+                    {% else %}
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-1">
+                                <label class="category-label">Category</label>
+                                <input name="category" id="categories" required><br/>
+                            </div>
+                        </div>
+                    {% endif %}
                     <br/>
                     <div class="row">
-                        <div class="col-md-2">
-
+                        <div class="col-md-3 col-md-offset-1 col-sm-4 col-xs-4">
+                            <button name="action" type="submit" value="cancel" class="btn btn-cancel">Cancel
+                            </button>
                         </div>
-                        <div class="col-md-10">
-                            <div class="col-md-4 col-sm-4 col-xs-4">
-                                <button name="action" type="submit" value="cancel" class="btn btn-cancel">Cancel
-                                </button>
-                            </div>
-                            <div class="col-md-4 col-sm-4 col-xs-4">
-                                <button name="action" type="submit" value="save" class="btn btn-save">Save</button>
-                            </div>
-                            <div class="col-md-4 col-sm-4 col-xs-4">
-                                <button name="action" type="submit" value="publish" class="btn btn-publish">Publish
-                                </button>
-                            </div>
-
+                        <div class="col-md-3 col-sm-4 col-xs-4 text-right">
+                            <button name="action" type="submit" value="save" class="btn btn-save">Save</button>
                         </div>
-
+                        <div class="col-md-3 col-sm-4 col-xs-4 text-right">
+                            <button name="action" type="submit" value="publish" class="btn btn-publish">Publish
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
-            <div class="col-md-2">
-
-            </div>
-
 
         </div>
-
-    </div>
+{##}
+{#    </div>#}
     <script>
         CKEDITOR.replace('text_editor', {
             toolbar: [
