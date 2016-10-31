@@ -83,7 +83,7 @@
                 page: 10,
                 plugins: [ListPagination({})]
             });
-            $('.remove').click(function (event) {
+            $(document).on('click', '.remove' , function() {
                 event.preventDefault();
                 var url = this.href;
                 swal({
