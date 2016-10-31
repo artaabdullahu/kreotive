@@ -106,7 +106,7 @@
                 page: 10,
                 plugins: [ListPagination({})]
             });
-            $('.del').click(function (event) {
+            $(document).on('click', '.del' , function() {
                 event.preventDefault();
                 var url = this.href;
                 swal({
