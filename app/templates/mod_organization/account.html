@@ -48,16 +48,11 @@
                 <div class="col-md-2 col-md-offset-1 col-sm-6 col-sm-offset-4 col-xs-10 col-xs-offset-2">
                     <img src="{{ url_for('static',filename=organization['avatar_url']) }}"
                          class="img-responsive img-circle avatar">
-<<<<<<< HEAD
+                    
                     <form name="org_avatar_change" method=POST enctype="multipart/form-data"
                           action="{{ url_for('organization.upload_avatar', organization_slug=organization.org_slug) }}">
                         <input type='file' name='photo' id="file" class="inputfile">
                         <label for="file">Change avatar</label>
-
-=======
-                    <form name="avatar_change" method=POST enctype="multipart/form-data"
-                          action="{{ url_for('organization.upload_avatar') }}">
->>>>>>> df78b52b2fcb29038c144562c7bbfbea8166eb56
 
                     </form>
 
